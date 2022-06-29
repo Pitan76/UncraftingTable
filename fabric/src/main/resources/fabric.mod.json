@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "uncraftingtable76",
+  "version": "${version}",
+  "name": "Uncrafting Table",
+  "description": "",
+  "authors": [
+    "Pitan"
+  ],
+  "contact": {
+    "website": "https://www.curseforge.com/minecraft/mc-mods/simple-uncrafting-table",
+    "repo": "https://github.com/PTOM76/uncraftingtable",
+    "issues": "https://github.com/PTOM76/uncraftingtable/issues"
+  },
+  "license": "MIT",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "ml.pkom.uncraftingtable.fabric.UncraftingTableFabric"
+    ]
+  },
+  "depends": {
+    "fabricloader": "*",
+    "minecraft": ">=1.18.2"
+  }
+}
