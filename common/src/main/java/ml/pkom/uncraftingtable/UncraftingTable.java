@@ -1,7 +1,6 @@
 package ml.pkom.uncraftingtable;
 
 import dev.architectury.networking.NetworkManager;
-import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.Block;
@@ -37,7 +36,7 @@ public class UncraftingTable {
     public static final RegistrySupplier<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU = SCREEN_HANDLERS.register(id("uncraftingtable"), () -> new ScreenHandlerType<>(UncraftingScreenHandler::new));
 
     public static void init() {
-        
+
         BLOCKS.register();
         ITEMS.register();
         SCREEN_HANDLERS.register();
