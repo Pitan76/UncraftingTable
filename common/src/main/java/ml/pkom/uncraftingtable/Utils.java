@@ -5,11 +5,11 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 public class Utils {
-    public static TranslatableText translatableText(String key) {
-        return new TranslatableText(key);
+    public static Text translatableText(String key) {
+        return Text.translatable(key);
     }
 
     public static Text text(String string) {
-        return new LiteralText(string);
+        return Text.literal(string);
     }
 }
