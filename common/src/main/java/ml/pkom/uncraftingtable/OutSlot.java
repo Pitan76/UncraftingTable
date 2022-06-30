@@ -26,26 +26,19 @@ public class OutSlot extends Slot {
     @Override
     public void setStack(ItemStack stack) {
         super.setStack(stack);
+        int needXp = Config.config.getInt("consume_xp");
+        if (needXp != 0 && !insertSlot.player.isCreative()) {
+            if (needXp > insertSlot.player.totalExperience) {
+                return;
+            }
+            insertSlot.player.addExperience(-needXp);
+        }
         if (!insertSlot.player.getWorld().isClient() && stack.isEmpty() && insertSlot.canGet) {
             insertSlot.player.getInventory().offerOrDrop(insertSlot.player.playerScreenHandler.getCursorStack());
-            /*if (canGive(insertSlot.player.inventory.main)) {
-                insertSlot.player.giveItemStack(insertSlot.player.inventory.getCursorStack());
-            } else {
-                insertSlot.player.dropItem(insertSlot.player.inventory.getCursorStack(), false);
-            }
-             */
             insertSlot.player.playerScreenHandler.getCursorStack().setCount(0);
 
             for (int i = 1;i < 10;i++) {
                 insertSlot.player.getInventory().offerOrDrop(inventory.getStack(i));
-                /*
-                if (canGive(insertSlot.player.inventory.main)) {
-                    insertSlot.player.giveItemStack(inventory.getStack(i));
-                } else {
-                    insertSlot.player.dropItem(inventory.getStack(i), false);
-                }
-
-                 */
                 inventory.setStack(i, ItemStack.EMPTY);
             }
             if (insertSlot.getStack().getCount() - insertSlot.latestOutputCount == 0) {
@@ -59,14 +52,5 @@ public class OutSlot extends Slot {
         if (insertSlot.player.getWorld().isClient()) {
             insertSlot.markDirty();
         }
-    }
-
-    public static boolean canGive(DefaultedList<ItemStack> inv) {
-        for ( ItemStack stack : inv ) {
-            if (stack.isEmpty()) {
-                return true;
-            }
-        }
-        return false;
     }
 }

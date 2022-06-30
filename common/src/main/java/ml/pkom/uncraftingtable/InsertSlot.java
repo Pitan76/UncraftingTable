@@ -94,6 +94,12 @@ public class InsertSlot extends Slot {
         for (int i = 1; i < 10; ++i)
             ((OutSlot)player.currentScreenHandler.getSlot(i)).superSetStack(ItemStack.EMPTY);
         if (stack.isEmpty()) return;
+        if (!Config.config.getBoolean("uncraft_broken_item")) {
+            int damage = stack.getDamage();
+            if (damage != 0 && damage != stack.getMaxDamage()) {
+                return;
+            }
+        }
         if (player.world == null) return;
         if (!latestItemStack.getItem().equals(stack.getItem()) && !latestItemStack.isEmpty()) {
             recipeIndex = 0;

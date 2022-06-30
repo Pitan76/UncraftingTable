@@ -18,6 +18,9 @@
   "entrypoints": {
     "main": [
       "ml.pkom.uncraftingtable.fabric.UncraftingTableFabric"
+    ],
+    "modmenu": [
+      "ml.pkom.uncraftingtable.fabric.addon.ModMenuAddon"
     ]
   },
   "depends": {

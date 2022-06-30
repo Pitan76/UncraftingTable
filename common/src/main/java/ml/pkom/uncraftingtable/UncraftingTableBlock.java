@@ -6,7 +6,6 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -15,7 +14,7 @@ import net.minecraft.world.World;
 
 public class UncraftingTableBlock extends CraftingTableBlock {
 
-    private static final Text TITLE = new TranslatableText("container.uncraftingtable76.uncrafting");
+    private static final Text TITLE = Utils.translatableText("container.uncraftingtable76.uncrafting");
 
     public static UncraftingTableBlock UNCRAFTING_TABLE = new UncraftingTableBlock(AbstractBlock.Settings
             .of(Material.WOOD).strength(2.5F).sounds(BlockSoundGroup.WOOD)
