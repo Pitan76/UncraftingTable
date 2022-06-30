@@ -73,20 +73,7 @@ public class InsertSlot extends Slot {
         }
     }
 
-    @Override
-    public ItemStack takeStack(int amount) {
-        return super.takeStack(amount);
-    }
-
-    public void setStackSuper(ItemStack stack) {
-        super.setStack(stack);
-    }
-
-    public int latestOutputCount;
-
-    @Override
-    public void setStack(ItemStack stack) {
-        super.setStack(stack);
+    public void updateOutSlot(ItemStack stack) {
         if (player.getWorld().isClient()) return;
         for (int i = 1; i < 10; ++i)
             ((OutSlot)player.currentScreenHandler.getSlot(i)).superSetStack(ItemStack.EMPTY);
@@ -117,7 +104,6 @@ public class InsertSlot extends Slot {
         latestOutputCount = recipe.getOutput().getCount();
         if (!stack.isEmpty())
             latestItemStack = stack.copy();
-        //int count = (int) Math.floor(stack.getCount() / recipe.getOutput().getCount());
         if (recipe.getIngredients().size() > 5) {
             setOutStack(0, itemIndex, recipe, 1);
             setOutStack(1, itemIndex, recipe, 1);
@@ -134,6 +120,23 @@ public class InsertSlot extends Slot {
             set4x4OutStack(2, itemIndex, recipe, 1);
             set4x4OutStack(3, itemIndex, recipe, 1);
         }
+    }
+
+    @Override
+    public ItemStack takeStack(int amount) {
+        return super.takeStack(amount);
+    }
+
+    public void setStackSuper(ItemStack stack) {
+        super.setStack(stack);
+    }
+
+    public int latestOutputCount;
+
+    @Override
+    public void setStack(ItemStack stack) {
+        super.setStack(stack);
+        updateOutSlot(stack);
     }
 
     public void setOutStack(int index, int id, Recipe recipe, int count) {

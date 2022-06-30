@@ -43,15 +43,30 @@ public class UncraftingScreenHandler extends ScreenHandler {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
         if (slot != null && slot.hasStack()) {
+            // 経験値の確認
+            if (slot instanceof OutSlot) {
+                int needXp = Config.config.getInt("consume_xp");
+                if (needXp != 0 && !player.isCreative()) {
+                    if (needXp > player.totalExperience) {
+                        player.sendMessage(Utils.translatableText("message.uncraftingtable76.not_enough_xp"), false);
+                        return ItemStack.EMPTY;
+                    }
+                }
+            }
+
             ItemStack originalStack = slot.getStack();
             newStack = originalStack.copy();
 
+            // Uncrafting Inventory
             if (invSlot < this.inventory.size()) {
                 if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
                 return ItemStack.EMPTY;
+            } else {
+                // Player Inventory → つまり、InsertSlotへ入れている可能性が高い
+                inventory.insertSlot.updateOutSlot(inventory.insertSlot.getStack());
             }
 
             if (originalStack.isEmpty()) {

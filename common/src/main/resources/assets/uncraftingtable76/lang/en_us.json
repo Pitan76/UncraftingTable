@@ -8,5 +8,5 @@
   "category.uncraftingtable76.general": "General",
   "option.uncraftingtable76.consume_xp": "Consume XP",
   "option.uncraftingtable76.uncraft_damaged_item": "Can uncraft damaged item",
-  "message.uncraftingtable76.not_enough_xp": "$7[Uncrafting Table] §cNot enough experience"
+  "message.uncraftingtable76.not_enough_xp": "§7[Uncrafting Table] §cNot enough experience"
 }

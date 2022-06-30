@@ -7,13 +7,12 @@ import ml.pkom.uncraftingtable.UncraftingTableClient;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(UncraftingTable.MOD_ID)
 public class UncraftingTableForge {
     public UncraftingTableForge() {
-        Config.init(FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).toFile());
+        Config.init(FMLPaths.GAMEDIR.get().resolve("config").toFile());
 
         // Submit our event bus to let architectury register our content on the right time
         EventBuses.registerModEventBus(UncraftingTable.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
