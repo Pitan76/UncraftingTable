@@ -86,15 +86,12 @@ public class InsertSlot extends Slot {
 
     @Override
     public void setStack(ItemStack stack) {
-        //UncraftingTable.log(Level.INFO, "" + recipeIndex);
-        //System.out.println(stack.getItem().getName().getString());
-        //System.out.println(latestItemStack.getItem().getName().getString());
         super.setStack(stack);
         if (player.getWorld().isClient()) return;
         for (int i = 1; i < 10; ++i)
             ((OutSlot)player.currentScreenHandler.getSlot(i)).superSetStack(ItemStack.EMPTY);
         if (stack.isEmpty()) return;
-        if (!Config.config.getBoolean("uncraft_broken_item")) {
+        if (!Config.config.getBoolean("uncraft_damaged_item")) {
             int damage = stack.getDamage();
             if (damage != 0 && damage != stack.getMaxDamage()) {
                 return;

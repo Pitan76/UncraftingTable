@@ -29,6 +29,8 @@ public class OutSlot extends Slot {
         int needXp = Config.config.getInt("consume_xp");
         if (needXp != 0 && !insertSlot.player.isCreative()) {
             if (needXp > insertSlot.player.totalExperience) {
+                insertSlot.player.sendMessage(Utils.translatableText("message.uncraftingtable76.not_enough_xp"), false);
+                insertSlot.player.playerScreenHandler.setCursorStack(ItemStack.EMPTY);
                 return;
             }
             insertSlot.player.addExperience(-needXp);

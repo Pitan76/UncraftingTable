@@ -1,5 +1,7 @@
 {
-  "block.uncraftingtable76.uncraftingtable": "分解工作台",
-  "container.uncraftingtable76.uncrafting": "分解工作台",
-  "title.uncraftingtable76.config": "Uncrafting Table 环境"
+  "title.uncraftingtable76.config": "Uncrafting Table 环境",
+  "category.uncraftingtable76.general": "一般",
+  "option.uncraftingtable76.consume_xp": "消耗经验",
+  "option.uncraftingtable76.uncraft_damaged_item": "可以拆卸损坏的物品",
+  "message.uncraftingtable76.not_enough_xp": "$7[Uncrafting Table] §c经验值不够"
 }

@@ -23,7 +23,7 @@ public class Config {
         initialized = true;
         setConfigDir(configDir);
         config.setInt("consume_xp", 0);
-        config.setBoolean("uncraft_broken_item", true);
+        config.setBoolean("uncraft_damaged_item", true);
         if (!FileControl.fileExists(getConfigFile())) {
             config.save(getConfigFile());
         }
@@ -46,9 +46,9 @@ public class Config {
                 .setDefaultValue(0)
                 .setSaveConsumer(newValue -> config.setInt("consume_xp", newValue))
                 .build());
-        general.addEntry(entryBuilder.startBooleanToggle(Utils.translatableText("option.uncraftingtable76.uncraft_broken_item"), config.getBoolean("uncraft_broken_item"))
+        general.addEntry(entryBuilder.startBooleanToggle(Utils.translatableText("option.uncraftingtable76.uncraft_damaged_item"), config.getBoolean("uncraft_damaged_item"))
                 .setDefaultValue(true)
-                .setSaveConsumer(newValue -> config.setBoolean("uncraft_broken_item", newValue))
+                .setSaveConsumer(newValue -> config.setBoolean("uncraft_damaged_item", newValue))
                 .build());
         return builder.build();
     }
