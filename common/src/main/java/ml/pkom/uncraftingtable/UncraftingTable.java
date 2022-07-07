@@ -6,7 +6,6 @@ import me.shedaniel.architectury.registry.MenuRegistry;
 import me.shedaniel.architectury.registry.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;

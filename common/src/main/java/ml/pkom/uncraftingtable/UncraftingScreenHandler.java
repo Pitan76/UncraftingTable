@@ -65,17 +65,21 @@ public class UncraftingScreenHandler extends ScreenHandler {
             // Uncrafting Inventory
             if (invSlot < this.inventory.size()) {
                 if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
+                    slot.markDirty();
                     return ItemStack.EMPTY;
                 }
             } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
+                slot.markDirty();
                 return ItemStack.EMPTY;
             } else {
                 // Player Inventory → つまり、InsertSlotへ入れている可能性が高い
                 inventory.insertSlot.updateOutSlot(inventory.insertSlot.getStack());
+                slot.markDirty();
             }
 
             if (originalStack.isEmpty()) {
                 slot.setStack(ItemStack.EMPTY);
+                slot.markDirty();
             } else {
                 slot.markDirty();
             }

@@ -74,7 +74,10 @@ public class InsertSlot extends Slot {
     }
 
     public void updateOutSlot(ItemStack stack) {
-        if (player.world.isClient()) return;
+        if (player.world.isClient()) {
+            markDirty();
+            return;
+        }
         for (int i = 1; i < 10; ++i)
             ((OutSlot)player.currentScreenHandler.getSlot(i)).superSetStack(ItemStack.EMPTY);
         if (stack.isEmpty()) return;
@@ -120,6 +123,7 @@ public class InsertSlot extends Slot {
             set4x4OutStack(2, itemIndex, recipe, 1);
             set4x4OutStack(3, itemIndex, recipe, 1);
         }
+        markDirty();
     }
 
     @Override
