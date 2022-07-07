@@ -53,19 +53,19 @@ side = "BOTH"
 modId = "minecraft"
 mandatory = true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-versionRange = "[1.19,)"
+versionRange = "[1.18,)"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.uncraftingtable76]]
 modId = "architectury"
 mandatory = true
-versionRange = "[5.5,)"
+versionRange = "[4.0,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.uncraftingtable76]]
 modId = "cloth_config"
 mandatory = true
-versionRange = "[7.0,)"
+versionRange = "[6.0,)"
 ordering = "NONE"
 side = "CLIENT"
