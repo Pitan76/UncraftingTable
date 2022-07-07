@@ -1,14 +1,17 @@
 package ml.pkom.uncraftingtable;
 
-import dev.architectury.networking.NetworkManager;
-import dev.architectury.registry.registries.DeferredRegister;
-import dev.architectury.registry.registries.RegistrySupplier;
+import me.shedaniel.architectury.networking.NetworkManager;
+import me.shedaniel.architectury.registry.DeferredRegister;
+import me.shedaniel.architectury.registry.MenuRegistry;
+import me.shedaniel.architectury.registry.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -33,7 +36,8 @@ public class UncraftingTable {
 
     public static final RegistrySupplier<Block> supplierUNCRAFTING_TABLE_BLOCK = BLOCKS.register(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
     public static final RegistrySupplier<Item> supplierUNCRAFTING_TABLE_ITEM = ITEMS.register(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new Item.Settings().group(ItemGroup.DECORATIONS)));
-    public static final RegistrySupplier<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU = SCREEN_HANDLERS.register(id("uncraftingtable"), () -> new ScreenHandlerType<>(UncraftingScreenHandler::new));
+    public static final RegistrySupplier<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU = SCREEN_HANDLERS.register(id("uncraftingtable"), () -> MenuRegistry.of((MenuRegistry.SimpleMenuTypeFactory<ScreenHandler>) (id, inventory) -> new UncraftingScreenHandler(id, inventory)));
+
 
     public static void init() {
 

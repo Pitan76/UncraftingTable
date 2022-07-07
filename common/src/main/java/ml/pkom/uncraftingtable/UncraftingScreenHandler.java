@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 
 public class UncraftingScreenHandler extends ScreenHandler {
@@ -11,6 +12,10 @@ public class UncraftingScreenHandler extends ScreenHandler {
     private final UncraftingInventory inventory;
 
     public UncraftingScreenHandler(int syncId, PlayerInventory playerInventory) {
+        this(syncId, playerInventory, ScreenHandlerContext.EMPTY);
+    }
+
+    public UncraftingScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(UncraftingTable.supplierUNCRAFTING_TABLE_MENU.getOrNull(), syncId);
         inventory = new UncraftingInventory();
         int m, l;

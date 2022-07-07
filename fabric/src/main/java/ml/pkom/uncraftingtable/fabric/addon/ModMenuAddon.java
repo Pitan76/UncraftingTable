@@ -8,9 +8,9 @@ import net.fabricmc.loader.api.FabricLoader;
 public class ModMenuAddon implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        if (FabricLoader.getInstance().isModLoaded("cloth_config"))
+        if (FabricLoader.getInstance().isModLoaded("cloth-config"))
             return ClothConfig::create;
         else
-            return null;
+            return screen -> null;
     }
 }

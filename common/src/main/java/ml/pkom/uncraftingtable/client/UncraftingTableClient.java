@@ -1,6 +1,6 @@
 package ml.pkom.uncraftingtable.client;
 
-import dev.architectury.registry.menu.MenuRegistry;
+import me.shedaniel.architectury.registry.MenuRegistry;
 import ml.pkom.uncraftingtable.UncraftingScreen;
 import ml.pkom.uncraftingtable.UncraftingTable;
 

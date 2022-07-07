@@ -74,7 +74,7 @@ public class InsertSlot extends Slot {
     }
 
     public void updateOutSlot(ItemStack stack) {
-        if (player.getWorld().isClient()) return;
+        if (player.world.isClient()) return;
         for (int i = 1; i < 10; ++i)
             ((OutSlot)player.currentScreenHandler.getSlot(i)).superSetStack(ItemStack.EMPTY);
         if (stack.isEmpty()) return;

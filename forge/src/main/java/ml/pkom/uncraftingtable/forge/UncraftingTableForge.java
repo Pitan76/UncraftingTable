@@ -1,7 +1,7 @@
 package ml.pkom.uncraftingtable.forge;
 
-import dev.architectury.platform.Platform;
-import dev.architectury.platform.forge.EventBuses;
+import me.shedaniel.architectury.platform.Platform;
+import me.shedaniel.architectury.platform.forge.EventBuses;
 import ml.pkom.uncraftingtable.Config;
 import ml.pkom.uncraftingtable.UncraftingTable;
 import ml.pkom.uncraftingtable.forge.client.UncraftingTableForgeClient;

@@ -24,7 +24,7 @@ public class UncraftingInventory extends SimpleInventory {
     public void onClose(PlayerEntity player) {
         //UncraftingTable.log(Level.INFO, insertSlot.getStack().getName().getString());
         if (!insertSlot.getStack().isEmpty()) {
-            insertSlot.player.getInventory().offerOrDrop(insertSlot.getStack());
+            insertSlot.player.inventory.offerOrDrop(insertSlot.player.world, insertSlot.getStack());
             /*
             if (OutSlot.canGive(insertSlot.player.inventory.main)) {
                 insertSlot.player.inventory.offerOrDrop(player.world, insertSlot.getStack());
