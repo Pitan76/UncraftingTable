@@ -11,6 +11,6 @@ public class ModMenuAddon implements ModMenuApi {
         if (FabricLoader.getInstance().isModLoaded("cloth-config"))
             return ClothConfig::create;
         else
-            return null;
+            return screen -> null;
     }
 }
