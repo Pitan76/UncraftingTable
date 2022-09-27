@@ -1,5 +1,6 @@
 package ml.pkom.uncraftingtable;
 
+import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
@@ -28,7 +29,7 @@ public class OutSlot extends Slot {
         int needXp = Config.config.getInt("consume_xp");
         if (needXp != 0 && !insertSlot.player.isCreative()) {
             if (needXp > insertSlot.player.totalExperience) {
-                insertSlot.player.sendMessage(Utils.translatableText("message.uncraftingtable76.not_enough_xp"), false);
+                insertSlot.player.sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"), false);
                 return ItemStack.EMPTY;
             }
         }

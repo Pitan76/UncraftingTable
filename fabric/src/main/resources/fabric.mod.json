@@ -25,6 +25,8 @@
   },
   "depends": {
     "fabricloader": "*",
-    "minecraft": ">=1.18.2"
+    "minecraft": "*",
+    "mcpitanlibarch": "*",
+    "cloth-config": "*"
   }
 }

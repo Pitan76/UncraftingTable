@@ -1,5 +1,6 @@
 package ml.pkom.uncraftingtable;
 
+import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -48,7 +49,7 @@ public class UncraftingScreenHandler extends ScreenHandler {
                 int needXp = Config.config.getInt("consume_xp");
                 if (needXp != 0 && !player.isCreative()) {
                     if (needXp > player.totalExperience) {
-                        player.sendMessage(Utils.translatableText("message.uncraftingtable76.not_enough_xp"), false);
+                        player.sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"), false);
                         return ItemStack.EMPTY;
                     }
                 }

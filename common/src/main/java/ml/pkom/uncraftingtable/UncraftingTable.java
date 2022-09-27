@@ -3,6 +3,7 @@ package ml.pkom.uncraftingtable;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import ml.pkom.mcpitanlibarch.api.registry.ArchRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -26,19 +27,24 @@ public class UncraftingTable {
         LOGGER.log(level, "[" + MOD_NAME + "] " + message);
     }
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registry.BLOCK_KEY);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_KEY);
+    public static final ArchRegistry archRegistry = ArchRegistry.createRegistry(MOD_ID);
+
+    //public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registry.BLOCK_KEY);
+    //public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_KEY);
     public static final DeferredRegister<ScreenHandlerType<?>> SCREEN_HANDLERS = DeferredRegister.create(MOD_ID, Registry.MENU_KEY);
 
 
-    public static final RegistrySupplier<Block> supplierUNCRAFTING_TABLE_BLOCK = BLOCKS.register(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
-    public static final RegistrySupplier<Item> supplierUNCRAFTING_TABLE_ITEM = ITEMS.register(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new Item.Settings().group(ItemGroup.DECORATIONS)));
+    //public static final RegistrySupplier<Block> supplierUNCRAFTING_TABLE_BLOCK = BLOCKS.register(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
+    //public static final RegistrySupplier<Item> supplierUNCRAFTING_TABLE_ITEM = ITEMS.register(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new Item.Settings().group(ItemGroup.DECORATIONS)));
     public static final RegistrySupplier<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU = SCREEN_HANDLERS.register(id("uncraftingtable"), () -> new ScreenHandlerType<>(UncraftingScreenHandler::new));
 
     public static void init() {
 
-        BLOCKS.register();
-        ITEMS.register();
+        //BLOCKS.register();
+        //ITEMS.register();
+        archRegistry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
+        archRegistry.registerItem(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new Item.Settings().group(ItemGroup.DECORATIONS)));
+
         SCREEN_HANDLERS.register();
 
         UncraftingScreenHandler.init();

@@ -16,6 +16,7 @@ subprojects {
 
     repositories {
         maven { url "https://maven.shedaniel.me/" }
+        maven { url "https://maven.pkom.ml/" }
     }
 
     dependencies {
@@ -26,6 +27,8 @@ subprojects {
         mappings "net.fabricmc:yarn:1.19+build.4:v2"
 
         modApi("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_api_version}")
+
+        modApi "ml.pkom:mcpitanlibarch:${rootProject.mcpitanlib_version}"
 
     }
 }
@@ -49,7 +52,9 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = 8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     java {

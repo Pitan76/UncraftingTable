@@ -1,5 +1,6 @@
 package ml.pkom.uncraftingtable;
 
+import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -14,7 +15,7 @@ import net.minecraft.world.World;
 
 public class UncraftingTableBlock extends CraftingTableBlock {
 
-    private static final Text TITLE = Utils.translatableText("container.uncraftingtable76.uncrafting");
+    private static final Text TITLE = TextUtil.translatable("container.uncraftingtable76.uncrafting");
 
     public static UncraftingTableBlock UNCRAFTING_TABLE = new UncraftingTableBlock(AbstractBlock.Settings
             .of(Material.WOOD).strength(2.5F).sounds(BlockSoundGroup.WOOD)
