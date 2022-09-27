@@ -1,5 +1,6 @@
 package ml.pkom.uncraftingtable;
 
+import ml.pkom.mcpitanlibarch.api.entity.Player;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class InsertSlot extends Slot {
-    public PlayerEntity player;
+    public Player player;
     public int recipeIndex = 0;
     public int itemIndex = 0;
     public List<Recipe<?>> latestOutRecipes = new ArrayList<>();
@@ -23,7 +24,7 @@ public class InsertSlot extends Slot {
 
     public InsertSlot(Inventory inventory, int index, int x, int y, PlayerEntity player) {
         super(inventory, index, x, y);
-        this.player = player;
+        this.player = new Player(player);
     }
 
     public void addRecipeIndex() {
@@ -76,7 +77,7 @@ public class InsertSlot extends Slot {
     public void updateOutSlot(ItemStack stack) {
         if (player.getWorld().isClient()) return;
         for (int i = 1; i < 10; ++i)
-            ((OutSlot)player.currentScreenHandler.getSlot(i)).superSetStack(ItemStack.EMPTY);
+            ((OutSlot)player.getCurrentScreenHandler().getSlot(i)).superSetStack(ItemStack.EMPTY);
         if (stack.isEmpty()) return;
         if (!Config.config.getBoolean("uncraft_damaged_item")) {
             int damage = stack.getDamage();
@@ -84,11 +85,11 @@ public class InsertSlot extends Slot {
                 return;
             }
         }
-        if (player.world == null) return;
+        if (player.getWorld() == null) return;
         if (!latestItemStack.getItem().equals(stack.getItem()) && !latestItemStack.isEmpty()) {
             recipeIndex = 0;
         }
-        World world = player.world;
+        World world = player.getWorld();
         Collection<Recipe<?>> recipes = world.getRecipeManager().values();
         List<Recipe<?>> outRecipes = new ArrayList<>();
         for (Recipe<?> recipe : recipes) {

@@ -1,18 +1,15 @@
 package ml.pkom.uncraftingtable;
 
 import dev.architectury.networking.NetworkManager;
-import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import ml.pkom.mcpitanlibarch.api.entity.Player;
 import ml.pkom.mcpitanlibarch.api.registry.ArchRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,14 +26,7 @@ public class UncraftingTable {
 
     public static final ArchRegistry archRegistry = ArchRegistry.createRegistry(MOD_ID);
 
-    //public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registry.BLOCK_KEY);
-    //public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_KEY);
-    public static final DeferredRegister<ScreenHandlerType<?>> SCREEN_HANDLERS = DeferredRegister.create(MOD_ID, Registry.MENU_KEY);
-
-
-    //public static final RegistrySupplier<Block> supplierUNCRAFTING_TABLE_BLOCK = BLOCKS.register(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
-    //public static final RegistrySupplier<Item> supplierUNCRAFTING_TABLE_ITEM = ITEMS.register(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new Item.Settings().group(ItemGroup.DECORATIONS)));
-    public static final RegistrySupplier<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU = SCREEN_HANDLERS.register(id("uncraftingtable"), () -> new ScreenHandlerType<>(UncraftingScreenHandler::new));
+    public static RegistrySupplier<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU;
 
     public static void init() {
 
@@ -44,19 +34,18 @@ public class UncraftingTable {
         //ITEMS.register();
         archRegistry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
         archRegistry.registerItem(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new Item.Settings().group(ItemGroup.DECORATIONS)));
-
-        SCREEN_HANDLERS.register();
+        supplierUNCRAFTING_TABLE_MENU = archRegistry.registerScreenHandlerType(id("uncraftingtable"), () -> new ScreenHandlerType<>(UncraftingScreenHandler::new));
 
         UncraftingScreenHandler.init();
 
         NetworkManager.registerReceiver(NetworkManager.Side.C2S, id("network"), ((buf, context) -> {
             NbtCompound nbt = buf.readNbt();
             if (nbt.contains("control")) {
-                PlayerEntity player = context.getPlayer();
+                Player player = new Player(context.getPlayer());
                 int ctrl = nbt.getInt("control");
                 if (ctrl == 0) {
-                    if (!(player.currentScreenHandler instanceof UncraftingScreenHandler)) return;
-                    UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.currentScreenHandler;
+                    if (!(player.getCurrentScreenHandler() instanceof UncraftingScreenHandler)) return;
+                    UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.getCurrentScreenHandler();
                     if (screenHandler.getSlot(0) instanceof InsertSlot) {
                         InsertSlot slot = (InsertSlot) screenHandler.getSlot(0);
                         if (slot.getStack().isEmpty()) return;
@@ -64,8 +53,8 @@ public class UncraftingTable {
                     }
                 }
                 if (ctrl == 1) {
-                    if (!(player.currentScreenHandler instanceof UncraftingScreenHandler)) return;
-                    UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.currentScreenHandler;
+                    if (!(player.getCurrentScreenHandler() instanceof UncraftingScreenHandler)) return;
+                    UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.getCurrentScreenHandler();
                     if (screenHandler.getSlot(0) instanceof InsertSlot) {
                         InsertSlot slot = (InsertSlot) screenHandler.getSlot(0);
                         if (slot.getStack().isEmpty()) return;

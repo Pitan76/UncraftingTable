@@ -28,8 +28,8 @@ public class OutSlot extends Slot {
     public ItemStack takeStack(int amount) {
         int needXp = Config.config.getInt("consume_xp");
         if (needXp != 0 && !insertSlot.player.isCreative()) {
-            if (needXp > insertSlot.player.totalExperience) {
-                insertSlot.player.sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"), false);
+            if (needXp > insertSlot.player.getPlayerEntity().totalExperience) {
+                insertSlot.player.getPlayerEntity().sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"), false);
                 return ItemStack.EMPTY;
             }
         }
@@ -42,11 +42,11 @@ public class OutSlot extends Slot {
         if (!insertSlot.player.getWorld().isClient() && stack.isEmpty() && insertSlot.canGet) {
             int needXp = Config.config.getInt("consume_xp");
             if (needXp != 0 && !insertSlot.player.isCreative()) {
-                insertSlot.player.addExperience(-needXp);
+                insertSlot.player.getPlayerEntity().addExperience(-needXp);
             }
 
-            insertSlot.player.getInventory().offerOrDrop(insertSlot.player.playerScreenHandler.getCursorStack());
-            insertSlot.player.playerScreenHandler.getCursorStack().setCount(0);
+            insertSlot.player.getInventory().offerOrDrop(insertSlot.player.getCurrentScreenHandler().getCursorStack());
+            insertSlot.player.getCurrentScreenHandler().getCursorStack().setCount(0);
 
             for (int i = 1;i < 10;i++) {
                 insertSlot.player.getInventory().offerOrDrop(inventory.getStack(i));

@@ -1,5 +1,6 @@
 package ml.pkom.uncraftingtable;
 
+import ml.pkom.mcpitanlibarch.api.entity.Player;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 
@@ -21,7 +22,8 @@ public class UncraftingInventory extends SimpleInventory {
         super.onOpen(player);
     }
 
-    public void onClose(PlayerEntity player) {
+    public void onClose(PlayerEntity playerEntity) {
+        Player player = new Player(playerEntity);
         //UncraftingTable.log(Level.INFO, insertSlot.getStack().getName().getString());
         if (!insertSlot.getStack().isEmpty()) {
             insertSlot.player.getInventory().offerOrDrop(insertSlot.getStack());
@@ -33,6 +35,6 @@ public class UncraftingInventory extends SimpleInventory {
             }
              */
         }
-        super.onClose(player);
+        super.onClose(player.getPlayerEntity());
     }
 }
