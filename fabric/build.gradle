@@ -37,7 +37,7 @@ dependencies {
 
     modImplementation "com.terraformersmc:modmenu:4.0.0"
 
-    modApi "ml.pkom.mcpitanlibarch-fabric:${rootProject.mcpitanlib_version}"
+    modApi "ml.pkom:mcpitanlibarch-fabric${rootProject.mcpitanlib_version}"
 }
 
 processResources {

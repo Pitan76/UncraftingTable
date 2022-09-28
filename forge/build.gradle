@@ -30,7 +30,7 @@ dependencies {
 
     modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_api_version}")
 
-    modApi "ml.pkom.mcpitanlibarch-forge:${rootProject.mcpitanlib_version}"
+    modApi "ml.pkom:mcpitanlibarch-forge${rootProject.mcpitanlib_version}"
 }
 
 processResources {
