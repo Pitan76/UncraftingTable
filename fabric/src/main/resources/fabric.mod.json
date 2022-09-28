@@ -26,7 +26,6 @@
   "depends": {
     "fabricloader": "*",
     "minecraft": "*",
-    "mcpitanlibarch": "*",
-    "cloth-config": "*"
+    "mcpitanlibarch": "*"
   }
 }
