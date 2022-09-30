@@ -1,8 +1,8 @@
 package ml.pkom.uncraftingtable;
 
 import dev.architectury.networking.NetworkManager;
-import dev.architectury.registry.registries.RegistrySupplier;
 import ml.pkom.mcpitanlibarch.api.entity.Player;
+import ml.pkom.mcpitanlibarch.api.event.registry.RegistryEvent;
 import ml.pkom.mcpitanlibarch.api.registry.ArchRegistry;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -26,12 +26,9 @@ public class UncraftingTable {
 
     public static final ArchRegistry archRegistry = ArchRegistry.createRegistry(MOD_ID);
 
-    public static RegistrySupplier<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU;
+    public static RegistryEvent<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU;
 
     public static void init() {
-
-        //BLOCKS.register();
-        //ITEMS.register();
         archRegistry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
         archRegistry.registerItem(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new Item.Settings().group(ItemGroup.DECORATIONS)));
         supplierUNCRAFTING_TABLE_MENU = archRegistry.registerScreenHandlerType(id("uncraftingtable"), () -> new ScreenHandlerType<>(UncraftingScreenHandler::new));
