@@ -64,13 +64,6 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.uncraftingtable76]]
-modId = "cloth_config"
-mandatory = true
-versionRange = "[0,)"
-ordering = "NONE"
-side = "CLIENT"
-
-[[dependencies.uncraftingtable76]]
 modId = "mcpitanlibarch"
 mandatory = true
 versionRange = "[0,)"
