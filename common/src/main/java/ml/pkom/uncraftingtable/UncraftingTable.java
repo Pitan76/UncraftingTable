@@ -60,6 +60,7 @@ public class UncraftingTable {
                 }
             }
         }));
+        archRegistry.allRegister();
     }
 
     public static Identifier id(String id) {

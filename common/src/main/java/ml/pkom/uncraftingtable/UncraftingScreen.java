@@ -2,8 +2,8 @@ package ml.pkom.uncraftingtable;
 
 import dev.architectury.networking.NetworkManager;
 import io.netty.buffer.Unpooled;
+import ml.pkom.mcpitanlibarch.api.client.SimpleHandledScreen;
 import ml.pkom.mcpitanlibarch.api.util.client.ScreenUtil;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,7 +13,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class UncraftingScreen extends HandledScreen<ScreenHandler> {
+public class UncraftingScreen extends SimpleHandledScreen {
 
     public static Identifier GUI = UncraftingTable.id("textures/uncrafting_table.png");
 
@@ -29,7 +29,7 @@ public class UncraftingScreen extends HandledScreen<ScreenHandler> {
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
 
-        this.addDrawableChild(new TexturedButtonWidget(x + 31,  y +58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
+        this.addDrawableChild_compatibility(new TexturedButtonWidget(x + 31,  y +58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
             // クライアントの反映
             if (handler.getSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.getSlot(0);
@@ -44,7 +44,7 @@ public class UncraftingScreen extends HandledScreen<ScreenHandler> {
             NetworkManager.sendToServer(UncraftingTable.id("network"), buf);
         }));
 
-        this.addDrawableChild(new TexturedButtonWidget( x + 45, y + 58, 12, 12, 16, 168, 16, GUI, (buttonWidget) -> {
+        this.addDrawableChild_compatibility(new TexturedButtonWidget( x + 45, y + 58, 12, 12, 16, 168, 16, GUI, (buttonWidget) -> {
             // クライアントの反映
             if (handler.getSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.getSlot(0);

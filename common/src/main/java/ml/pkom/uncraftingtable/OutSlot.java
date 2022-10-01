@@ -45,11 +45,11 @@ public class OutSlot extends Slot {
                 insertSlot.player.getPlayerEntity().addExperience(-needXp);
             }
 
-            insertSlot.player.getInventory().offerOrDrop(insertSlot.player.getCurrentScreenHandler().getCursorStack());
-            insertSlot.player.getCurrentScreenHandler().getCursorStack().setCount(0);
+            insertSlot.player.offerOrDrop(insertSlot.player.getCursorStack());
+            insertSlot.player.getCursorStack().setCount(0);
 
             for (int i = 1;i < 10;i++) {
-                insertSlot.player.getInventory().offerOrDrop(inventory.getStack(i));
+                insertSlot.player.offerOrDrop(inventory.getStack(i));
                 inventory.setStack(i, ItemStack.EMPTY);
             }
             if (insertSlot.getStack().getCount() - insertSlot.latestOutputCount == 0) {
