@@ -1,6 +1,7 @@
 package ml.pkom.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.entity.Player;
+import ml.pkom.mcpitanlibarch.api.util.ScreenHandlerUtil;
 import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -44,8 +45,8 @@ public class UncraftingScreenHandler extends ScreenHandler {
     public ItemStack transferSlot(PlayerEntity playerEntity, int invSlot) {
         Player player = new Player(playerEntity);
         ItemStack newStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(invSlot);
-        if (slot != null && slot.hasStack()) {
+        Slot slot = ScreenHandlerUtil.getSlots(this).get(invSlot);
+        if (slot.hasStack()) {
             // 経験値の確認
             if (slot instanceof OutSlot) {
                 int needXp = Config.config.getInt("consume_xp");
@@ -62,7 +63,7 @@ public class UncraftingScreenHandler extends ScreenHandler {
 
             // Uncrafting Inventory
             if (invSlot < this.inventory.size()) {
-                if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
+                if (!this.insertItem(originalStack, this.inventory.size(), ScreenHandlerUtil.getSlots(this).size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
