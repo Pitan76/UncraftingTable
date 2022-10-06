@@ -21,9 +21,11 @@ public class BookInventory extends SimpleInventory {
 
     public void onClose(PlayerEntity playerEntity) {
         Player player = new Player(playerEntity);
-        if (!bookSlot.getStack().isEmpty()) {
-            bookSlot.player.offerOrDrop(bookSlot.getStack());
-        }
+        if (bookSlot != null)
+            if (!bookSlot.getStack().isEmpty()) {
+                bookSlot.player.offerOrDrop(bookSlot.getStack());
+            }
+
         super.onClose(player.getPlayerEntity());
     }
 }
