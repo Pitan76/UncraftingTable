@@ -15,12 +15,17 @@ import java.util.List;
 public class InsertSlot extends Slot {
     public Player player;
     public int recipeIndex = 0;
+
+    // アイテムのコモンタグ(鉱石辞書)のインデックス (未開発)
     public int itemIndex = 0;
+
     public List<Recipe<?>> latestOutRecipes = new ArrayList<>();
     public ItemStack latestItemStack = ItemStack.EMPTY;
 
     // OutSlotでGetできるかどうか。(バグ対策)
     public boolean canGet = true;
+
+    public BookSlot bookSlot;
 
     public InsertSlot(Inventory inventory, int index, int x, int y, PlayerEntity player) {
         super(inventory, index, x, y);

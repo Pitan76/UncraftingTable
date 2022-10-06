@@ -4,16 +4,15 @@ import ml.pkom.mcpitanlibarch.api.entity.Player;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 
-public class UncraftingInventory extends SimpleInventory {
-    public UncraftingInventory() {
-        super(10);
+public class BookInventory extends SimpleInventory {
+    public BookInventory() {
+        super(1);
     }
 
-    public InsertSlot insertSlot;
+    public BookSlot bookSlot;
 
-    public void setInsertSlot(InsertSlot insertSlot) {
-        this.insertSlot = insertSlot;
-
+    public void setBookSlot(BookSlot bookSlot) {
+        this.bookSlot = bookSlot;
     }
 
     public void onOpen(PlayerEntity player) {
@@ -22,8 +21,8 @@ public class UncraftingInventory extends SimpleInventory {
 
     public void onClose(PlayerEntity playerEntity) {
         Player player = new Player(playerEntity);
-        if (!insertSlot.getStack().isEmpty()) {
-            insertSlot.player.offerOrDrop(insertSlot.getStack());
+        if (!bookSlot.getStack().isEmpty()) {
+            bookSlot.player.offerOrDrop(bookSlot.getStack());
         }
         super.onClose(player.getPlayerEntity());
     }

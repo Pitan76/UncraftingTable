@@ -24,14 +24,14 @@ public class UncraftingTable {
         LOGGER.log(level, "[" + MOD_NAME + "] " + message);
     }
 
-    public static final ArchRegistry archRegistry = ArchRegistry.createRegistry(MOD_ID);
+    public static final ArchRegistry registry = ArchRegistry.createRegistry(MOD_ID);
 
     public static RegistryEvent<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU;
 
     public static void init() {
-        archRegistry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
-        archRegistry.registerItem(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new Item.Settings().group(ItemGroup.DECORATIONS)));
-        supplierUNCRAFTING_TABLE_MENU = archRegistry.registerScreenHandlerType(id("uncraftingtable"), () -> new ScreenHandlerType<>(UncraftingScreenHandler::new));
+        registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
+        registry.registerItem(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new Item.Settings().group(ItemGroup.DECORATIONS)));
+        supplierUNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(id("uncraftingtable"), () -> new ScreenHandlerType<>(UncraftingScreenHandler::new));
 
         UncraftingScreenHandler.init();
 
@@ -60,7 +60,7 @@ public class UncraftingTable {
                 }
             }
         }));
-        archRegistry.allRegister();
+        registry.allRegister();
     }
 
     public static Identifier id(String id) {

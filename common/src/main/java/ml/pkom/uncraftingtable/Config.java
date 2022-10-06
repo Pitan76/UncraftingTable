@@ -21,6 +21,7 @@ public class Config {
         setConfigDir(configDir);
         config.setInt("consume_xp", 0);
         config.setBoolean("uncraft_damaged_item", true);
+        config.setBoolean("restore_enchantment_book", true);
         if (!FileControl.fileExists(getConfigFile())) {
             config.save(getConfigFile());
         }

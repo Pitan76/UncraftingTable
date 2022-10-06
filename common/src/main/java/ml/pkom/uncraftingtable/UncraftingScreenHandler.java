@@ -5,6 +5,8 @@ import ml.pkom.mcpitanlibarch.api.util.ScreenHandlerUtil;
 import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
@@ -12,14 +14,18 @@ import net.minecraft.screen.slot.Slot;
 public class UncraftingScreenHandler extends ScreenHandler {
 
     private final UncraftingInventory inventory;
+    public final BookInventory bookInventory;
 
     public UncraftingScreenHandler(int syncId, PlayerInventory playerInventory) {
         super(UncraftingTable.supplierUNCRAFTING_TABLE_MENU.getOrNull(), syncId);
         inventory = new UncraftingInventory();
+        bookInventory = new BookInventory();
         int m, l;
         InsertSlot insertSlot = new InsertSlot(inventory, 0, 36, 35, playerInventory.player);
         inventory.setInsertSlot(insertSlot);
         addSlot(insertSlot);
+
+        // Out Slot
         int i = 0;
         for (m = 0; m < 3; ++m) {
             for (l = 0; l < 3; ++l) {
@@ -27,6 +33,16 @@ public class UncraftingScreenHandler extends ScreenHandler {
                 addSlot(new OutSlot(inventory, i, 94 + l * 18, 17 + m * 18, insertSlot));
             }
         }
+
+        // Book Slot
+        if (Config.config.getBoolean("restore_enchantment_book")) {
+            BookSlot bookSlot = new BookSlot(bookInventory, 0, 8, 35, new Player(playerInventory.player));
+            bookInventory.setBookSlot(bookSlot);
+            insertSlot.bookSlot = bookSlot;
+            addSlot(bookSlot);
+        }
+
+        // Player Inventory
         for (m = 0; m < 3; ++m) {
             for (l = 0; l < 9; ++l) {
                 addSlot(new Slot(playerInventory, l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
@@ -90,6 +106,7 @@ public class UncraftingScreenHandler extends ScreenHandler {
     @Override
     public void close(PlayerEntity player) {
         inventory.onClose(player);
+        bookInventory.onClose(player);
         super.close(player);
     }
 }

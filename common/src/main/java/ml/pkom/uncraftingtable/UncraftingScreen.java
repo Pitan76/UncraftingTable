@@ -29,6 +29,12 @@ public class UncraftingScreen extends SimpleHandledScreen {
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
 
+        if (Config.config.getBoolean("restore_enchantment_book")) {
+            GUI = UncraftingTable.id("textures/uncrafting_table.png");
+        } else {
+            GUI = UncraftingTable.id("textures/uncrafting_table_nobook.png");
+        }
+
         this.addDrawableChild_compatibility(new TexturedButtonWidget(x + 31,  y +58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
             // クライアントの反映
             if (handler.getSlot(0) instanceof InsertSlot) {
