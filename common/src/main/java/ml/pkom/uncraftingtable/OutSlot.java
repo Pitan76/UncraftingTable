@@ -58,9 +58,10 @@ public class OutSlot extends Slot {
                 if (insertStack.hasEnchantments()) {
                     ItemStack book = new ItemStack(Items.ENCHANTED_BOOK, 1);
                     Map<Enchantment, Integer> enchantMap = EnchantmentHelper.get(insertStack);
-                    for (Map.Entry<Enchantment, Integer> entry : enchantMap.entrySet()) {
-                        book.addEnchantment(entry.getKey(), entry.getValue());
-                    }
+                    //for (Map.Entry<Enchantment, Integer> entry : enchantMap.entrySet()) {
+                    //    book.addEnchantment(entry.getKey(), entry.getValue());
+                    //}
+                    EnchantmentHelper.set(enchantMap, book);
                     insertSlot.player.offerOrDrop(book);
                     insertSlot.bookSlot.getStack().decrement(1);
                 }
