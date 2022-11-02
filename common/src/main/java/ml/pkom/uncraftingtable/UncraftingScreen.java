@@ -4,6 +4,7 @@ import dev.architectury.networking.NetworkManager;
 import io.netty.buffer.Unpooled;
 import ml.pkom.mcpitanlibarch.api.client.SimpleHandledScreen;
 import ml.pkom.mcpitanlibarch.api.util.client.ScreenUtil;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,25 +16,18 @@ import net.minecraft.util.Identifier;
 
 public class UncraftingScreen extends SimpleHandledScreen {
 
+    int width, height, backgroundWidth, backgroundHeight, x, y;
+
     public static Identifier GUI = UncraftingTable.id("textures/uncrafting_table.png");
 
     public UncraftingScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
-    }
-
-    @Override
-    protected void init() {
-        super.init();
+        this.width = MinecraftClient.getInstance().getWindow().getScaledWidth();
+        this.height = MinecraftClient.getInstance().getWindow().getScaledHeight();
         this.backgroundWidth = 176;
         this.backgroundHeight = 166;
-        int x = (width - backgroundWidth) / 2;
-        int y = (height - backgroundHeight) / 2;
-
-        if (Config.config.getBoolean("restore_enchantment_book")) {
-            GUI = UncraftingTable.id("textures/uncrafting_table.png");
-        } else {
-            GUI = UncraftingTable.id("textures/uncrafting_table_nobook.png");
-        }
+        this.x = (this.width - this.backgroundWidth) / 2;
+        this.y = (this.height - this.backgroundHeight) / 2;
 
         this.addDrawableChild_compatibility(new TexturedButtonWidget(x + 31,  y +58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
             // クライアントの反映
@@ -67,23 +61,39 @@ public class UncraftingScreen extends SimpleHandledScreen {
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    public void resizeOverride(MinecraftClient client, int width, int height) {
+        super.resizeOverride(client, width, height);
+        this.width = MinecraftClient.getInstance().getWindow().getScaledWidth();
+        this.height = MinecraftClient.getInstance().getWindow().getScaledHeight();
+        this.x = (this.width - this.backgroundWidth) / 2;
+        this.y = (this.height - this.backgroundHeight) / 2;
+        this.backgroundWidth = 176;
+        this.backgroundHeight = 166;
+    }
+
+    @Override
+    public void initOverride() {
+        super.initOverride();
+        if (Config.config.getBoolean("restore_enchantment_book")) {
+            GUI = UncraftingTable.id("textures/uncrafting_table.png");
+        } else {
+            GUI = UncraftingTable.id("textures/uncrafting_table_nobook.png");
+        }
+    }
+
+    @Override
+    public void drawBackgroundOverride(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         int x = (this.width - this.backgroundWidth) / 2;
         int y = (this.height - this.backgroundHeight) / 2;
 
         ScreenUtil.setBackground(GUI);
-        drawTexture(matrices, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        callDrawTexture(matrices, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight);
     }
 
     @Override
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        super.drawForeground(matrices, mouseX, mouseY);
-    }
-
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
-        this.drawMouseoverTooltip(matrices, mouseX, mouseY);
+    public void renderOverride(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.callRenderBackground(matrices);
+        super.renderOverride(matrices, mouseX, mouseY, delta);
+        this.callDrawMouseoverTooltip(matrices, mouseX, mouseY);
     }
 }
