@@ -28,6 +28,27 @@ public class UncraftingScreen extends SimpleHandledScreen {
         this.backgroundHeight = 166;
         this.x = (this.width - this.backgroundWidth) / 2;
         this.y = (this.height - this.backgroundHeight) / 2;
+    }
+
+    @Override
+    public void resizeOverride(MinecraftClient client, int width, int height) {
+        super.resizeOverride(client, width, height);
+        this.width = MinecraftClient.getInstance().getWindow().getScaledWidth();
+        this.height = MinecraftClient.getInstance().getWindow().getScaledHeight();
+        this.x = (this.width - this.backgroundWidth) / 2;
+        this.y = (this.height - this.backgroundHeight) / 2;
+        this.backgroundWidth = 176;
+        this.backgroundHeight = 166;
+    }
+
+    @Override
+    public void initOverride() {
+        super.initOverride();
+        if (Config.config.getBoolean("restore_enchantment_book")) {
+            GUI = UncraftingTable.id("textures/uncrafting_table.png");
+        } else {
+            GUI = UncraftingTable.id("textures/uncrafting_table_nobook.png");
+        }
 
         this.addDrawableChild_compatibility(new TexturedButtonWidget(x + 31,  y +58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
             // クライアントの反映
@@ -58,27 +79,6 @@ public class UncraftingScreen extends SimpleHandledScreen {
             buf.writeNbt(nbt);
             NetworkManager.sendToServer(UncraftingTable.id("network"), buf);
         }));
-    }
-
-    @Override
-    public void resizeOverride(MinecraftClient client, int width, int height) {
-        super.resizeOverride(client, width, height);
-        this.width = MinecraftClient.getInstance().getWindow().getScaledWidth();
-        this.height = MinecraftClient.getInstance().getWindow().getScaledHeight();
-        this.x = (this.width - this.backgroundWidth) / 2;
-        this.y = (this.height - this.backgroundHeight) / 2;
-        this.backgroundWidth = 176;
-        this.backgroundHeight = 166;
-    }
-
-    @Override
-    public void initOverride() {
-        super.initOverride();
-        if (Config.config.getBoolean("restore_enchantment_book")) {
-            GUI = UncraftingTable.id("textures/uncrafting_table.png");
-        } else {
-            GUI = UncraftingTable.id("textures/uncrafting_table_nobook.png");
-        }
     }
 
     @Override
