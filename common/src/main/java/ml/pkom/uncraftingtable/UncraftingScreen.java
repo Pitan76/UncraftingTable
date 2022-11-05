@@ -16,9 +16,13 @@ import net.minecraft.util.Identifier;
 
 public class UncraftingScreen extends SimpleHandledScreen {
 
+    // temporarily
     int width, height, backgroundWidth, backgroundHeight, x, y;
+    ScreenHandler handler;
+    // ----
 
     public static Identifier GUI = UncraftingTable.id("textures/uncrafting_table.png");
+
 
     public UncraftingScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -28,6 +32,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
         this.backgroundHeight = 166;
         this.x = (this.width - this.backgroundWidth) / 2;
         this.y = (this.height - this.backgroundHeight) / 2;
+        this.handler = handler;
     }
 
     @Override
