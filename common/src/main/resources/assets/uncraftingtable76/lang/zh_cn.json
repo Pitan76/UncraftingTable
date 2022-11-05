@@ -1,4 +1,9 @@
 {
+  "$_comment1": "do not translate here",
+  "block.uncraftingtable76.uncraftingtable": "Uncrafting Table",
+  "container.uncraftingtable76.uncrafting": "Uncrafting Table",
+
+  "$_comment2": "translate here",
   "title.uncraftingtable76.config": "Uncrafting Table 环境",
   "category.uncraftingtable76.general": "一般",
   "option.uncraftingtable76.consume_xp": "消耗经验",
