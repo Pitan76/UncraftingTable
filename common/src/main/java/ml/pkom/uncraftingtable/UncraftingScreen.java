@@ -16,39 +16,44 @@ import net.minecraft.util.Identifier;
 
 public class UncraftingScreen extends SimpleHandledScreen {
 
-    // temporarily
-    int width, height, backgroundWidth, backgroundHeight, x, y;
-    ScreenHandler handler;
-    // ----
-
     public static Identifier GUI = UncraftingTable.id("textures/uncrafting_table.png");
 
 
     public UncraftingScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+        setBackgroundWidth(176);
+        setBackgroundHeight(166);
+        /*
         this.width = MinecraftClient.getInstance().getWindow().getScaledWidth();
         this.height = MinecraftClient.getInstance().getWindow().getScaledHeight();
         this.backgroundWidth = 176;
         this.backgroundHeight = 166;
         this.x = (this.width - this.backgroundWidth) / 2;
         this.y = (this.height - this.backgroundHeight) / 2;
-        this.handler = handler;
+         */
     }
 
     @Override
     public void resizeOverride(MinecraftClient client, int width, int height) {
         super.resizeOverride(client, width, height);
+        System.out.println("resize");
+        //fixScreen();
+        /*
         this.width = MinecraftClient.getInstance().getWindow().getScaledWidth();
         this.height = MinecraftClient.getInstance().getWindow().getScaledHeight();
         this.x = (this.width - this.backgroundWidth) / 2;
         this.y = (this.height - this.backgroundHeight) / 2;
         this.backgroundWidth = 176;
         this.backgroundHeight = 166;
+
+         */
     }
 
     @Override
     public void initOverride() {
         super.initOverride();
+        System.out.println("init");
+        //fixScreen();
         if (Config.config.getBoolean("restore_enchantment_book")) {
             GUI = UncraftingTable.id("textures/uncrafting_table.png");
         } else {
@@ -84,6 +89,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
             buf.writeNbt(nbt);
             NetworkManager.sendToServer(UncraftingTable.id("network"), buf);
         }));
+
     }
 
     @Override
