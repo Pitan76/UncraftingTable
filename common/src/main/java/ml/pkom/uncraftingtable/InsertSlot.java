@@ -1,11 +1,13 @@
 package ml.pkom.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.entity.Player;
+import ml.pkom.mcpitanlibarch.api.util.ItemUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -100,6 +102,9 @@ public class InsertSlot extends Slot {
         for (Recipe<?> recipe : recipes) {
             if (!recipe.getType().equals(RecipeType.CRAFTING)) continue;
             if (recipe.getOutput().getCount() > stack.getCount()) continue;
+            // Tech Reborn Disable UU Matter
+            if (ItemUtil.isExist(new Identifier("techreborn:uu_matter")) && Config.config.getBoolean("disable_uncrafting_uu_matter") && recipe.getIngredients().contains(Ingredient.ofItems(ItemUtil.fromId(new Identifier("techreborn:uu_matter"))))) continue;
+
             if (recipe.getOutput().getItem().equals(stack.getItem())) {
                 outRecipes.add(recipe);
             }

@@ -22,6 +22,7 @@ public class Config {
         config.setInt("consume_xp", 0);
         config.setBoolean("uncraft_damaged_item", true);
         config.setBoolean("restore_enchantment_book", true);
+        config.setBoolean("disable_uncrafting_uu_matter", false);
         if (!FileControl.fileExists(getConfigFile())) {
             config.save(getConfigFile());
         }
