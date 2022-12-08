@@ -7,7 +7,8 @@
   "title.uncraftingtable76.config": "Uncrafting Table Config",
   "category.uncraftingtable76.general": "General",
   "option.uncraftingtable76.consume_xp": "Consume XP",
-  "option.uncraftingtable76.uncraft_damaged_item": "Can uncraft damaged item",
+  "option.uncraftingtable76.uncraft_damaged_item": "Enable uncrafting damaged item",
   "option.uncraftingtable76.restore_enchantment_book": "Restore enchantment books",
+  "option.uncraftingtable76.disable_uncrafting_uu_matter": "Disable uncrafting UU-Matter (Tech Reborn)",
   "message.uncraftingtable76.not_enough_xp": "§7[Uncrafting Table] §cNot enough experience"
 }

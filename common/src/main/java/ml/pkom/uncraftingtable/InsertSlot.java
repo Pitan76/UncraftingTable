@@ -4,10 +4,12 @@ import ml.pkom.mcpitanlibarch.api.entity.Player;
 import ml.pkom.mcpitanlibarch.api.util.ItemUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -81,6 +83,16 @@ public class InsertSlot extends Slot {
         }
     }
 
+    public static boolean ingredientsContains(DefaultedList<Ingredient> ingredients, Item item) {
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.isEmpty()) continue;
+            for (ItemStack stack : ingredient.getMatchingStacks()) {
+                if (stack.getItem().equals(item)) return true;
+            }
+        }
+        return false;
+    }
+
     public void updateOutSlot(ItemStack stack) {
         if (player.getWorld().isClient()) return;
         for (int i = 1; i < 10; ++i)
@@ -103,7 +115,7 @@ public class InsertSlot extends Slot {
             if (!recipe.getType().equals(RecipeType.CRAFTING)) continue;
             if (recipe.getOutput().getCount() > stack.getCount()) continue;
             // Tech Reborn Disable UU Matter
-            if (ItemUtil.isExist(new Identifier("techreborn:uu_matter")) && Config.config.getBoolean("disable_uncrafting_uu_matter") && recipe.getIngredients().contains(Ingredient.ofItems(ItemUtil.fromId(new Identifier("techreborn:uu_matter"))))) continue;
+            if (ItemUtil.isExist(new Identifier("techreborn:uu_matter")) && Config.config.getBoolean("disable_uncrafting_uu_matter") && ingredientsContains(recipe.getIngredients(), ItemUtil.fromId(new Identifier("techreborn:uu_matter")))) continue;
 
             if (recipe.getOutput().getItem().equals(stack.getItem())) {
                 outRecipes.add(recipe);

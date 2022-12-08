@@ -34,6 +34,10 @@ public class ClothConfig {
                 .setDefaultValue(true)
                 .setSaveConsumer(newValue -> config.setBoolean("restore_enchantment_book", newValue))
                 .build());
+        general.addEntry(entryBuilder.startBooleanToggle(TextUtil.translatable("option.uncraftingtable76.disable_uncrafting_uu_matter"), config.getBoolean("disable_uncrafting_uu_matter"))
+                .setDefaultValue(true)
+                .setSaveConsumer(newValue -> config.setBoolean("disable_uncrafting_uu_matter", newValue))
+                .build());
         return builder.build();
     }
 }

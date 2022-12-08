@@ -9,5 +9,6 @@
   "option.uncraftingtable76.consume_xp": "消費する経験値",
   "option.uncraftingtable76.uncraft_damaged_item": "耐久値の減ったアイテムの分解を許可",
   "option.uncraftingtable76.restore_enchantment_book": "エンチャント本を返す",
+  "option.uncraftingtable76.disable_uncrafting_uu_matter": "UU-Matterの分解を無効化 (Tech Reborn)",
   "message.uncraftingtable76.not_enough_xp": "§7[Uncrafting Table] §c経験値が足りません。"
 }
