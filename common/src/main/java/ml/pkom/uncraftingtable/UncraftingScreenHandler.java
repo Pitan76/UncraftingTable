@@ -1,15 +1,15 @@
 package ml.pkom.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.entity.Player;
+import ml.pkom.mcpitanlibarch.api.gui.SimpleScreenHandler;
 import ml.pkom.mcpitanlibarch.api.util.ScreenHandlerUtil;
 import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
-public class UncraftingScreenHandler extends ScreenHandler {
+public class UncraftingScreenHandler extends SimpleScreenHandler {
 
     private final UncraftingInventory inventory;
     public final BookInventory bookInventory;
@@ -56,7 +56,7 @@ public class UncraftingScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public ItemStack transferSlot(PlayerEntity playerEntity, int invSlot) {
+    public ItemStack quickMoveOverride(PlayerEntity playerEntity, int invSlot) {
         Player player = new Player(playerEntity);
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = ScreenHandlerUtil.getSlots(this).get(invSlot);
