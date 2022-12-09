@@ -30,7 +30,7 @@ public class UncraftingTable {
 
     public static void init() {
         registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
-        registry.registerItem(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new ExtendSettings().addGroup(DefaultItemGroups.DECORATIONS)));
+        registry.registerItem(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new ExtendSettings().addGroup(DefaultItemGroups.DECORATIONS, id("uncraftingtable"))));
         supplierUNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(id("uncraftingtable"), () -> new ScreenHandlerType<>(UncraftingScreenHandler::new));
 
         UncraftingScreenHandler.init();
