@@ -6,7 +6,7 @@
     "south": "minecraft:block/crafting_table_side",
     "east": "minecraft:block/crafting_table_side",
     "west": "minecraft:block/crafting_table_front",
-    "up": "uncraftingtable76:uncrafting_table_top",
+    "up": "uncraftingtable76:block/uncrafting_table_top",
     "down": "minecraft:block/oak_planks"
   }
 }

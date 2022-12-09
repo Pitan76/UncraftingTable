@@ -1,6 +1,8 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "0.11.0-SNAPSHOT" apply false
+    id 'com.matthewprenger.cursegradle' version '1.+'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 architectury {
@@ -9,6 +11,8 @@ architectury {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
+    apply plugin: "com.modrinth.minotaur"
+    apply plugin: "com.matthewprenger.cursegradle"
 
     loom {
         silentMojangMappingsLicense()
@@ -31,6 +35,71 @@ subprojects {
         modApi "ml.pkom:mcpitanlibarch-common${rootProject.mcpitanlib_version}"
 
     }
+
+    if (name in "fabric,forge".split(",")) {
+        var modLoader = name
+
+        if (System.getenv("CURSEFORGE_TOKEN") != null) {
+            curseforge {
+                apiKey = System.getenv("CURSEFORGE_TOKEN")
+                project {
+                    id = '523423'
+                    changelog = 'Add Config "Disable Uncrafting UU Matter", Port to 1.19.3'
+                    if (modLoader == "fabric") {
+                        releaseType = 'release'
+                        addGameVersion "Fabric"
+                    }
+                    if (modLoader == "forge") {
+                        releaseType = 'beta'
+                        addGameVersion "Forge"
+                    }
+                    addGameVersion '1.16.5'
+                    addGameVersion '1.17'
+                    addGameVersion '1.17.1'
+                    addGameVersion '1.18'
+                    addGameVersion '1.18.1'
+                    addGameVersion '1.18.2'
+                    addGameVersion '1.19'
+                    addGameVersion '1.19.1'
+                    addGameVersion '1.19.2'
+                    addGameVersion '1.19.3'
+
+                    relations {
+                        if (modLoader == "fabric") {
+                            requiredDependency "fabric-api"
+                        }
+                        requiredDependency 'mcpitanlibarch'
+                    }
+
+                    mainArtifact(tasks.remapJar)
+                }
+                options {
+                    forgeGradleIntegration = false
+                }
+            }
+
+        }
+
+        if (System.getenv("MODRINTH_TOKEN") != null) {
+            modrinth {
+                token = System.getenv("MODRINTH_TOKEN")
+                projectId = 'd0f1a75r'
+                versionNumber = project.mod_version + "-" + modLoader
+                gameVersions = ['1.16.5', '1.17', '1.17.1', '1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.19.3']
+                versionType = 'release'
+                uploadFile = tasks.remapJar
+                changelog = 'Add Config "Disable Uncrafting UU Matter", Port to 1.19.3'
+                loaders = [modLoader]
+                dependencies {
+                    if (modLoader == "fabric") {
+                        required.project "P7dR8mSH" // Fabric API
+                    }
+                    required.project "uNRoUnGT" // MCPitanLibarch
+                }
+            }
+        }
+    }
+
 }
 
 allprojects {

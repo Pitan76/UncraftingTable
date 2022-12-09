@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 
 public class UncraftingScreen extends SimpleHandledScreen {
 
-    public static Identifier GUI = UncraftingTable.id("textures/uncrafting_table.png");
+    public static Identifier GUI = UncraftingTable.id("textures/gui/uncrafting_table.png");
 
 
     public UncraftingScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
@@ -55,9 +55,9 @@ public class UncraftingScreen extends SimpleHandledScreen {
         System.out.println("init");
         //fixScreen();
         if (Config.config.getBoolean("restore_enchantment_book")) {
-            GUI = UncraftingTable.id("textures/uncrafting_table.png");
+            GUI = UncraftingTable.id("textures/gui/uncrafting_table.png");
         } else {
-            GUI = UncraftingTable.id("textures/uncrafting_table_nobook.png");
+            GUI = UncraftingTable.id("textures/gui/uncrafting_table_nobook.png");
         }
 
         this.addDrawableChild_compatibility(new TexturedButtonWidget(x + 31,  y +58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
