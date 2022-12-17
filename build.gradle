@@ -44,7 +44,7 @@ subprojects {
                 apiKey = System.getenv("CURSEFORGE_TOKEN")
                 project {
                     id = '523423'
-                    changelog = 'Add Config "Disable Uncrafting UU Matter", Port to 1.19.3'
+                    changelog = 'Fix'
                     if (modLoader == "fabric") {
                         releaseType = 'release'
                         addGameVersion "Fabric"
@@ -53,6 +53,7 @@ subprojects {
                         releaseType = 'beta'
                         addGameVersion "Forge"
                     }
+                    addGameVersion '1.16.4'
                     addGameVersion '1.16.5'
                     addGameVersion '1.17'
                     addGameVersion '1.17.1'
@@ -85,10 +86,10 @@ subprojects {
                 token = System.getenv("MODRINTH_TOKEN")
                 projectId = 'd0f1a75r'
                 versionNumber = project.mod_version + "-" + modLoader
-                gameVersions = ['1.16.5', '1.17', '1.17.1', '1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.19.3']
+                gameVersions = ['1.16.4', '1.16.5', '1.17', '1.17.1', '1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.19.3']
                 versionType = 'release'
                 uploadFile = tasks.remapJar
-                changelog = 'Add Config "Disable Uncrafting UU Matter", Port to 1.19.3'
+                changelog = 'Fix'
                 loaders = [modLoader]
                 dependencies {
                     if (modLoader == "fabric") {

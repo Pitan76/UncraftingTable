@@ -21,14 +21,14 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
         int m, l;
         InsertSlot insertSlot = new InsertSlot(inventory, 0, 36, 35, playerInventory.player);
         inventory.setInsertSlot(insertSlot);
-        addSlot(insertSlot);
+        callAddSlot(insertSlot);
 
         // Out Slot
         int i = 0;
         for (m = 0; m < 3; ++m) {
             for (l = 0; l < 3; ++l) {
                 i++;
-                addSlot(new OutSlot(inventory, i, 94 + l * 18, 17 + m * 18, insertSlot));
+                callAddSlot(new OutSlot(inventory, i, 94 + l * 18, 17 + m * 18, insertSlot));
             }
         }
 
@@ -37,17 +37,17 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             BookSlot bookSlot = new BookSlot(bookInventory, 0, 8, 35, new Player(playerInventory.player));
             bookInventory.setBookSlot(bookSlot);
             insertSlot.bookSlot = bookSlot;
-            addSlot(bookSlot);
+            callAddSlot(bookSlot);
         }
 
         // Player Inventory
         for (m = 0; m < 3; ++m) {
             for (l = 0; l < 9; ++l) {
-                addSlot(new Slot(playerInventory, l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
+                callAddSlot(new Slot(playerInventory, l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
             }
         }
         for (m = 0; m < 9; ++m) {
-            addSlot(new Slot(playerInventory, m, 8 + m * 18, 142));
+            callAddSlot(new Slot(playerInventory, m, 8 + m * 18, 142));
         }
     }
 
@@ -56,8 +56,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     }
 
     @Override
-    public ItemStack quickMoveOverride(PlayerEntity playerEntity, int invSlot) {
-        Player player = new Player(playerEntity);
+    public ItemStack quickMoveOverride(Player player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = ScreenHandlerUtil.getSlots(this).get(invSlot);
         if (slot.hasStack()) {
@@ -77,10 +76,10 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
 
             // Uncrafting Inventory
             if (invSlot < this.inventory.size()) {
-                if (!this.insertItem(originalStack, this.inventory.size(), ScreenHandlerUtil.getSlots(this).size(), true)) {
+                if (!this.callInsertItem(originalStack, this.inventory.size(), ScreenHandlerUtil.getSlots(this).size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
+            } else if (!this.callInsertItem(originalStack, 0, this.inventory.size(), false)) {
                 return ItemStack.EMPTY;
             } else {
                 // Player Inventory → つまり、InsertSlotへ入れている可能性が高い
@@ -97,14 +96,15 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     }
 
     @Override
-    public boolean canUse(PlayerEntity player) {
+    public boolean canUse(Player player) {
         return true;
     }
 
     @Override
-    public void close(PlayerEntity player) {
-        inventory.onClose(player);
-        bookInventory.onClose(player);
+    public void close(Player player) {
+        PlayerEntity playerEntity = player.getPlayerEntity();
+        inventory.onClose(playerEntity);
+        bookInventory.onClose(playerEntity);
         super.close(player);
     }
 }
