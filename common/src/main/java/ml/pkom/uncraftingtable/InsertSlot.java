@@ -86,8 +86,8 @@ public class InsertSlot extends Slot {
     public static boolean ingredientsContains(DefaultedList<Ingredient> ingredients, Item item) {
         for (Ingredient ingredient : ingredients) {
             if (ingredient.isEmpty()) continue;
-            for (ItemStack stack : ingredient.getMatchingStacks()) {
-                if (stack.getItem().equals(item)) return true;
+            for (int id : ingredient.getMatchingItemIds()) {
+                if (Item.byRawId(id).equals(item)) return true;
             }
         }
         return false;
@@ -96,7 +96,7 @@ public class InsertSlot extends Slot {
     public void updateOutSlot(ItemStack stack) {
         if (player.getWorld().isClient()) return;
         for (int i = 1; i < 10; ++i)
-            ((OutSlot)player.getCurrentScreenHandler().getSlot(i)).superSetStack(ItemStack.EMPTY);
+            ((OutSlot)((UncraftingScreenHandler) player.getCurrentScreenHandler()).callGetSlot(i)).superSetStack(ItemStack.EMPTY);
         if (stack.isEmpty()) return;
         if (!Config.config.getBoolean("uncraft_damaged_item")) {
             int damage = stack.getDamage();

@@ -1,10 +1,11 @@
 package ml.pkom.uncraftingtable;
 
-import dev.architectury.networking.NetworkManager;
 import ml.pkom.mcpitanlibarch.api.entity.Player;
 import ml.pkom.mcpitanlibarch.api.event.registry.RegistryEvent;
+import ml.pkom.mcpitanlibarch.api.gui.SimpleScreenHandlerTypeBuilder;
 import ml.pkom.mcpitanlibarch.api.item.DefaultItemGroups;
 import ml.pkom.mcpitanlibarch.api.item.ExtendSettings;
+import ml.pkom.mcpitanlibarch.api.network.ServerNetworking;
 import ml.pkom.mcpitanlibarch.api.registry.ArchRegistry;
 import net.minecraft.item.BlockItem;
 import net.minecraft.nbt.NbtCompound;
@@ -36,20 +37,20 @@ public class UncraftingTable {
                 // ～1.19.2
                 .addGroup(DefaultItemGroups.DECORATIONS))
         );
-        supplierUNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(id("uncraftingtable"), () -> new ScreenHandlerType<>(UncraftingScreenHandler::new));
+        supplierUNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(id("uncraftingtable"), () -> new SimpleScreenHandlerTypeBuilder<>(UncraftingScreenHandler::new).build());
 
         UncraftingScreenHandler.init();
 
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, id("network"), ((buf, context) -> {
+        ServerNetworking.registerReceiver(id("network"), ((server, p, buf) -> {
             NbtCompound nbt = buf.readNbt();
             if (nbt.contains("control")) {
-                Player player = new Player(context.getPlayer());
+                Player player = new Player(p);
                 int ctrl = nbt.getInt("control");
                 if (ctrl == 0) {
                     if (!(player.getCurrentScreenHandler() instanceof UncraftingScreenHandler)) return;
                     UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.getCurrentScreenHandler();
-                    if (screenHandler.getSlot(0) instanceof InsertSlot) {
-                        InsertSlot slot = (InsertSlot) screenHandler.getSlot(0);
+                    if (screenHandler.callGetSlot(0) instanceof InsertSlot) {
+                        InsertSlot slot = (InsertSlot) screenHandler.callGetSlot(0);
                         if (slot.getStack().isEmpty()) return;
                         slot.removeRecipeIndex();
                     }
@@ -57,8 +58,8 @@ public class UncraftingTable {
                 if (ctrl == 1) {
                     if (!(player.getCurrentScreenHandler() instanceof UncraftingScreenHandler)) return;
                     UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.getCurrentScreenHandler();
-                    if (screenHandler.getSlot(0) instanceof InsertSlot) {
-                        InsertSlot slot = (InsertSlot) screenHandler.getSlot(0);
+                    if (screenHandler.callGetSlot(0) instanceof InsertSlot) {
+                        InsertSlot slot = (InsertSlot) screenHandler.callGetSlot(0);
                         if (slot.getStack().isEmpty()) return;
                         slot.addRecipeIndex();
                     }
