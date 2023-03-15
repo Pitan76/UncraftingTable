@@ -2,6 +2,7 @@ package ml.pkom.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.entity.Player;
 import ml.pkom.mcpitanlibarch.api.util.ItemUtil;
+import ml.pkom.mcpitanlibarch.api.util.RecipeUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
@@ -62,9 +63,9 @@ public class InsertSlot extends Slot {
         setStack(latestItemStack);
     }
 
-    public void updateRecipe(List<Recipe<?>> outRecipes) {
+    public void updateRecipe(List<Recipe<?>> outRecipes, World world) {
         CraftingRecipe recipe = (CraftingRecipe) outRecipes.get(recipeIndex);
-        latestOutputCount = recipe.getOutput().getCount();
+        latestOutputCount = RecipeUtil.getOutput(recipe, world).getCount();
         if (recipe.getIngredients().size() > 5) {
             setOutStack(0, itemIndex, recipe, 1);
             setOutStack(1, itemIndex, recipe, 1);
@@ -113,18 +114,18 @@ public class InsertSlot extends Slot {
         List<Recipe<?>> outRecipes = new ArrayList<>();
         for (Recipe<?> recipe : recipes) {
             if (!recipe.getType().equals(RecipeType.CRAFTING)) continue;
-            if (recipe.getOutput().getCount() > stack.getCount()) continue;
+            if (RecipeUtil.getOutput(recipe, world).getCount() > stack.getCount()) continue;
             // Tech Reborn Disable UU Matter
             if (ItemUtil.isExist(new Identifier("techreborn:uu_matter")) && Config.config.getBoolean("disable_uncrafting_uu_matter") && ingredientsContains(recipe.getIngredients(), ItemUtil.fromId(new Identifier("techreborn:uu_matter")))) continue;
 
-            if (recipe.getOutput().getItem().equals(stack.getItem())) {
+            if (RecipeUtil.getOutput(recipe, world).getItem().equals(stack.getItem())) {
                 outRecipes.add(recipe);
             }
         }
         latestOutRecipes = outRecipes;
         if (outRecipes.isEmpty()) return;
         CraftingRecipe recipe = (CraftingRecipe) outRecipes.get(recipeIndex);
-        latestOutputCount = recipe.getOutput().getCount();
+        latestOutputCount = RecipeUtil.getOutput(recipe, world).getCount();
         if (!stack.isEmpty())
             latestItemStack = stack.copy();
         if (recipe.getIngredients().size() > 5) {
