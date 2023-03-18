@@ -1,13 +1,13 @@
 package ml.pkom.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.entity.Player;
+import ml.pkom.mcpitanlibarch.api.gui.slot.CompatibleSlot;
 import ml.pkom.mcpitanlibarch.api.util.ItemUtil;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.screen.slot.Slot;
 
-public class BookSlot extends Slot {
+public class BookSlot extends CompatibleSlot {
     public Player player;
 
     public BookSlot(Inventory inventory, int index, int x, int y, Player player) {

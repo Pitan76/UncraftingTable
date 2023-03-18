@@ -28,7 +28,7 @@ subprojects {
         // The following line declares the mojmap mappings, you may use other mappings as well
         //mappings loom.officialMojangMappings()
         // The following line declares the yarn mappings you may select this one as well.
-        mappings "net.fabricmc:yarn:1.16.5+build.10:v2"
+        mappings "net.fabricmc:yarn:1.19.4+build.1:v2"
 
         modApi("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_api_version}")
 
@@ -64,6 +64,7 @@ subprojects {
                     addGameVersion '1.19.1'
                     addGameVersion '1.19.2'
                     addGameVersion '1.19.3'
+                    addGameVersion '1.19.4'
 
                     relations {
                         if (modLoader == "fabric") {
@@ -86,7 +87,7 @@ subprojects {
                 token = System.getenv("MODRINTH_TOKEN")
                 projectId = 'd0f1a75r'
                 versionNumber = project.mod_version + "-" + modLoader
-                gameVersions = ['1.16.4', '1.16.5', '1.17', '1.17.1', '1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.19.3']
+                gameVersions = ['1.16.4', '1.16.5', '1.17', '1.17.1', '1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.19.3', '1.19.4']
                 versionType = 'release'
                 uploadFile = tasks.remapJar
                 changelog = 'Fix'

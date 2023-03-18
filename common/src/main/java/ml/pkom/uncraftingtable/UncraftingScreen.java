@@ -47,7 +47,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
             // クライアントの反映
             if (handler.callGetSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.callGetSlot(0);
-                if (slot.getStack().isEmpty()) return;
+                if (slot.callGetStack().isEmpty()) return;
                 slot.removeRecipeIndex();
             }
             // サーバーに送信
@@ -62,7 +62,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
             // クライアントの反映
             if (handler.callGetSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.callGetSlot(0);
-                if (slot.getStack().isEmpty()) return;
+                if (slot.callGetStack().isEmpty()) return;
                 slot.addRecipeIndex();
             }
 

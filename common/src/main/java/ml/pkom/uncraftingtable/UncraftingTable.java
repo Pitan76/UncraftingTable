@@ -3,8 +3,8 @@ package ml.pkom.uncraftingtable;
 import ml.pkom.mcpitanlibarch.api.entity.Player;
 import ml.pkom.mcpitanlibarch.api.event.registry.RegistryEvent;
 import ml.pkom.mcpitanlibarch.api.gui.SimpleScreenHandlerTypeBuilder;
+import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
 import ml.pkom.mcpitanlibarch.api.item.DefaultItemGroups;
-import ml.pkom.mcpitanlibarch.api.item.ExtendSettings;
 import ml.pkom.mcpitanlibarch.api.network.ServerNetworking;
 import ml.pkom.mcpitanlibarch.api.registry.ArchRegistry;
 import net.minecraft.item.BlockItem;
@@ -31,11 +31,12 @@ public class UncraftingTable {
 
     public static void init() {
         registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
-        registry.registerItem(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, new ExtendSettings()
+        registry.registerItem(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, CompatibleItemSettings.of()
                 // 1.19.3～
                 .addGroup(DefaultItemGroups.FUNCTIONAL, id("uncraftingtable"))
                 // ～1.19.2
-                .addGroup(DefaultItemGroups.DECORATIONS))
+                .addGroup(DefaultItemGroups.DECORATIONS)
+                .build())
         );
         supplierUNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(id("uncraftingtable"), () -> new SimpleScreenHandlerTypeBuilder<>(UncraftingScreenHandler::new).build());
 

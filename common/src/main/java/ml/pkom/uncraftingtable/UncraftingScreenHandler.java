@@ -83,7 +83,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
                 return ItemStack.EMPTY;
             } else {
                 // Player Inventory → つまり、InsertSlotへ入れている可能性が高い
-                inventory.insertSlot.updateOutSlot(inventory.insertSlot.getStack());
+                inventory.insertSlot.updateOutSlot(inventory.insertSlot.callGetStack());
             }
 
             if (originalStack.isEmpty()) {

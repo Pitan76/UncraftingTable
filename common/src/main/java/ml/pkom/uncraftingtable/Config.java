@@ -1,7 +1,7 @@
 package ml.pkom.uncraftingtable;
 
-import ml.pkom.uncraftingtable.easyapi.FileControl;
-import ml.pkom.uncraftingtable.easyapi.config.JsonConfig;
+import ml.pkom.easyapi.FileControl;
+import ml.pkom.easyapi.config.JsonConfig;
 
 import java.io.File;
 

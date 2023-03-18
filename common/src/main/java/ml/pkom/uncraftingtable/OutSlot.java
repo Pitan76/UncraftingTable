@@ -1,17 +1,16 @@
 package ml.pkom.uncraftingtable;
 
+import ml.pkom.mcpitanlibarch.api.gui.slot.CompatibleSlot;
 import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.util.collection.DefaultedList;
 
 import java.util.Map;
 
-public class OutSlot extends Slot {
+public class OutSlot extends CompatibleSlot {
     // 3 * 3 Slot
     public InsertSlot insertSlot;
 
@@ -26,11 +25,11 @@ public class OutSlot extends Slot {
     }
 
     public void superSetStack(ItemStack stack) {
-        super.setStack(stack);
+        super.callSetStack(stack);
     }
 
     @Override
-    public ItemStack takeStack(int amount) {
+    public ItemStack callTakeStack(int amount) {
         int needXp = Config.config.getInt("consume_xp");
         if (needXp != 0 && !insertSlot.player.isCreative()) {
             if (needXp > insertSlot.player.getPlayerEntity().totalExperience) {
@@ -38,12 +37,12 @@ public class OutSlot extends Slot {
                 return ItemStack.EMPTY;
             }
         }
-        return super.takeStack(amount);
+        return super.callTakeStack(amount);
     }
 
     @Override
-    public void setStack(ItemStack stack) {
-        super.setStack(stack);
+    public void callSetStack(ItemStack stack) {
+        super.callSetStack(stack);
         if (!insertSlot.player.getWorld().isClient() && stack.isEmpty() && insertSlot.canGet) {
             int needXp = Config.config.getInt("consume_xp");
             if (needXp != 0 && !insertSlot.player.isCreative()) {
@@ -53,8 +52,8 @@ public class OutSlot extends Slot {
             insertSlot.player.offerOrDrop(insertSlot.player.getCursorStack());
             insertSlot.player.getCursorStack().setCount(0);
 
-            if (Config.config.getBoolean("restore_enchantment_book") && !insertSlot.bookSlot.getStack().isEmpty()) {
-                ItemStack insertStack = insertSlot.getStack();
+            if (Config.config.getBoolean("restore_enchantment_book") && !insertSlot.bookSlot.callGetStack().isEmpty()) {
+                ItemStack insertStack = insertSlot.callGetStack();
                 if (insertStack.hasEnchantments()) {
                     ItemStack book = new ItemStack(Items.ENCHANTED_BOOK, 1);
                     Map<Enchantment, Integer> enchantMap = EnchantmentHelper.get(insertStack);
@@ -63,7 +62,7 @@ public class OutSlot extends Slot {
                     //}
                     EnchantmentHelper.set(enchantMap, book);
                     insertSlot.player.offerOrDrop(book);
-                    insertSlot.bookSlot.getStack().decrement(1);
+                    insertSlot.bookSlot.callGetStack().decrement(1);
                 }
 
             }
@@ -72,12 +71,12 @@ public class OutSlot extends Slot {
                 insertSlot.player.offerOrDrop(inventory.getStack(i));
                 inventory.setStack(i, ItemStack.EMPTY);
             }
-            if (insertSlot.getStack().getCount() - insertSlot.latestOutputCount == 0) {
+            if (insertSlot.callGetStack().getCount() - insertSlot.latestOutputCount == 0) {
                 insertSlot.setStackSuper(ItemStack.EMPTY);
             } else {
-                ItemStack insertStack = insertSlot.getStack().copy();
+                ItemStack insertStack = insertSlot.callGetStack().copy();
                 insertStack.setCount(insertStack.getCount() - insertSlot.latestOutputCount);
-                insertSlot.setStack(insertStack);
+                insertSlot.callSetStack(insertStack);
             }
         }
         if (insertSlot.player.getWorld().isClient()) {

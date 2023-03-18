@@ -22,8 +22,8 @@ public class UncraftingInventory extends SimpleInventory {
 
     public void onClose(PlayerEntity playerEntity) {
         Player player = new Player(playerEntity);
-        if (!insertSlot.getStack().isEmpty()) {
-            insertSlot.player.offerOrDrop(insertSlot.getStack());
+        if (!insertSlot.callGetStack().isEmpty()) {
+            insertSlot.player.offerOrDrop(insertSlot.callGetStack());
         }
         super.onClose(player.getPlayerEntity());
     }
