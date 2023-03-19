@@ -7,6 +7,7 @@ import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
 import ml.pkom.mcpitanlibarch.api.item.DefaultItemGroups;
 import ml.pkom.mcpitanlibarch.api.network.ServerNetworking;
 import ml.pkom.mcpitanlibarch.api.registry.ArchRegistry;
+import ml.pkom.mcpitanlibarch.api.util.ItemUtil;
 import net.minecraft.item.BlockItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerType;
@@ -31,12 +32,12 @@ public class UncraftingTable {
 
     public static void init() {
         registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
-        registry.registerItem(id("uncraftingtable"), () -> new BlockItem(UncraftingTableBlock.UNCRAFTING_TABLE, CompatibleItemSettings.of()
+        registry.registerItem(id("uncraftingtable"), () -> ItemUtil.ofBlock(UncraftingTableBlock.UNCRAFTING_TABLE, CompatibleItemSettings.of()
                 // 1.19.3～
                 .addGroup(DefaultItemGroups.FUNCTIONAL, id("uncraftingtable"))
                 // ～1.19.2
                 .addGroup(DefaultItemGroups.DECORATIONS)
-                .build())
+                )
         );
         supplierUNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(id("uncraftingtable"), () -> new SimpleScreenHandlerTypeBuilder<>(UncraftingScreenHandler::new).build());
 

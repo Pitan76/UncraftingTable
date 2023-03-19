@@ -3,6 +3,7 @@ package ml.pkom.uncraftingtable;
 import ml.pkom.mcpitanlibarch.api.entity.Player;
 import ml.pkom.mcpitanlibarch.api.gui.SimpleScreenHandler;
 import ml.pkom.mcpitanlibarch.api.util.ScreenHandlerUtil;
+import ml.pkom.mcpitanlibarch.api.util.SlotUtil;
 import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -71,7 +72,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
                 }
             }
 
-            ItemStack originalStack = slot.getStack();
+            ItemStack originalStack = SlotUtil.getStack(slot);
             newStack = originalStack.copy();
 
             // Uncrafting Inventory
@@ -87,7 +88,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             }
 
             if (originalStack.isEmpty()) {
-                slot.setStack(ItemStack.EMPTY);
+                SlotUtil.setStack(slot, ItemStack.EMPTY);
             } else {
                 slot.markDirty();
             }
