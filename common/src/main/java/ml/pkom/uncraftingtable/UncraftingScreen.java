@@ -1,8 +1,8 @@
 package ml.pkom.uncraftingtable;
 
-import io.netty.buffer.Unpooled;
 import ml.pkom.mcpitanlibarch.api.client.SimpleHandledScreen;
 import ml.pkom.mcpitanlibarch.api.network.ClientNetworking;
+import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
 import ml.pkom.mcpitanlibarch.api.util.client.ScreenUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
@@ -51,7 +51,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
                 slot.removeRecipeIndex();
             }
             // サーバーに送信
-            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+            PacketByteBuf buf = PacketByteUtil.create();
             NbtCompound nbt = new NbtCompound();
             nbt.putInt("control", 0);
             buf.writeNbt(nbt);
@@ -67,7 +67,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
             }
 
             // サーバーに送信
-            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+            PacketByteBuf buf = PacketByteUtil.create();
             NbtCompound nbt = new NbtCompound();
             nbt.putInt("control", 1);
             buf.writeNbt(nbt);
