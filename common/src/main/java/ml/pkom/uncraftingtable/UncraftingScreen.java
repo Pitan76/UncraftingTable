@@ -1,6 +1,9 @@
 package ml.pkom.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.client.SimpleHandledScreen;
+import ml.pkom.mcpitanlibarch.api.client.render.handledscreen.DrawBackgroundArgs;
+import ml.pkom.mcpitanlibarch.api.client.render.handledscreen.DrawMouseoverTooltipArgs;
+import ml.pkom.mcpitanlibarch.api.client.render.handledscreen.RenderArgs;
 import ml.pkom.mcpitanlibarch.api.network.ClientNetworking;
 import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
 import ml.pkom.mcpitanlibarch.api.util.client.ScreenUtil;
@@ -77,18 +80,18 @@ public class UncraftingScreen extends SimpleHandledScreen {
     }
 
     @Override
-    public void drawBackgroundOverride(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    public void drawBackgroundOverride(DrawBackgroundArgs args) {
+
         int x = (this.width - this.backgroundWidth) / 2;
         int y = (this.height - this.backgroundHeight) / 2;
 
-        ScreenUtil.setBackground(GUI);
-        callDrawTexture(matrices, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        callDrawTexture(args.drawObjectDM, GUI, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight);
     }
 
     @Override
-    public void renderOverride(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.callRenderBackground(matrices);
-        super.renderOverride(matrices, mouseX, mouseY, delta);
-        this.callDrawMouseoverTooltip(matrices, mouseX, mouseY);
+    public void renderOverride(RenderArgs args) {
+        this.callRenderBackground(args.drawObjectDM);
+        super.renderOverride(args);
+        this.callDrawMouseoverTooltip(new DrawMouseoverTooltipArgs(args.drawObjectDM, args.mouseX, args.mouseY));
     }
 }

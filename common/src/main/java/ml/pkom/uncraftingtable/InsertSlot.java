@@ -171,11 +171,11 @@ public class InsertSlot extends CompatibleSlot {
             if (index >= recipe.getIngredients().size() || recipe.getIngredients().size() == 0) return;
             Ingredient input = recipe.getIngredients().get(index);
             if (input.getMatchingItemIds().size() == 0 || id >= input.getMatchingItemIds().size()) return;
-            inventory.setStack(index + 1, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
-            inventory.getStack(index + 1).setCount(count);
+            callGetInventory().setStack(index + 1, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
+            callGetInventory().getStack(index + 1).setCount(count);
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             canGet = false;
-            inventory.setStack(index + 1, ItemStack.EMPTY);
+            callGetInventory().setStack(index + 1, ItemStack.EMPTY);
         }
         canGet = true;
     }
@@ -186,16 +186,16 @@ public class InsertSlot extends CompatibleSlot {
             Ingredient input = recipe.getIngredients().get(index);
             if (input.getMatchingItemIds().size() == 0 || id >= input.getMatchingItemIds().size()) return;
             if (index <= 1) {
-                inventory.setStack(index + 1, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
-                inventory.getStack(index + 1).setCount(count);
+                callGetInventory().setStack(index + 1, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
+                callGetInventory().getStack(index + 1).setCount(count);
             } else {
-                inventory.setStack(index + 2, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
-                inventory.getStack(index + 2).setCount(count);
+                callGetInventory().setStack(index + 2, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
+                callGetInventory().getStack(index + 2).setCount(count);
             }
 
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             canGet = false;
-            inventory.setStack(index + 1, ItemStack.EMPTY);
+            callGetInventory().setStack(index + 1, ItemStack.EMPTY);
         }
         canGet = true;
     }

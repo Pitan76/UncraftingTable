@@ -68,8 +68,8 @@ public class OutSlot extends CompatibleSlot {
             }
 
             for (int i = 1;i < 10;i++) {
-                insertSlot.player.offerOrDrop(inventory.getStack(i));
-                inventory.setStack(i, ItemStack.EMPTY);
+                insertSlot.player.offerOrDrop(callGetInventory().getStack(i));
+                callGetInventory().setStack(i, ItemStack.EMPTY);
             }
             if (insertSlot.callGetStack().getCount() - insertSlot.latestOutputCount == 0) {
                 insertSlot.setStackSuper(ItemStack.EMPTY);
@@ -80,7 +80,7 @@ public class OutSlot extends CompatibleSlot {
             }
         }
         if (insertSlot.player.getWorld().isClient()) {
-            insertSlot.markDirty();
+            insertSlot.callMarkDirty();
         }
     }
 }

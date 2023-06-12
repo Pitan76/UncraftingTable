@@ -1,6 +1,7 @@
 package ml.pkom.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.block.CompatibleBlockSettings;
+import ml.pkom.mcpitanlibarch.api.block.CompatibleMaterial;
 import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,7 +20,7 @@ public class UncraftingTableBlock extends CraftingTableBlock {
     private static final Text TITLE = TextUtil.translatable("container.uncraftingtable76.uncrafting");
 
     public static UncraftingTableBlock UNCRAFTING_TABLE = new UncraftingTableBlock(CompatibleBlockSettings
-            .of(Material.WOOD).strength(2.5F).sounds(BlockSoundGroup.WOOD)
+            .of(CompatibleMaterial.WOOD).strength(2.5F).sounds(BlockSoundGroup.WOOD)
     );
 
     public UncraftingTableBlock(CompatibleBlockSettings settings) {
