@@ -52,7 +52,7 @@ public class UncraftingTable {
                     UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.getCurrentScreenHandler();
                     if (screenHandler.callGetSlot(0) instanceof InsertSlot) {
                         InsertSlot slot = (InsertSlot) screenHandler.callGetSlot(0);
-                        if (slot.getStack().isEmpty()) return;
+                        if (slot.callGetStack().isEmpty()) return;
                         slot.removeRecipeIndex();
                     }
                 }
@@ -61,7 +61,7 @@ public class UncraftingTable {
                     UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.getCurrentScreenHandler();
                     if (screenHandler.callGetSlot(0) instanceof InsertSlot) {
                         InsertSlot slot = (InsertSlot) screenHandler.callGetSlot(0);
-                        if (slot.getStack().isEmpty()) return;
+                        if (slot.callGetStack().isEmpty()) return;
                         slot.addRecipeIndex();
                     }
                 }

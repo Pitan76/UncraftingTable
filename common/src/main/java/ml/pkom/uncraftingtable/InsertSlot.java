@@ -58,34 +58,9 @@ public class InsertSlot extends CompatibleSlot {
         if (recipeIndex < 0) {
             recipeIndex = maxIndex;
         }
-        //updateRecipe(latestOutRecipes);
         latestItemStack.setCount(callGetStack().getCount());
         callSetStack(latestItemStack);
     }
-
-    /*
-    public void updateRecipe(List<Recipe<?>> outRecipes, World world) {
-        CraftingRecipe recipe = (CraftingRecipe) outRecipes.get(recipeIndex);
-        latestOutputCount = RecipeUtil.getOutput(recipe, world).getCount();
-        if (recipe.getIngredients().size() > 5) {
-            setOutStack(0, itemIndex, recipe, 1);
-            setOutStack(1, itemIndex, recipe, 1);
-            setOutStack(2, itemIndex, recipe, 1);
-            setOutStack(3, itemIndex, recipe, 1);
-            setOutStack(4, itemIndex, recipe, 1);
-            setOutStack(5, itemIndex, recipe, 1);
-            setOutStack(6, itemIndex, recipe, 1);
-            setOutStack(7, itemIndex, recipe, 1);
-            setOutStack(8, itemIndex, recipe, 1);
-        } else {
-            set4x4OutStack(0, itemIndex, recipe, 1);
-            set4x4OutStack(1, itemIndex, recipe, 1);
-            set4x4OutStack(2, itemIndex, recipe, 1);
-            set4x4OutStack(3, itemIndex, recipe, 1);
-        }
-    }
-
-     */
 
     public static boolean ingredientsContains(DefaultedList<Ingredient> ingredients, Item item) {
         for (Ingredient ingredient : ingredients) {
