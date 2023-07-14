@@ -44,6 +44,7 @@ public class UncraftingTable {
 
         ServerNetworking.registerReceiver(id("network"), ((server, p, buf) -> {
             NbtCompound nbt = buf.readNbt();
+            //noinspection DataFlowIssue
             if (nbt.contains("control")) {
                 Player player = new Player(p);
                 int ctrl = nbt.getInt("control");

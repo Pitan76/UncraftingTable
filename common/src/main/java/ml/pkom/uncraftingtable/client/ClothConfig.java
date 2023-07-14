@@ -16,6 +16,7 @@ public class ClothConfig {
                 .setTitle(TextUtil.translatable("title.uncraftingtable76.config"))
                 .setSavingRunnable(() -> {
                     if (!FileControl.fileExists(getConfigDir())) {
+                        //noinspection ResultOfMethodCallIgnored
                         getConfigDir().mkdirs();
                     }
                     config.save(getConfigFile());

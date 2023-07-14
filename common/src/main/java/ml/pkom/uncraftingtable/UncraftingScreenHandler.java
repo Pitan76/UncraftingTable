@@ -97,11 +97,6 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     }
 
     @Override
-    public boolean canUse(Player player) {
-        return true;
-    }
-
-    @Override
     public void close(Player player) {
         PlayerEntity playerEntity = player.getPlayerEntity();
         inventory.onClose(playerEntity);
