@@ -89,7 +89,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
 
     @Override
     public void renderOverride(RenderArgs args) {
-        this.callRenderBackground(args.drawObjectDM);
+        this.callRenderBackground(args);
         super.renderOverride(args);
         this.callDrawMouseoverTooltip(new DrawMouseoverTooltipArgs(args.drawObjectDM, args.mouseX, args.mouseY));
     }

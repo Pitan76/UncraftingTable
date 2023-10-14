@@ -20,7 +20,7 @@ subprojects {
 
     repositories {
         maven { url "https://maven.shedaniel.me/" }
-        maven { url "https://maven.pkom.ml/" }
+        maven { url "https://maven.pitan76.net/" }
     }
 
     dependencies {
@@ -65,6 +65,7 @@ subprojects {
                     addGameVersion '1.19.4'
                     addGameVersion '1.20'
                     addGameVersion '1.20.1'
+                    addGameVersion '1.20.2'
 
                     relations {
                         if (modLoader == "fabric") {
@@ -87,7 +88,7 @@ subprojects {
                 token = System.getenv("MODRINTH_TOKEN")
                 projectId = 'd0f1a75r'
                 versionNumber = project.mod_version + "-" + modLoader
-                gameVersions = ['1.17', '1.17.1', '1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.19.3', '1.19.4', '1.20', '1.20.1']
+                gameVersions = ['1.17', '1.17.1', '1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.19.3', '1.19.4', '1.20', '1.20.1', '1.20.2']
                 versionType = 'release'
                 uploadFile = tasks.remapJar
                 changelog = 'Fix'
