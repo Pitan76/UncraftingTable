@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 
 public class UncraftingScreenHandler extends SimpleScreenHandler {
 
@@ -54,6 +55,21 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
 
     public static void init() {
 
+    }
+
+    @Override
+    public void overrideOnSlotClick(int slotIndex, int button, SlotActionType actionType, Player player) {
+        if (actionType != SlotActionType.PICKUP || ScreenHandlerUtil.getSlots(this).size() <= slotIndex || slotIndex < 0) {
+            super.overrideOnSlotClick(slotIndex, button, actionType, player);
+            return;
+        }
+        Slot slot = ScreenHandlerUtil.getSlots(this).get(slotIndex);
+        if (!(slot instanceof OutSlot)) {
+            super.overrideOnSlotClick(slotIndex, button, actionType, player);
+            return;
+        }
+
+        quickMoveOverride(player, slotIndex);
     }
 
     @Override

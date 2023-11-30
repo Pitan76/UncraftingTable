@@ -45,7 +45,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
             GUI = UncraftingTable.id("textures/gui/uncrafting_table_nobook.png");
         }
 
-        this.addDrawableChild_compatibility(ScreenUtil.createTexturedButtonWidget(x + 31,  y +58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
+        this.addDrawableCTBW(ScreenUtil.createTexturedButtonWidget(x + 31,  y +58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
             // クライアントの反映
             if (handler.callGetSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.callGetSlot(0);
@@ -56,11 +56,11 @@ public class UncraftingScreen extends SimpleHandledScreen {
             PacketByteBuf buf = PacketByteUtil.create();
             NbtCompound nbt = new NbtCompound();
             nbt.putInt("control", 0);
-            buf.writeNbt(nbt);
+            PacketByteUtil.writeNbt(buf, nbt);
             ClientNetworking.send(UncraftingTable.id("network"), buf);
         }));
 
-        this.addDrawableChild_compatibility(ScreenUtil.createTexturedButtonWidget( x + 45, y + 58, 12, 12, 16, 168, 16, GUI, (buttonWidget) -> {
+        this.addDrawableCTBW(ScreenUtil.createTexturedButtonWidget( x + 45, y + 58, 12, 12, 16, 168, 16, GUI, (buttonWidget) -> {
             // クライアントの反映
             if (handler.callGetSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.callGetSlot(0);
@@ -72,7 +72,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
             PacketByteBuf buf = PacketByteUtil.create();
             NbtCompound nbt = new NbtCompound();
             nbt.putInt("control", 1);
-            buf.writeNbt(nbt);
+            PacketByteUtil.writeNbt(buf, nbt);
             ClientNetworking.send(UncraftingTable.id("network"), buf);
         }));
 

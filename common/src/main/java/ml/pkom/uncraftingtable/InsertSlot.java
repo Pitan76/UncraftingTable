@@ -14,7 +14,6 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class InsertSlot extends CompatibleSlot {
@@ -88,7 +87,7 @@ public class InsertSlot extends CompatibleSlot {
             recipeIndex = 0;
         }
         World world = player.getWorld();
-        Collection<Recipe<?>> recipes = world.getRecipeManager().values();
+        List<Recipe<?>> recipes = RecipeUtil.getAllRecipes(world);
         List<Recipe<?>> outRecipes = new ArrayList<>();
         for (Recipe<?> recipe : recipes) {
             if (!recipe.getType().equals(RecipeType.CRAFTING)) continue;
@@ -101,7 +100,7 @@ public class InsertSlot extends CompatibleSlot {
             }
         }
         latestOutRecipes = outRecipes;
-        if (outRecipes.isEmpty()) return;
+        if (outRecipes.isEmpty() || recipeIndex > outRecipes.size() - 1) return;
         CraftingRecipe recipe = (CraftingRecipe) outRecipes.get(recipeIndex);
         latestOutputCount = RecipeUtil.getOutput(recipe, world).getCount();
         if (!stack.isEmpty())

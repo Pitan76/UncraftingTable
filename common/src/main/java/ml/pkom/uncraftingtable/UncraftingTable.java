@@ -5,6 +5,7 @@ import ml.pkom.mcpitanlibarch.api.event.registry.RegistryEvent;
 import ml.pkom.mcpitanlibarch.api.gui.SimpleScreenHandlerTypeBuilder;
 import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
 import ml.pkom.mcpitanlibarch.api.item.DefaultItemGroups;
+import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
 import ml.pkom.mcpitanlibarch.api.network.ServerNetworking;
 import ml.pkom.mcpitanlibarch.api.registry.ArchRegistry;
 import ml.pkom.mcpitanlibarch.api.util.ItemUtil;
@@ -43,7 +44,7 @@ public class UncraftingTable {
         UncraftingScreenHandler.init();
 
         ServerNetworking.registerReceiver(id("network"), ((server, p, buf) -> {
-            NbtCompound nbt = buf.readNbt();
+            NbtCompound nbt = PacketByteUtil.readNbt(buf);
             //noinspection DataFlowIssue
             if (nbt.contains("control")) {
                 Player player = new Player(p);
