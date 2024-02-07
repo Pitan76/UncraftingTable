@@ -33,7 +33,6 @@ subprojects {
         modApi("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_api_version}")
 
         modApi "ml.pkom:mcpitanlibarch-common${rootProject.mcpitanlib_version}"
-
     }
 
     if (name in "fabric,forge".split(",")) {
