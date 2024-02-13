@@ -1,17 +1,17 @@
 package ml.pkom.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.entity.Player;
-import ml.pkom.mcpitanlibarch.api.event.registry.RegistryEvent;
 import ml.pkom.mcpitanlibarch.api.gui.SimpleScreenHandlerTypeBuilder;
 import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
 import ml.pkom.mcpitanlibarch.api.item.DefaultItemGroups;
 import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
 import ml.pkom.mcpitanlibarch.api.network.ServerNetworking;
-import ml.pkom.mcpitanlibarch.api.registry.ArchRegistry;
 import ml.pkom.mcpitanlibarch.api.util.ItemUtil;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
+import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,15 +26,15 @@ public class UncraftingTable {
         LOGGER.log(level, "[" + MOD_NAME + "] " + message);
     }
 
-    public static final ArchRegistry registry = ArchRegistry.createRegistry(MOD_ID);
+    public static final CompatRegistry registry = CompatRegistry.createRegistry(MOD_ID);
 
-    public static RegistryEvent<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU;
+    public static RegistryResult<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU;
 
     public static void init() {
         registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
         registry.registerItem(id("uncraftingtable"), () -> ItemUtil.ofBlock(UncraftingTableBlock.UNCRAFTING_TABLE, CompatibleItemSettings.of()
                 // 1.19.3～
-                .addGroup(DefaultItemGroups.FUNCTIONAL, id("uncraftingtable"))
+                .addGroup(() -> DefaultItemGroups.FUNCTIONAL, id("uncraftingtable"))
                 // ～1.19.2
                 .addGroup(DefaultItemGroups.DECORATIONS)
                 )
@@ -45,7 +45,6 @@ public class UncraftingTable {
 
         ServerNetworking.registerReceiver(id("network"), ((server, p, buf) -> {
             NbtCompound nbt = PacketByteUtil.readNbt(buf);
-            //noinspection DataFlowIssue
             if (nbt.contains("control")) {
                 Player player = new Player(p);
                 int ctrl = nbt.getInt("control");
