@@ -17,10 +17,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "ml.pkom.uncraftingtable.fabric.UncraftingTableFabric"
+      "net.pitan76.uncraftingtable.fabric.UncraftingTableFabric"
     ],
     "modmenu": [
-      "ml.pkom.uncraftingtable.fabric.addon.ModMenuAddon"
+      "net.pitan76.uncraftingtable.fabric.addon.ModMenuAddon"
     ]
   },
   "depends": {

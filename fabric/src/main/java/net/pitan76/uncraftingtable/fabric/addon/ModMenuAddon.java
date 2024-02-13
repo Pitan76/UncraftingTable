@@ -1,8 +1,8 @@
-package ml.pkom.uncraftingtable.fabric.addon;
+package net.pitan76.uncraftingtable.fabric.addon;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import ml.pkom.uncraftingtable.client.ClothConfig;
+import net.pitan76.uncraftingtable.client.ClothConfig;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class ModMenuAddon implements ModMenuApi {

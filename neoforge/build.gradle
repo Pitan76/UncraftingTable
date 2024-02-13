@@ -14,7 +14,7 @@ configurations {
     developmentNeoForge.extendsFrom common
 }
 
-project.archivesBaseName = project.archivesBaseName + "-forge"
+project.archivesBaseName = project.archivesBaseName + "-neoforge"
 
 repositories {
     maven { url "https://maven.shedaniel.me/" }

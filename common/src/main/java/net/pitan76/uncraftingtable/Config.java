@@ -1,4 +1,4 @@
-package ml.pkom.uncraftingtable;
+package net.pitan76.uncraftingtable;
 
 import ml.pkom.easyapi.FileControl;
 import ml.pkom.easyapi.config.JsonConfig;

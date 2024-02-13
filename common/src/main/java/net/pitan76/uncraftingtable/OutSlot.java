@@ -1,4 +1,4 @@
-package ml.pkom.uncraftingtable;
+package net.pitan76.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.TextUtil;

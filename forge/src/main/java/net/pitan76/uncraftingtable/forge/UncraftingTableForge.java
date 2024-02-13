@@ -1,10 +1,10 @@
-package ml.pkom.uncraftingtable.forge;
+package net.pitan76.uncraftingtable.forge;
 
 import dev.architectury.platform.Platform;
 import dev.architectury.platform.forge.EventBuses;
-import ml.pkom.uncraftingtable.Config;
-import ml.pkom.uncraftingtable.UncraftingTable;
-import ml.pkom.uncraftingtable.forge.client.UncraftingTableForgeClient;
+import net.pitan76.uncraftingtable.Config;
+import net.pitan76.uncraftingtable.UncraftingTable;
+import net.pitan76.uncraftingtable.forge.client.UncraftingTableForgeClient;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;

@@ -1,4 +1,4 @@
-package ml.pkom.uncraftingtable.client;
+package net.pitan76.uncraftingtable.client;
 
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -8,7 +8,7 @@ import net.pitan76.mcpitanlib.api.util.TextUtil;
 ;
 import net.minecraft.client.gui.screen.Screen;
 
-import static ml.pkom.uncraftingtable.Config.*;
+import static net.pitan76.uncraftingtable.Config.*;
 
 public class ClothConfig {
     public static Screen create(Screen screen) {

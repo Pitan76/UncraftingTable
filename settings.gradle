@@ -9,6 +9,9 @@ pluginManagement {
 }
 
 include("common")
-include("fabric")
-include("forge")
-include("neoforge")
+if (fabricEnabled.toBoolean())
+    include("fabric")
+if (forgeEnabled.toBoolean())
+    include("forge")
+if (neoforgeEnabled.toBoolean())
+    include("neoforge")

@@ -1,8 +1,8 @@
-package ml.pkom.uncraftingtable.client;
+package net.pitan76.uncraftingtable.client;
 
 import dev.architectury.registry.menu.MenuRegistry;
-import ml.pkom.uncraftingtable.UncraftingScreen;
-import ml.pkom.uncraftingtable.UncraftingTable;
+import net.pitan76.uncraftingtable.UncraftingScreen;
+import net.pitan76.uncraftingtable.UncraftingTable;
 
 public class UncraftingTableClient {
     public static void init() {

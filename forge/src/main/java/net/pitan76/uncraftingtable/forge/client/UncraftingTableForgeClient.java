@@ -1,6 +1,6 @@
-package ml.pkom.uncraftingtable.forge.client;
+package net.pitan76.uncraftingtable.forge.client;
 
-import ml.pkom.uncraftingtable.client.UncraftingTableClient;
+import net.pitan76.uncraftingtable.client.UncraftingTableClient;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class UncraftingTableForgeClient {

@@ -1,8 +1,8 @@
-package ml.pkom.uncraftingtable.fabric;
+package net.pitan76.uncraftingtable.fabric;
 
-import ml.pkom.uncraftingtable.Config;
-import ml.pkom.uncraftingtable.UncraftingTable;
-import ml.pkom.uncraftingtable.client.UncraftingTableClient;
+import net.pitan76.uncraftingtable.Config;
+import net.pitan76.uncraftingtable.UncraftingTable;
+import net.pitan76.uncraftingtable.client.UncraftingTableClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;

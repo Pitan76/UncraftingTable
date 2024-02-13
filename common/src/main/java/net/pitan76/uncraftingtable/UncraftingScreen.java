@@ -1,4 +1,4 @@
-package ml.pkom.uncraftingtable;
+package net.pitan76.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.client.SimpleHandledScreen;
 import ml.pkom.mcpitanlibarch.api.client.render.handledscreen.DrawBackgroundArgs;
@@ -7,7 +7,6 @@ import ml.pkom.mcpitanlibarch.api.client.render.handledscreen.RenderArgs;
 import ml.pkom.mcpitanlibarch.api.network.ClientNetworking;
 import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
 import ml.pkom.mcpitanlibarch.api.util.client.ScreenUtil;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;

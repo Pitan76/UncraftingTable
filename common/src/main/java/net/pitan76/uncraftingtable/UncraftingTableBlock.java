@@ -1,4 +1,4 @@
-package ml.pkom.uncraftingtable;
+package net.pitan76.uncraftingtable;
 
 import ml.pkom.mcpitanlibarch.api.block.CompatibleBlockSettings;
 import ml.pkom.mcpitanlibarch.api.block.CompatibleMaterial;

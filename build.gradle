@@ -36,7 +36,7 @@ subprojects {
         modApi "ml.pkom:mcpitanlibarch-common${rootProject.mcpitanlib_version}"
     }
 
-    if (name in "fabric,forge".split(",")) {
+    if (name in "fabric,forge,neoforge".split(",")) {
         var modLoader = name
 
         if (System.getenv("CURSEFORGE_TOKEN") != null) {
@@ -45,13 +45,15 @@ subprojects {
                 project {
                     id = '523423'
                     changelog = 'Fix'
+                    releaseType = 'release'
                     if (modLoader == "fabric") {
-                        releaseType = 'release'
                         addGameVersion "Fabric"
                     }
                     if (modLoader == "forge") {
-                        releaseType = 'beta'
                         addGameVersion "Forge"
+                    }
+                    if (modLoader == "neoforge") {
+                        addGameVersion "NeoForge"
                     }
                     addGameVersion '1.17'
                     addGameVersion '1.17.1'
