@@ -3,7 +3,7 @@ plugins {
 }
 architectury {
     platformSetupLoomIde()
-    forge()
+    neoForge()
 }
 
 configurations {
@@ -11,7 +11,7 @@ configurations {
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+    developmentNeoForge.extendsFrom common
 }
 
 project.archivesBaseName = project.archivesBaseName + "-forge"
@@ -21,16 +21,16 @@ repositories {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-    modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_api_version}")
+    modApi("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_api_version}")
 
-    modApi "ml.pkom:mcpitanlibarch-forge${rootProject.mcpitanlib_version}"
+    modApi "ml.pkom:mcpitanlibarch-neoforge${rootProject.mcpitanlib_version}"
 }
 
 processResources {
@@ -45,17 +45,17 @@ shadowJar {
     exclude "fabric.mod.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier.set("dev-shadow")
 }
 
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
+    archiveClassifier.set(null)
 }
 
 jar {
-    classifier "dev"
+    archiveClassifier.set("dev")
 }
 
 sourcesJar {
