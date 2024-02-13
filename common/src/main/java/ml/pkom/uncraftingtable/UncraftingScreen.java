@@ -30,22 +30,12 @@ public class UncraftingScreen extends SimpleHandledScreen {
     }
 
     @Override
-    public void resizeOverride(MinecraftClient client, int width, int height) {
-        super.resizeOverride(client, width, height);
-        //System.out.println("resize");
-    }
-
-    @Override
     public void initOverride() {
         super.initOverride();
-        //System.out.println("init");
-        if (Config.config.getBoolean("restore_enchantment_book")) {
-            GUI = UncraftingTable.id("textures/gui/uncrafting_table.png");
-        } else {
-            GUI = UncraftingTable.id("textures/gui/uncrafting_table_nobook.png");
-        }
+        GUI = Config.config.getBoolean("restore_enchantment_book") ?
+                UncraftingTable.id("textures/gui/uncrafting_table.png") : UncraftingTable.id("textures/gui/uncrafting_table_nobook.png");
 
-        this.addDrawableCTBW(ScreenUtil.createTexturedButtonWidget(x + 31,  y +58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
+        this.addDrawableCTBW(ScreenUtil.createTexturedButtonWidget(x + 31,  y + 58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
             // クライアントの反映
             if (handler.callGetSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.callGetSlot(0);
