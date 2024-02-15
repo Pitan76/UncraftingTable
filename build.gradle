@@ -74,7 +74,7 @@ subprojects {
                         if (modLoader == "fabric") {
                             requiredDependency "fabric-api"
                         }
-                        requiredDependency 'mcpitanlib'
+                        requiredDependency 'mcpitanlibarch'
                     }
 
                     mainArtifact(tasks.remapJar)
@@ -128,7 +128,7 @@ allprojects {
         // for more information about repositories.
     }
 
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
         // if neoforge is used, use java 17
         if (project.name == "neoforge") {

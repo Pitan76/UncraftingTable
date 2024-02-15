@@ -38,7 +38,6 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:9.0.0"
 
     modApi "net.pitan76:mcpitanlib-fabric${rootProject.mcpitanlib_version}"
-
     include "net.pitan76:mcpitanlib_checker-fabric:${rootProject.mcpitanlib_checker_version}"
 }
 
