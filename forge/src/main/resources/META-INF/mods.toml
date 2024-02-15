@@ -36,8 +36,8 @@ ordering = "BEFORE"
 side = "BOTH"
 
 [[dependencies.uncraftingtable76]]
-modId = "mcpitanlibarch"
+modId = "mcpitanlib"
 mandatory = true
-versionRange = "[1.9.3,)"
+versionRange = "[1.9.5,)"
 ordering = "BEFORE"
 side = "BOTH"

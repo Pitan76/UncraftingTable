@@ -1,6 +1,6 @@
 package net.pitan76.uncraftingtable;
 
-import ml.pkom.mcpitanlibarch.api.entity.Player;
+import net.pitan76.mcpitanlib.api.entity.Player;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 

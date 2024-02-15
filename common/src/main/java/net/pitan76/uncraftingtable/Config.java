@@ -1,7 +1,7 @@
 package net.pitan76.uncraftingtable;
 
-import ml.pkom.easyapi.FileControl;
-import ml.pkom.easyapi.config.JsonConfig;
+import net.pitan76.easyapi.FileControl;
+import net.pitan76.easyapi.config.JsonConfig;
 
 import java.io.File;
 

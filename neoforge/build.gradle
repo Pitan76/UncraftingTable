@@ -31,7 +31,7 @@ dependencies {
 
     modApi("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_api_version}")
 
-    modApi "ml.pkom:mcpitanlibarch-neoforge${rootProject.mcpitanlib_version}"
+    modApi "net.pitan76:mcpitanlib-neoforge${rootProject.mcpitanlib_version}"
 }
 
 processResources {

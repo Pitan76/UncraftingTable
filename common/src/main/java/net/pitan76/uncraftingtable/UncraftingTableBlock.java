@@ -1,7 +1,7 @@
 package net.pitan76.uncraftingtable;
 
-import ml.pkom.mcpitanlibarch.api.block.CompatibleBlockSettings;
-import ml.pkom.mcpitanlibarch.api.block.CompatibleMaterial;
+import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;

@@ -35,9 +35,11 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    modImplementation "com.terraformersmc:modmenu:8.0.1"
+    modImplementation "com.terraformersmc:modmenu:9.0.0"
 
-    modApi "ml.pkom:mcpitanlibarch-fabric${rootProject.mcpitanlib_version}"
+    modApi "net.pitan76:mcpitanlib-fabric${rootProject.mcpitanlib_version}"
+
+    include "net.pitan76:mcpitanlib_checker-fabric:${rootProject.mcpitanlib_checker_version}"
 }
 
 processResources {

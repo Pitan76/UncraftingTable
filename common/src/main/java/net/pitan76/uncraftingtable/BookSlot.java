@@ -1,8 +1,8 @@
 package net.pitan76.uncraftingtable;
 
-import ml.pkom.mcpitanlibarch.api.entity.Player;
-import ml.pkom.mcpitanlibarch.api.gui.slot.CompatibleSlot;
-import ml.pkom.mcpitanlibarch.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
+import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;

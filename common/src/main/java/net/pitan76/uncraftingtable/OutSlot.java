@@ -1,6 +1,6 @@
 package net.pitan76.uncraftingtable;
 
-import ml.pkom.mcpitanlibarch.api.gui.slot.CompatibleSlot;
+import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;

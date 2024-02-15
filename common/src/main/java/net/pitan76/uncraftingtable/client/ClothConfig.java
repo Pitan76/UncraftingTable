@@ -3,7 +3,7 @@ package net.pitan76.uncraftingtable.client;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import ml.pkom.easyapi.FileControl;
+import net.pitan76.easyapi.FileControl;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 ;
 import net.minecraft.client.gui.screen.Screen;

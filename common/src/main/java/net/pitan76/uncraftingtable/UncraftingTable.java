@@ -1,12 +1,12 @@
 package net.pitan76.uncraftingtable;
 
-import ml.pkom.mcpitanlibarch.api.entity.Player;
-import ml.pkom.mcpitanlibarch.api.gui.SimpleScreenHandlerTypeBuilder;
-import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
-import ml.pkom.mcpitanlibarch.api.item.DefaultItemGroups;
-import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
-import ml.pkom.mcpitanlibarch.api.network.ServerNetworking;
-import ml.pkom.mcpitanlibarch.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
+import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
+import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
+import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import net.pitan76.mcpitanlib.api.network.ServerNetworking;
+import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
