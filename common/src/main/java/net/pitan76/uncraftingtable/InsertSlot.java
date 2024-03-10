@@ -77,7 +77,7 @@ public class InsertSlot extends CompatibleSlot {
         for (int i = 1; i < 10; ++i)
             ((OutSlot)((UncraftingScreenHandler) player.getCurrentScreenHandler()).callGetSlot(i)).superSetStack(ItemStack.EMPTY);
         if (stack.isEmpty()) return;
-        if (!Config.config.getBoolean("uncraft_damaged_item")) {
+        if (!Config.config.getBooleanOrDefault("uncraft_damaged_item", true)) {
             int damage = stack.getDamage();
             if (damage != 0 && damage != stack.getMaxDamage()) {
                 return;
@@ -94,7 +94,7 @@ public class InsertSlot extends CompatibleSlot {
             if (!recipe.getType().equals(RecipeType.CRAFTING)) continue;
             if (RecipeUtil.getOutput(recipe, world).getCount() > stack.getCount()) continue;
             // Tech Reborn Disable UU Matter
-            if (ItemUtil.isExist(new Identifier("techreborn:uu_matter")) && Config.config.getBoolean("disable_uncrafting_uu_matter") && ingredientsContains(recipe.getIngredients(), ItemUtil.fromId(new Identifier("techreborn:uu_matter")))) continue;
+            if (ItemUtil.isExist(new Identifier("techreborn:uu_matter")) && Config.config.getBooleanOrDefault("disable_uncrafting_uu_matter", false) && ingredientsContains(recipe.getIngredients(), ItemUtil.fromId(new Identifier("techreborn:uu_matter")))) continue;
 
             if (RecipeUtil.getOutput(recipe, world).getItem().equals(stack.getItem())) {
                 outRecipes.add(recipe);
