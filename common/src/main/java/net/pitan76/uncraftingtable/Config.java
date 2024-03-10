@@ -15,7 +15,7 @@ public class Config {
     public static boolean initialized = false;
 
     public static void init(File configDir) {
-        System.out.println("[Uncrafting Table]" + configDir.toString());
+        //System.out.println("[Uncrafting Table]" + configDir.toString());
         if (initialized) return;
         initialized = true;
         setConfigDir(configDir);

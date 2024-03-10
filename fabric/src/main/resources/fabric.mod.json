@@ -3,7 +3,7 @@
   "id": "uncraftingtable76",
   "version": "${version}",
   "name": "Uncrafting Table",
-  "description": "",
+  "description": "Add an uncrafting table, allowing you to uncraft items and get back the materials used to craft them.",
   "authors": [
     "Pitan"
   ],
@@ -26,6 +26,6 @@
   "depends": {
     "fabricloader": "*",
     "minecraft": "*",
-    "mcpitanlib": ">2.0.0"
+    "mcpitanlib": ">2.1.9"
   }
 }

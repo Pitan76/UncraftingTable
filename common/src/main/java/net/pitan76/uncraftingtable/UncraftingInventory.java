@@ -1,8 +1,8 @@
 package net.pitan76.uncraftingtable;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
+import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class UncraftingInventory extends SimpleInventory {
     public UncraftingInventory() {
@@ -13,7 +13,6 @@ public class UncraftingInventory extends SimpleInventory {
 
     public void setInsertSlot(InsertSlot insertSlot) {
         this.insertSlot = insertSlot;
-
     }
 
     public void onOpen(PlayerEntity player) {

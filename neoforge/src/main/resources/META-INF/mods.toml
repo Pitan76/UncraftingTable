@@ -11,7 +11,7 @@ displayURL = "https://www.curseforge.com/minecraft/mc-mods/simple-uncrafting-tab
 logoFile = "icon.png"
 authors = "Pitan"
 description = '''
-
+Add an uncrafting table, allowing you to uncraft items and get back the materials used to craft them.
 '''
 
 [[dependencies.uncraftingtable76]]

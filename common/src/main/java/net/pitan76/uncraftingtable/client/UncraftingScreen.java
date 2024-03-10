@@ -1,5 +1,11 @@
-package net.pitan76.uncraftingtable;
+package net.pitan76.uncraftingtable.client;
 
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.client.SimpleHandledScreen;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawBackgroundArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawMouseoverTooltipArgs;
@@ -7,12 +13,10 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.network.ClientNetworking;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.pitan76.uncraftingtable.Config;
+import net.pitan76.uncraftingtable.InsertSlot;
+import net.pitan76.uncraftingtable.UncraftingScreenHandler;
+import net.pitan76.uncraftingtable.UncraftingTable;
 
 public class UncraftingScreen extends SimpleHandledScreen {
 

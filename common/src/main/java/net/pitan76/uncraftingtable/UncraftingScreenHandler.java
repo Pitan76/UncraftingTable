@@ -1,15 +1,15 @@
 package net.pitan76.uncraftingtable;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
-import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
-import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
-import net.pitan76.mcpitanlib.api.util.SlotUtil;
-import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
+import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
+import net.pitan76.mcpitanlib.api.util.SlotUtil;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 public class UncraftingScreenHandler extends SimpleScreenHandler {
 
@@ -17,7 +17,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     public final BookInventory bookInventory;
 
     public UncraftingScreenHandler(int syncId, PlayerInventory playerInventory) {
-        super(UncraftingTable.supplierUNCRAFTING_TABLE_MENU.getOrNull(), syncId);
+        super(UncraftingTable.UNCRAFTING_TABLE_MENU.getOrNull(), syncId);
         inventory = new UncraftingInventory();
         bookInventory = new BookInventory();
         int m, l;

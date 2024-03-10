@@ -1,12 +1,12 @@
 package net.pitan76.uncraftingtable;
 
-import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
-import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import java.util.Map;
 
@@ -49,7 +49,7 @@ public class OutSlot extends CompatibleSlot {
                 insertSlot.player.getPlayerEntity().addExperience(-needXp);
             }
 
-            insertSlot.player.offerOrDrop(insertSlot.player.getCursorStack());
+            int cursorCount = insertSlot.player.getCursorStack().getCount();
             insertSlot.player.getCursorStack().setCount(0);
 
             if (Config.config.getBoolean("restore_enchantment_book") && !insertSlot.bookSlot.callGetStack().isEmpty()) {
@@ -65,7 +65,7 @@ public class OutSlot extends CompatibleSlot {
 
             }
 
-            for (int i = 1;i < 10;i++) {
+            for (int i = 1; i < 10; ++i) {
                 insertSlot.player.offerOrDrop(callGetInventory().getStack(i));
                 callGetInventory().setStack(i, ItemStack.EMPTY);
             }
@@ -76,6 +76,9 @@ public class OutSlot extends CompatibleSlot {
                 insertStack.setCount(insertStack.getCount() - insertSlot.latestOutputCount);
                 insertSlot.callSetStack(insertStack);
             }
+
+            if (cursorCount > 0)
+                insertSlot.player.getCursorStack().setCount(cursorCount);
         }
         if (insertSlot.player.getWorld().isClient()) {
             insertSlot.callMarkDirty();

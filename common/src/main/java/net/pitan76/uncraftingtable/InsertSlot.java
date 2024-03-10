@@ -1,9 +1,5 @@
 package net.pitan76.uncraftingtable;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
-import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
-import net.pitan76.mcpitanlib.api.util.ItemUtil;
-import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
@@ -12,6 +8,10 @@ import net.minecraft.recipe.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
+import net.pitan76.mcpitanlib.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +72,8 @@ public class InsertSlot extends CompatibleSlot {
     }
 
     public void updateOutSlot(ItemStack stack) {
-        if (player.getWorld().isClient()) return;
+        if (player.isClient()) return;
+
         for (int i = 1; i < 10; ++i)
             ((OutSlot)((UncraftingScreenHandler) player.getCurrentScreenHandler()).callGetSlot(i)).superSetStack(ItemStack.EMPTY);
         if (stack.isEmpty()) return;
@@ -105,22 +106,55 @@ public class InsertSlot extends CompatibleSlot {
         latestOutputCount = RecipeUtil.getOutput(recipe, world).getCount();
         if (!stack.isEmpty())
             latestItemStack = stack.copy();
-        if (recipe.getIngredients().size() > 5) {
-            setOutStack(0, itemIndex, recipe, 1);
-            setOutStack(1, itemIndex, recipe, 1);
-            setOutStack(2, itemIndex, recipe, 1);
-            setOutStack(3, itemIndex, recipe, 1);
-            setOutStack(4, itemIndex, recipe, 1);
-            setOutStack(5, itemIndex, recipe, 1);
-            setOutStack(6, itemIndex, recipe, 1);
-            setOutStack(7, itemIndex, recipe, 1);
-            setOutStack(8, itemIndex, recipe, 1);
-        } else {
-            set4x4OutStack(0, itemIndex, recipe, 1);
-            set4x4OutStack(1, itemIndex, recipe, 1);
-            set4x4OutStack(2, itemIndex, recipe, 1);
-            set4x4OutStack(3, itemIndex, recipe, 1);
+
+        List<Ingredient> ingredients = prettyRecipe(recipe);
+        setOutStack(0, itemIndex, ingredients, 1);
+        setOutStack(1, itemIndex, ingredients, 1);
+        setOutStack(2, itemIndex, ingredients, 1);
+        setOutStack(3, itemIndex, ingredients, 1);
+        setOutStack(4, itemIndex, ingredients, 1);
+        setOutStack(5, itemIndex, ingredients, 1);
+        setOutStack(6, itemIndex, ingredients, 1);
+        setOutStack(7, itemIndex, ingredients, 1);
+        setOutStack(8, itemIndex, ingredients, 1);
+    }
+
+    /**
+     * return list of Ingredients from Recipe in 3x3 format
+     * レシピを3x3の形に整形してIngredientのリストを返す
+     * @param recipe Recipe
+     * @return List<Ingredient> prettied list
+     */
+    public List<Ingredient> prettyRecipe(Recipe<?> recipe) {
+        List<Ingredient> ingredients = new ArrayList<>();
+        if (!(recipe instanceof ShapedRecipe)) return recipe.getIngredients();
+        ShapedRecipe shapedRecipe = (ShapedRecipe) recipe;
+        int width = shapedRecipe.getWidth();
+
+        int empty = 0;
+        for (int i = 0; i < 9; i++) {
+            if (shapedRecipe.getIngredients().size() > i - empty) {
+                if (width == 3) {
+                    ingredients.add(shapedRecipe.getIngredients().get(i - empty));
+                    continue;
+                }
+                if (width == 2) {
+                    if (i == 0 || i == 1 || i == 3 || i == 4 || i == 6 || i == 7) {
+                        ingredients.add(shapedRecipe.getIngredients().get(i - empty));
+                        continue;
+                    }
+                }
+                if (width == 1) {
+                    if (i == 0 || i == 3 || i == 6) {
+                        ingredients.add(shapedRecipe.getIngredients().get(i - empty));
+                        continue;
+                    }
+                }
+            }
+            ingredients.add(Ingredient.EMPTY);
+            empty++;
         }
+        return ingredients;
     }
 
     @Override
@@ -140,32 +174,14 @@ public class InsertSlot extends CompatibleSlot {
         updateOutSlot(stack);
     }
 
-    public void setOutStack(int index, int id, Recipe<?> recipe, int count) {
+    public void setOutStack(int index, int id, List<Ingredient> ingredients, int count) {
         try {
-            if (index >= recipe.getIngredients().size() || recipe.getIngredients().size() == 0) return;
-            Ingredient input = recipe.getIngredients().get(index);
-            if (input.getMatchingItemIds().size() == 0 || id >= input.getMatchingItemIds().size()) return;
+            if (index >= ingredients.size() || ingredients.isEmpty()) return;
+
+            Ingredient input = ingredients.get(index);
+            if (input.getMatchingItemIds().isEmpty() || id >= input.getMatchingItemIds().size()) return;
             callGetInventory().setStack(index + 1, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
             callGetInventory().getStack(index + 1).setCount(count);
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            canGet = false;
-            callGetInventory().setStack(index + 1, ItemStack.EMPTY);
-        }
-        canGet = true;
-    }
-
-    public void set4x4OutStack(int index, int id, Recipe<?> recipe, int count) {
-        try {
-            if (index >= recipe.getIngredients().size() || recipe.getIngredients().size() == 0) return;
-            Ingredient input = recipe.getIngredients().get(index);
-            if (input.getMatchingItemIds().size() == 0 || id >= input.getMatchingItemIds().size()) return;
-            if (index <= 1) {
-                callGetInventory().setStack(index + 1, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
-                callGetInventory().getStack(index + 1).setCount(count);
-            } else {
-                callGetInventory().setStack(index + 2, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
-                callGetInventory().getStack(index + 2).setCount(count);
-            }
 
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             canGet = false;
@@ -173,5 +189,4 @@ public class InsertSlot extends CompatibleSlot {
         }
         canGet = true;
     }
-
 }

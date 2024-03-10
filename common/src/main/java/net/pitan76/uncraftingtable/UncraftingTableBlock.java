@@ -1,21 +1,19 @@
 package net.pitan76.uncraftingtable;
 
-import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
-import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
-import net.minecraft.block.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
+import net.pitan76.mcpitanlib.api.block.ExtendBlock;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
+import net.pitan76.mcpitanlib.api.event.block.ScreenHandlerCreateEvent;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import org.jetbrains.annotations.Nullable;
 
-public class UncraftingTableBlock extends CraftingTableBlock {
+public class UncraftingTableBlock extends ExtendBlock {
 
     private static final Text TITLE = TextUtil.translatable("container.uncraftingtable76.uncrafting");
 
@@ -28,12 +26,22 @@ public class UncraftingTableBlock extends CraftingTableBlock {
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        return super.onUse(state, world, pos, player, hand, hit);
+    public ActionResult onRightClick(BlockUseEvent e) {
+        Player player = e.player;
+        if (e.isClient())
+            return ActionResult.SUCCESS;
+
+        player.openGuiScreen(e.state.createScreenHandlerFactory(e.world, e.pos));
+        return ActionResult.CONSUME;
     }
 
     @Override
-    public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-        return new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) -> new UncraftingScreenHandler(i, playerInventory), TITLE);
+    public @Nullable ScreenHandler createScreenHandler(ScreenHandlerCreateEvent e) {
+        return new UncraftingScreenHandler(e.syncId, e.inventory);
+    }
+
+    @Override
+    public @Nullable Text getScreenTitle() {
+        return TITLE;
     }
 }

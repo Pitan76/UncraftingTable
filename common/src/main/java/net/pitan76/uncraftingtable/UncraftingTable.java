@@ -1,17 +1,17 @@
 package net.pitan76.uncraftingtable;
 
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.network.ServerNetworking;
-import net.pitan76.mcpitanlib.api.util.ItemUtil;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +28,7 @@ public class UncraftingTable {
 
     public static final CompatRegistry registry = CompatRegistry.createRegistry(MOD_ID);
 
-    public static RegistryResult<ScreenHandlerType<?>> supplierUNCRAFTING_TABLE_MENU;
+    public static RegistryResult<ScreenHandlerType<?>> UNCRAFTING_TABLE_MENU;
 
     public static void init() {
         registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
@@ -39,7 +39,7 @@ public class UncraftingTable {
                 .addGroup(DefaultItemGroups.DECORATIONS)
                 )
         );
-        supplierUNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(id("uncraftingtable"), () -> new SimpleScreenHandlerTypeBuilder<>(UncraftingScreenHandler::new).build());
+        UNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(id("uncraftingtable"), () -> new SimpleScreenHandlerTypeBuilder<>(UncraftingScreenHandler::new).build());
 
         UncraftingScreenHandler.init();
 

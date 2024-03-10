@@ -2,8 +2,8 @@ package net.pitan76.uncraftingtable.fabric.addon;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import net.pitan76.uncraftingtable.client.ClothConfig;
 import net.fabricmc.loader.api.FabricLoader;
+import net.pitan76.uncraftingtable.client.ClothConfig;
 
 public class ModMenuAddon implements ModMenuApi {
     @Override

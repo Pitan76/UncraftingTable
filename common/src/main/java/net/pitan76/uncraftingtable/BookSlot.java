@@ -1,11 +1,11 @@
 package net.pitan76.uncraftingtable;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
-import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
-import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
+import net.pitan76.mcpitanlib.api.util.ItemUtil;
 
 public class BookSlot extends CompatibleSlot {
     public Player player;
