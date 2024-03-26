@@ -1,7 +1,5 @@
 package net.pitan76.uncraftingtable.neoforge;
 
-import dev.architectury.platform.Platform;
-import dev.architectury.utils.Env;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -14,9 +12,7 @@ import net.pitan76.uncraftingtable.neoforge.client.UncraftingTableNeoForgeClient
 public class UncraftingTableNeoForge {
     public UncraftingTableNeoForge(IEventBus bus) {
         bus.addListener(UncraftingTableNeoForge::init);
-
-        if (Platform.getEnvironment() == Env.CLIENT)
-            bus.addListener(UncraftingTableNeoForgeClient::clientInit);
+        bus.addListener(UncraftingTableNeoForgeClient::clientInit);
     }
 
     public static void init(FMLCommonSetupEvent event) {
