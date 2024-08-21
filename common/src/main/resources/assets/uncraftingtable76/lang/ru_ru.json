@@ -1,0 +1,11 @@
+{
+  "block.uncraftingtable76.uncraftingtable": "Стол разбора",
+  "category.uncraftingtable76.general": "Общие",
+  "container.uncraftingtable76.uncrafting": "Стол разбора",
+  "message.uncraftingtable76.not_enough_xp": "§7[Стол разбора] §cНедостаточно опыта",
+  "option.uncraftingtable76.consume_xp": "Потреблять опыт",
+  "option.uncraftingtable76.disable_uncrafting_uu_matter": "Отключить разбор UU-Материи (Tech Reborn)",
+  "option.uncraftingtable76.restore_enchantment_book": "Восстанавливать чародейские книги",
+  "option.uncraftingtable76.uncraft_damaged_item": "Включить разбор повреждённого предмета",
+  "title.uncraftingtable76.config": "Настройки стола разбора"
+}
