@@ -1,0 +1,14 @@
+{
+  "$_comment1": "do not translate here",
+  "block.uncraftingtable76.uncraftingtable": "Uncrafting Table",
+  "container.uncraftingtable76.uncrafting": "Uncrafting Table",
+
+  "$_comment2": "translate here",
+  "title.uncraftingtable76.config": "Uncrafting Table 설정",
+  "category.uncraftingtable76.general": "공통",
+  "option.uncraftingtable76.consume_xp": "경험치 소모",
+  "option.uncraftingtable76.uncraft_damaged_item": "내구도가 소모된 아이템의 대한 분해 활성화",
+  "option.uncraftingtable76.restore_enchantment_book": "인챈트북으로 인챈트 추출",
+  "option.uncraftingtable76.disable_uncrafting_uu_matter": "UU-Matter (Tech Reborn) 분해 비활성화",
+  "message.uncraftingtable76.not_enough_xp": "§7[Uncrafting Table] §c경험치가 충분하지 않습니다"
+}
