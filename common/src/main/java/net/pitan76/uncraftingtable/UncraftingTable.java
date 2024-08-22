@@ -1,5 +1,6 @@
 package net.pitan76.uncraftingtable;
 
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
@@ -11,6 +12,7 @@ import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.network.ServerNetworking;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -31,8 +33,8 @@ public class UncraftingTable {
     public static RegistryResult<ScreenHandlerType<?>> UNCRAFTING_TABLE_MENU;
 
     public static void init() {
-        registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
-        registry.registerItem(id("uncraftingtable"), () -> ItemUtil.ofBlock(UncraftingTableBlock.UNCRAFTING_TABLE, CompatibleItemSettings.of()
+        RegistryResult<Block> UNCRAFTING_TABLE = registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
+        registry.registerItem(id("uncraftingtable"), () -> ItemUtil.ofBlock(UNCRAFTING_TABLE.getOrNull(), CompatibleItemSettings.of()
                 // 1.19.3～
                 .addGroup(() -> DefaultItemGroups.FUNCTIONAL, id("uncraftingtable"))
                 // ～1.19.2
@@ -68,10 +70,11 @@ public class UncraftingTable {
                 }
             }
         }));
+
         registry.allRegister();
     }
 
     public static Identifier id(String id) {
-        return new Identifier(MOD_ID, id);
+        return IdentifierUtil.id(MOD_ID, id);
     }
 }

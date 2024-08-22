@@ -22,7 +22,7 @@ public class UncraftingTableBlock extends ExtendBlock {
     );
 
     public UncraftingTableBlock(CompatibleBlockSettings settings) {
-        super(settings.build());
+        super(settings);
     }
 
     @Override
