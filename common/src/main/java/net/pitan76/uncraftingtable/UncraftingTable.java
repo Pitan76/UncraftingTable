@@ -56,7 +56,7 @@ public class UncraftingTable {
                     if (screenHandler.callGetSlot(0) instanceof InsertSlot) {
                         InsertSlot slot = (InsertSlot) screenHandler.callGetSlot(0);
                         if (slot.callGetStack().isEmpty()) return;
-                        slot.removeRecipeIndex();
+                        slot.prevRecipeIndex();
                     }
                 }
                 if (ctrl == 1) {
@@ -65,7 +65,7 @@ public class UncraftingTable {
                     if (screenHandler.callGetSlot(0) instanceof InsertSlot) {
                         InsertSlot slot = (InsertSlot) screenHandler.callGetSlot(0);
                         if (slot.callGetStack().isEmpty()) return;
-                        slot.addRecipeIndex();
+                        slot.nextRecipeIndex();
                     }
                 }
             }

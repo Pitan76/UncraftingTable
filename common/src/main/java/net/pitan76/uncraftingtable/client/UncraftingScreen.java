@@ -43,7 +43,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
             if (handler.callGetSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.callGetSlot(0);
                 if (slot.callGetStack().isEmpty()) return;
-                slot.removeRecipeIndex();
+                slot.prevRecipeIndex();
             }
             // サーバーに送信
             PacketByteBuf buf = PacketByteUtil.create();
@@ -58,7 +58,7 @@ public class UncraftingScreen extends SimpleHandledScreen {
             if (handler.callGetSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.callGetSlot(0);
                 if (slot.callGetStack().isEmpty()) return;
-                slot.addRecipeIndex();
+                slot.nextRecipeIndex();
             }
 
             // サーバーに送信

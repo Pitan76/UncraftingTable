@@ -13,16 +13,16 @@ import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 public class UncraftingScreenHandler extends SimpleScreenHandler {
 
-    private final UncraftingInventory inventory;
+    private final UncraftingInventory uncraftingInventory;
     public final BookInventory bookInventory;
 
     public UncraftingScreenHandler(int syncId, PlayerInventory playerInventory) {
         super(UncraftingTable.UNCRAFTING_TABLE_MENU.getOrNull(), syncId);
-        inventory = new UncraftingInventory();
+        uncraftingInventory = new UncraftingInventory();
         bookInventory = new BookInventory();
         int m, l;
-        InsertSlot insertSlot = new InsertSlot(inventory, 0, 36, 35, playerInventory.player);
-        inventory.setInsertSlot(insertSlot);
+        InsertSlot insertSlot = new InsertSlot(uncraftingInventory, 0, 36, 35, playerInventory.player);
+        uncraftingInventory.setInsertSlot(insertSlot);
         callAddSlot(insertSlot);
 
         // Out Slot
@@ -30,7 +30,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
         for (m = 0; m < 3; ++m) {
             for (l = 0; l < 3; ++l) {
                 i++;
-                callAddSlot(new OutSlot(inventory, i, 94 + l * 18, 17 + m * 18, insertSlot));
+                callAddSlot(new OutSlot(uncraftingInventory, i, 94 + l * 18, 17 + m * 18, insertSlot));
             }
         }
 
@@ -73,16 +73,16 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     }
 
     @Override
-    public ItemStack quickMoveOverride(Player player, int invSlot) {
+    public ItemStack quickMoveOverride(Player player, int index) {
         ItemStack newStack = ItemStack.EMPTY;
-        Slot slot = ScreenHandlerUtil.getSlots(this).get(invSlot);
+        Slot slot = ScreenHandlerUtil.getSlot(this, index);
         if (slot.hasStack()) {
             // 経験値の確認
             if (slot instanceof OutSlot) {
                 int needXp = Config.config.getIntOrDefault("consume_xp", 0);
                 if (needXp != 0 && !player.isCreative()) {
                     if (needXp > player.getPlayerEntity().totalExperience) {
-                        player.getPlayerEntity().sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"), false);
+                        player.sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"));
                         return ItemStack.EMPTY;
                     }
                 }
@@ -91,16 +91,17 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             ItemStack originalStack = SlotUtil.getStack(slot);
             newStack = originalStack.copy();
 
-            // Uncrafting Inventory
-            if (invSlot < this.inventory.size()) {
-                if (!this.callInsertItem(originalStack, this.inventory.size(), ScreenHandlerUtil.getSlots(this).size(), true)) {
+            // Uncrafting Inventory のサイズよりも小さい場合は Uncrafting Inventory内のスロットである
+            if (index < this.uncraftingInventory.size()) {
+                // InsertSlot, OutSlot -> Player Inventory
+                if (!this.callInsertItem(originalStack, this.uncraftingInventory.size(), ScreenHandlerUtil.getSlots(this).size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.callInsertItem(originalStack, 0, this.inventory.size(), false)) {
+            } else if (!this.callInsertItem(originalStack, 0, 1, false)) {
                 return ItemStack.EMPTY;
             } else {
-                // Player Inventory → つまり、InsertSlotへ入れている可能性が高い
-                inventory.insertSlot.updateOutSlot(inventory.insertSlot.callGetStack());
+                // Player Inventory → InsertSlot, OutSlot
+                uncraftingInventory.insertSlot.updateOutSlot(uncraftingInventory.insertSlot.callGetStack());
             }
 
             if (originalStack.isEmpty()) {
@@ -108,14 +109,28 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             } else {
                 slot.markDirty();
             }
+
         }
         return newStack;
     }
 
     @Override
+    public boolean canInsertIntoSlot(Slot slot) {
+        if (slot instanceof OutSlot) {
+            return false;
+        }
+        return super.canInsertIntoSlot(slot);
+    }
+
+    @Override
+    public boolean canInsertIntoSlot(ItemStack stack, Slot slot) {
+        return slot.canInsert(stack);
+    }
+
+    @Override
     public void close(Player player) {
         PlayerEntity playerEntity = player.getPlayerEntity();
-        inventory.onClose(playerEntity);
+        uncraftingInventory.onClose(playerEntity);
         bookInventory.onClose(playerEntity);
         super.close(player);
     }

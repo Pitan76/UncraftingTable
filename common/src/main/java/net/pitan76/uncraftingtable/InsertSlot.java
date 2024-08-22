@@ -22,7 +22,7 @@ public class InsertSlot extends CompatibleSlot {
     public int recipeIndex = 0;
 
     // アイテムのコモンタグ(鉱石辞書)のインデックス (未開発)
-    public int itemIndex = 0;
+    public int tagItemIndex = 0;
 
     public List<Recipe<?>> latestOutRecipes = new ArrayList<>();
     public ItemStack latestItemStack = ItemStack.EMPTY;
@@ -37,26 +37,74 @@ public class InsertSlot extends CompatibleSlot {
         this.player = new Player(player);
     }
 
-    public void addRecipeIndex() {
+    public int getMaxTagItemIndex() {
+        if (latestOutRecipes.isEmpty()) return 0;
+        if (latestItemStack.isEmpty()) return 0;
+
+        int max = 0;
+        for (Ingredient ingredient : latestOutRecipes.get(recipeIndex).getIngredients()) {
+            if (ingredient.getMatchingItemIds().size() - 1 > max) {
+                max = ingredient.getMatchingItemIds().size() - 1;
+            }
+        }
+        return max;
+    }
+
+    public void nextRecipeIndex() {
         if (latestOutRecipes.isEmpty()) return;
         if (latestItemStack.isEmpty()) return;
-        recipeIndex++;
-        int maxIndex = latestOutRecipes.size() - 1;
-        if (recipeIndex > maxIndex) {
-            recipeIndex = 0;
+
+        int maxTagItemIndex = getMaxTagItemIndex();
+        if (maxTagItemIndex == 0) {
+            tagItemIndex = 0;
+            recipeIndex++;
+            int maxIndex = latestOutRecipes.size() - 1;
+            if (recipeIndex > maxIndex) {
+                recipeIndex = 0;
+            }
+            latestItemStack.setCount(callGetStack().getCount());
+            callSetStack(latestItemStack);
+            return;
         }
-        //updateRecipe(latestOutRecipes);
+
+        tagItemIndex++;
+        if (tagItemIndex > maxTagItemIndex) {
+            tagItemIndex = 0;
+            recipeIndex++;
+            int maxIndex = latestOutRecipes.size() - 1;
+            if (recipeIndex > maxIndex) {
+                recipeIndex = 0;
+            }
+        }
         latestItemStack.setCount(callGetStack().getCount());
         callSetStack(latestItemStack);
     }
 
-    public void removeRecipeIndex() {
+    public void prevRecipeIndex() {
         if (latestOutRecipes.isEmpty()) return;
         if (latestItemStack.isEmpty()) return;
-        recipeIndex--;
-        int maxIndex = latestOutRecipes.size() - 1;
-        if (recipeIndex < 0) {
-            recipeIndex = maxIndex;
+
+        int maxTagItemIndex = getMaxTagItemIndex();
+        if (maxTagItemIndex == 0) {
+            tagItemIndex = 0;
+            recipeIndex--;
+            int maxIndex = latestOutRecipes.size() - 1;
+            if (recipeIndex < 0) {
+                recipeIndex = maxIndex;
+            }
+            latestItemStack.setCount(callGetStack().getCount());
+            callSetStack(latestItemStack);
+            return;
+        }
+
+        tagItemIndex--;
+        if (tagItemIndex < 0) {
+            tagItemIndex = maxTagItemIndex;
+            recipeIndex--;
+            int maxIndex = latestOutRecipes.size() - 1;
+            if (recipeIndex < 0) {
+                recipeIndex = maxIndex;
+            }
         }
         latestItemStack.setCount(callGetStack().getCount());
         callSetStack(latestItemStack);
@@ -87,6 +135,7 @@ public class InsertSlot extends CompatibleSlot {
         if (player.getWorld() == null) return;
         if (!latestItemStack.getItem().equals(stack.getItem()) && !latestItemStack.isEmpty()) {
             recipeIndex = 0;
+            tagItemIndex = 0;
         }
         World world = player.getWorld();
         List<Recipe<?>> recipes = RecipeUtil.getAllRecipes(world);
@@ -101,6 +150,12 @@ public class InsertSlot extends CompatibleSlot {
                 outRecipes.add(recipe);
             }
         }
+
+        if (outRecipes.size() != latestOutRecipes.size()) {
+            recipeIndex = 0;
+            tagItemIndex = 0;
+        }
+
         latestOutRecipes = outRecipes;
         if (outRecipes.isEmpty() || recipeIndex > outRecipes.size() - 1) return;
         CraftingRecipe recipe = (CraftingRecipe) outRecipes.get(recipeIndex);
@@ -109,15 +164,15 @@ public class InsertSlot extends CompatibleSlot {
             latestItemStack = stack.copy();
 
         List<Ingredient> ingredients = prettyRecipe(recipe);
-        setOutStack(0, itemIndex, ingredients, 1);
-        setOutStack(1, itemIndex, ingredients, 1);
-        setOutStack(2, itemIndex, ingredients, 1);
-        setOutStack(3, itemIndex, ingredients, 1);
-        setOutStack(4, itemIndex, ingredients, 1);
-        setOutStack(5, itemIndex, ingredients, 1);
-        setOutStack(6, itemIndex, ingredients, 1);
-        setOutStack(7, itemIndex, ingredients, 1);
-        setOutStack(8, itemIndex, ingredients, 1);
+        setOutStack(0, tagItemIndex, ingredients, 1);
+        setOutStack(1, tagItemIndex, ingredients, 1);
+        setOutStack(2, tagItemIndex, ingredients, 1);
+        setOutStack(3, tagItemIndex, ingredients, 1);
+        setOutStack(4, tagItemIndex, ingredients, 1);
+        setOutStack(5, tagItemIndex, ingredients, 1);
+        setOutStack(6, tagItemIndex, ingredients, 1);
+        setOutStack(7, tagItemIndex, ingredients, 1);
+        setOutStack(8, tagItemIndex, ingredients, 1);
     }
 
     /**
@@ -160,6 +215,9 @@ public class InsertSlot extends CompatibleSlot {
 
     @Override
     public ItemStack callTakeStack(int amount) {
+        if (callGetStack().getCount() == amount)
+            updateOutSlot(ItemStack.EMPTY);
+
         return super.callTakeStack(amount);
     }
 
@@ -180,7 +238,12 @@ public class InsertSlot extends CompatibleSlot {
             if (index >= ingredients.size() || ingredients.isEmpty()) return;
 
             Ingredient input = ingredients.get(index);
-            if (input.getMatchingItemIds().isEmpty() || id >= input.getMatchingItemIds().size()) return;
+
+            if (id >= input.getMatchingItemIds().size()) {
+                id = 0;
+            }
+
+            if (input.getMatchingItemIds().isEmpty()) return;
             callGetInventory().setStack(index + 1, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
             callGetInventory().getStack(index + 1).setCount(count);
 

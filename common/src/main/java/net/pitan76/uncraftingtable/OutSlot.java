@@ -33,7 +33,7 @@ public class OutSlot extends CompatibleSlot {
         int needXp = Config.config.getIntOrDefault("consume_xp", 0);
         if (needXp != 0 && !insertSlot.player.isCreative()) {
             if (needXp > insertSlot.player.getPlayerEntity().totalExperience) {
-                insertSlot.player.getPlayerEntity().sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"), false);
+                insertSlot.player.sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"));
                 return ItemStack.EMPTY;
             }
         }
