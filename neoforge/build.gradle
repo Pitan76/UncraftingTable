@@ -41,7 +41,7 @@ processResources {
         expand "version": project.version
     }
 
-    filesMatching("META-INF/neo.mods.toml") {
+    filesMatching("META-INF/neoforge.mods.toml") {
         expand "version": project.version
     }
 }
