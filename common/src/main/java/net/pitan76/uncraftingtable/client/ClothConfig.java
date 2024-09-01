@@ -9,8 +9,6 @@ import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import static net.pitan76.uncraftingtable.Config.*;
 
-;
-
 public class ClothConfig {
     public static Screen create(Screen screen) {
         ConfigBuilder builder = ConfigBuilder.create()

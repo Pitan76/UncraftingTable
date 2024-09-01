@@ -3,32 +3,26 @@ package net.pitan76.uncraftingtable;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.network.ServerNetworking;
-import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
-import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
+import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.pitan76.mcpitanlib.api.util.Logger;
 
 public class UncraftingTable {
 
     public static final String MOD_ID = "uncraftingtable76";
     public static final String MOD_NAME = "UncraftingTable";
 
-    public static Logger LOGGER = LogManager.getLogger();
-    public static void log(Level level, String message){
-        LOGGER.log(level, "[" + MOD_NAME + "] " + message);
-    }
+    public static Logger LOGGER = new Logger(MOD_NAME);
 
-    public static final CompatRegistry registry = CompatRegistry.createRegistry(MOD_ID);
+    public static final CompatRegistryV2 registry = CompatRegistryV2.create(MOD_ID);
 
     public static RegistryResult<ScreenHandlerType<?>> UNCRAFTING_TABLE_MENU;
 
@@ -36,7 +30,7 @@ public class UncraftingTable {
         RegistryResult<Block> UNCRAFTING_TABLE = registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
         registry.registerItem(id("uncraftingtable"), () -> ItemUtil.ofBlock(UNCRAFTING_TABLE.getOrNull(), CompatibleItemSettings.of()
                 // 1.19.3～
-                .addGroup(() -> DefaultItemGroups.FUNCTIONAL, id("uncraftingtable"))
+                .addGroup(() -> DefaultItemGroups.FUNCTIONAL, id("uncraftingtable").toMinecraft())
                 // ～1.19.2
                 .addGroup(DefaultItemGroups.DECORATIONS)
                 )
@@ -45,7 +39,7 @@ public class UncraftingTable {
 
         UncraftingScreenHandler.init();
 
-        ServerNetworking.registerReceiver(id("network"), ((server, p, buf) -> {
+        ServerNetworking.registerReceiver(id("network").toMinecraft(), ((server, p, buf) -> {
             NbtCompound nbt = PacketByteUtil.readNbt(buf);
             if (nbt.contains("control")) {
                 Player player = new Player(p);
@@ -74,7 +68,11 @@ public class UncraftingTable {
         registry.allRegister();
     }
 
-    public static Identifier id(String id) {
-        return IdentifierUtil.id(MOD_ID, id);
+    public static CompatIdentifier id(String id) {
+        return CompatIdentifier.of(MOD_ID, id);
+    }
+
+    public static void log(String message){
+        LOGGER.info("[" + MOD_NAME + "] " + message);
     }
 }

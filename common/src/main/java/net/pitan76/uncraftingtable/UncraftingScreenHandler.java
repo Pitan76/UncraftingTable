@@ -63,7 +63,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             super.overrideOnSlotClick(slotIndex, button, actionType, player);
             return;
         }
-        Slot slot = ScreenHandlerUtil.getSlots(this).get(slotIndex);
+        Slot slot = ScreenHandlerUtil.getSlot(this, slotIndex);
         if (!(slot instanceof OutSlot)) {
             super.overrideOnSlotClick(slotIndex, button, actionType, player);
             return;
@@ -76,6 +76,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     public ItemStack quickMoveOverride(Player player, int index) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = ScreenHandlerUtil.getSlot(this, index);
+
         if (slot.hasStack()) {
             // 経験値の確認
             if (slot instanceof OutSlot) {
@@ -116,9 +117,9 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
 
     @Override
     public boolean canInsertIntoSlot(Slot slot) {
-        if (slot instanceof OutSlot) {
+        if (slot instanceof OutSlot)
             return false;
-        }
+
         return super.canInsertIntoSlot(slot);
     }
 

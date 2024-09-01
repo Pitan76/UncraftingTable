@@ -55,10 +55,8 @@ subprojects {
                     if (modLoader == "neoforge") {
                         addGameVersion "NeoForge"
                     }
-                    if (modLoader == "neoforge") {
-                        addGameVersion '1.20.3'
-                        addGameVersion '1.20.4'
-                    } else {
+
+                    if (modLoader != "neoforge") {
                         addGameVersion '1.18.1'
                         addGameVersion '1.18.2'
                         addGameVersion '1.19'
@@ -66,9 +64,12 @@ subprojects {
                         addGameVersion '1.19.2'
                         addGameVersion '1.20'
                         addGameVersion '1.20.1'
-                        addGameVersion '1.20.3'
-                        addGameVersion '1.20.4'
                     }
+                    addGameVersion '1.20.3'
+                    addGameVersion '1.20.4'
+                    addGameVersion '1.20.6'
+                    addGameVersion '1.21'
+                    addGameVersion '1.21.1'
 
                     relations {
                         if (modLoader == "fabric") {
@@ -91,9 +92,9 @@ subprojects {
                 token = System.getenv("MODRINTH_TOKEN")
                 projectId = 'd0f1a75r'
                 versionNumber = project.mod_version + "-" + modLoader
-                gameVersions = ['1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.20', '1.20.1', '1.20.3', '1.20.4']
+                gameVersions = ['1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.20', '1.20.1', '1.20.3', '1.20.4', '1.21', '1.21.1']
                 if (modLoader == "neoForge") {
-                    gameVersions = ['1.20.3', '1.20.4']
+                    gameVersions = ['1.20.3', '1.20.4', '1.21', '1.21.1']
                 }
                 versionType = 'release'
                 uploadFile = tasks.remapJar
