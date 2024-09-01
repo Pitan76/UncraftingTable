@@ -40,6 +40,10 @@ processResources {
     filesMatching("META-INF/mods.toml") {
         expand "version": project.version
     }
+
+    filesMatching("META-INF/neo.mods.toml") {
+        expand "version": project.version
+    }
 }
 
 shadowJar {

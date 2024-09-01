@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[0,)"
+loaderVersion = "[1,)"
 license = "MIT"
 issueTrackerURL = "https://github.com/PTOM76/uncraftingtable/issues"
 
@@ -16,28 +16,21 @@ Add an uncrafting table, allowing you to uncraft items and get back the material
 
 [[dependencies.uncraftingtable76]]
 modId = "neoforge"
-type="required"
-versionRange = "[0,)"
+type = "required"
+versionRange = "[20,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.uncraftingtable76]]
 modId = "minecraft"
-type="required"
-versionRange = "[0,)"
+type = "required"
+versionRange = "[1.20,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.uncraftingtable76]]
-modId = "architectury"
-type="required"
-versionRange = "[0,)"
-ordering = "BEFORE"
-side = "BOTH"
-
-[[dependencies.uncraftingtable76]]
 modId = "mcpitanlib"
-type="required"
+type = "required"
 versionRange = "[2.0.0,)"
 ordering = "BEFORE"
 side = "BOTH"
