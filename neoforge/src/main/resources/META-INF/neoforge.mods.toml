@@ -1,0 +1,43 @@
+modLoader = "javafml"
+loaderVersion = "[0,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/PTOM76/uncraftingtable/issues"
+
+[[mods]]
+modId = "uncraftingtable76"
+version = "${version}"
+displayName = "Uncrafting Table"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/simple-uncrafting-table-fabric"
+logoFile = "icon.png"
+authors = "Pitan"
+description = '''
+Add an uncrafting table, allowing you to uncraft items and get back the materials used to craft them.
+'''
+
+[[dependencies.uncraftingtable76]]
+modId = "neoforge"
+type="required"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.uncraftingtable76]]
+modId = "minecraft"
+type="required"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.uncraftingtable76]]
+modId = "architectury"
+type="required"
+versionRange = "[0,)"
+ordering = "BEFORE"
+side = "BOTH"
+
+[[dependencies.uncraftingtable76]]
+modId = "mcpitanlib"
+type="required"
+versionRange = "[2.0.0,)"
+ordering = "BEFORE"
+side = "BOTH"
