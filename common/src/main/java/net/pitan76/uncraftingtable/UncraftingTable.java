@@ -25,9 +25,10 @@ public class UncraftingTable {
     public static final CompatRegistryV2 registry = CompatRegistryV2.create(MOD_ID);
 
     public static RegistryResult<ScreenHandlerType<?>> UNCRAFTING_TABLE_MENU;
+    public static RegistryResult<Block> UNCRAFTING_TABLE;
 
     public static void init() {
-        RegistryResult<Block> UNCRAFTING_TABLE = registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
+        UNCRAFTING_TABLE = registry.registerBlock(id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
         registry.registerItem(id("uncraftingtable"), () -> ItemUtil.ofBlock(UNCRAFTING_TABLE.getOrNull(), CompatibleItemSettings.of()
                 // 1.19.3～
                 .addGroup(() -> DefaultItemGroups.FUNCTIONAL, id("uncraftingtable").toMinecraft())

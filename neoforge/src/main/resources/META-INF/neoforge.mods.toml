@@ -34,3 +34,10 @@ type = "required"
 versionRange = "[2.0.0,)"
 ordering = "BEFORE"
 side = "BOTH"
+
+[[dependencies.uncraftingtable76]]
+modId = "architectury"
+type = "required"
+versionRange = "[10.0.11,)"
+ordering = "BEFORE"
+side = "BOTH"
