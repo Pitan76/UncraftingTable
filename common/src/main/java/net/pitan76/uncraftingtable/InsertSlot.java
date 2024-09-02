@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 
@@ -25,7 +26,7 @@ public class InsertSlot extends CompatibleSlot {
     public int tagItemIndex = 0;
 
     public List<Recipe<?>> latestOutRecipes = new ArrayList<>();
-    public ItemStack latestItemStack = ItemStack.EMPTY;
+    public ItemStack latestItemStack = ItemStackUtil.empty();
 
     // OutSlotでGetできるかどうか。(バグ対策)
     public boolean canGet = true;
@@ -124,7 +125,7 @@ public class InsertSlot extends CompatibleSlot {
         if (player.isClient()) return;
 
         for (int i = 1; i < 10; ++i)
-            ((OutSlot)((UncraftingScreenHandler) player.getCurrentScreenHandler()).callGetSlot(i)).superSetStack(ItemStack.EMPTY);
+            ((OutSlot)((UncraftingScreenHandler) player.getCurrentScreenHandler()).callGetSlot(i)).superSetStack(ItemStackUtil.empty());
         if (stack.isEmpty()) return;
         if (!Config.config.getBooleanOrDefault("uncraft_damaged_item", true)) {
             int damage = stack.getDamage();
@@ -216,7 +217,7 @@ public class InsertSlot extends CompatibleSlot {
     @Override
     public ItemStack callTakeStack(int amount) {
         if (callGetStack().getCount() == amount)
-            updateOutSlot(ItemStack.EMPTY);
+            updateOutSlot(ItemStackUtil.empty());
 
         return super.callTakeStack(amount);
     }
@@ -249,7 +250,7 @@ public class InsertSlot extends CompatibleSlot {
 
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             canGet = false;
-            callGetInventory().setStack(index + 1, ItemStack.EMPTY);
+            callGetInventory().setStack(index + 1, ItemStackUtil.empty());
         }
         canGet = true;
     }

@@ -7,6 +7,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.api.util.SlotUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
@@ -74,17 +75,17 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
 
     @Override
     public ItemStack quickMoveOverride(Player player, int index) {
-        ItemStack newStack = ItemStack.EMPTY;
+        ItemStack newStack = ItemStackUtil.empty();
         Slot slot = ScreenHandlerUtil.getSlot(this, index);
 
-        if (slot.hasStack()) {
+        if (SlotUtil.hasStack(slot)) {
             // 経験値の確認
             if (slot instanceof OutSlot) {
                 int needXp = Config.config.getIntOrDefault("consume_xp", 0);
                 if (needXp != 0 && !player.isCreative()) {
                     if (needXp > player.getPlayerEntity().totalExperience) {
                         player.sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"));
-                        return ItemStack.EMPTY;
+                        return ItemStackUtil.empty();
                     }
                 }
             }
@@ -96,19 +97,19 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             if (index < this.uncraftingInventory.size()) {
                 // InsertSlot, OutSlot -> Player Inventory
                 if (!this.callInsertItem(originalStack, this.uncraftingInventory.size(), ScreenHandlerUtil.getSlots(this).size(), true)) {
-                    return ItemStack.EMPTY;
+                    return ItemStackUtil.empty();
                 }
             } else if (!this.callInsertItem(originalStack, 0, 1, false)) {
-                return ItemStack.EMPTY;
+                return ItemStackUtil.empty();
             } else {
                 // Player Inventory → InsertSlot, OutSlot
                 uncraftingInventory.insertSlot.updateOutSlot(uncraftingInventory.insertSlot.callGetStack());
             }
 
             if (originalStack.isEmpty()) {
-                SlotUtil.setStack(slot, ItemStack.EMPTY);
+                SlotUtil.setStack(slot, ItemStackUtil.empty());
             } else {
-                slot.markDirty();
+                SlotUtil.markDirty(slot);
             }
 
         }
