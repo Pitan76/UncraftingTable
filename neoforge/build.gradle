@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 architectury {
     platformSetupLoomIde()
@@ -32,9 +32,7 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_api_version}") {
         exclude group: "net.fabricmc", module: "fabric-loader"
     }
-    modApi("net.pitan76:mcpitanlib-neoforge${rootProject.mcpitanlib_version}") {
-        exclude group: "dev.architectury", module: "architectury-neoforge"
-    }
+    modApi("net.pitan76:mcpitanlib-neoforge${rootProject.mcpitanlib_version}")
 }
 
 processResources {
