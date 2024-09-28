@@ -1,4 +1,4 @@
-# UncraftingTable (Fabric/Forge)
+# UncraftingTable (Fabric/Forge/NeoForge)
 
 CurseForge: https://www.curseforge.com/minecraft/mc-mods/simple-uncrafting-table-fabric
 <br />
