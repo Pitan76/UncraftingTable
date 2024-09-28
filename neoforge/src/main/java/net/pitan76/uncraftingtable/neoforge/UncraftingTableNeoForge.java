@@ -1,5 +1,6 @@
 package net.pitan76.uncraftingtable.neoforge;
 
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
