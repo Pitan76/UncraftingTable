@@ -53,7 +53,7 @@ public class OutSlot extends CompatibleSlot {
             int cursorCount = insertSlot.player.getCursorStack().getCount();
             insertSlot.player.getCursorStack().setCount(0);
 
-            if (Config.config.getBoolean("restore_enchantment_book") && !insertSlot.bookSlot.callGetStack().isEmpty()) {
+            if (Config.config.getBooleanOrDefault("restore_enchantment_book", true) && !insertSlot.bookSlot.callGetStack().isEmpty()) {
                 ItemStack insertStack = insertSlot.callGetStack();
                 if (EnchantmentUtil.hasEnchantment(insertStack)) {
                     ItemStack book = new ItemStack(Items.ENCHANTED_BOOK, 1);

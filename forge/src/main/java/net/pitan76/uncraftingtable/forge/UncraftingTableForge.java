@@ -18,6 +18,6 @@ public class UncraftingTableForge {
         bus.addListener(UncraftingTableForgeClient::clientInit);
 
         Config.init(FMLPaths.CONFIGDIR.get().toFile());
-        UncraftingTable.init();
+        new UncraftingTable();
     }
 }

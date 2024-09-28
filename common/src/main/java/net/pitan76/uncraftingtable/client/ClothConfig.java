@@ -31,7 +31,7 @@ public class ClothConfig {
                 .setDefaultValue(true)
                 .setSaveConsumer(newValue -> config.setBoolean("uncraft_damaged_item", newValue))
                 .build());
-        general.addEntry(entryBuilder.startBooleanToggle(TextUtil.translatable("option.uncraftingtable76.restore_enchantment_book"), config.getBoolean("restore_enchantment_book"))
+        general.addEntry(entryBuilder.startBooleanToggle(TextUtil.translatable("option.uncraftingtable76.restore_enchantment_book"), config.getBooleanOrDefault("restore_enchantment_book", true))
                 .setDefaultValue(true)
                 .setSaveConsumer(newValue -> config.setBoolean("restore_enchantment_book", newValue))
                 .build());

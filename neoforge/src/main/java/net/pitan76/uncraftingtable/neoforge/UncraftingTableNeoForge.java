@@ -13,15 +13,15 @@ import net.pitan76.uncraftingtable.client.UncraftingScreen;
 public class UncraftingTableNeoForge {
     public UncraftingTableNeoForge(ModContainer modContainer) {
         Config.init(FMLPaths.CONFIGDIR.get().toFile());
-        IEventBus modEventBus = modContainer.getEventBus();
+        IEventBus bus = modContainer.getEventBus();
 
-        if (modEventBus == null)
+        if (bus == null)
             throw new IllegalStateException("modEventBus is null");
 
-        UncraftingTable.init();
+        new UncraftingTable();
 
         //modEventBus.addListener(UncraftingTableNeoForgeClient::clientInit);
-        modEventBus.addListener(this::registerScreens);
+        bus.addListener(this::registerScreens);
     }
 
     private void registerScreens(RegisterMenuScreensEvent event) {

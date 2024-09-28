@@ -11,7 +11,7 @@ public class UncraftingTableFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         Config.init(FabricLoader.getInstance().getConfigDir().toFile());
-        UncraftingTable.init();
+        new UncraftingTable();
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
             UncraftingTableClient.init();
     }

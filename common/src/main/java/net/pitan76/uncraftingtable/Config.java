@@ -24,9 +24,9 @@ public class Config {
         config.setBoolean("restore_enchantment_book", true);
         config.setBoolean("disable_uncrafting_uu_matter", false);
 
-        if (!FileControl.fileExists(getConfigFile())) {
-            config.save(getConfigFile());
-        }
+        if (!FileControl.fileExists(getConfigFile()))
+            config.save(getConfigFile(), true);
+
         config.load(getConfigFile());
     }
     public static File getConfigFile() {

@@ -1,10 +1,10 @@
 package net.pitan76.uncraftingtable;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.SimpleInventory;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatInventory;
 
-public class UncraftingInventory extends SimpleInventory {
+public class UncraftingInventory extends CompatInventory {
     public UncraftingInventory() {
         super(10);
     }

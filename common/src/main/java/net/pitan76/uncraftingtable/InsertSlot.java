@@ -1,5 +1,6 @@
 package net.pitan76.uncraftingtable;
 
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
@@ -10,10 +11,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
-import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
-import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
-import net.pitan76.mcpitanlib.api.util.ItemUtil;
-import net.pitan76.mcpitanlib.api.util.RecipeUtil;
+import net.pitan76.mcpitanlib.api.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +42,8 @@ public class InsertSlot extends CompatibleSlot {
 
         int max = 0;
         for (Ingredient ingredient : latestOutRecipes.get(recipeIndex).getIngredients()) {
-            if (ingredient.getMatchingItemIds().size() - 1 > max) {
-                max = ingredient.getMatchingItemIds().size() - 1;
+            if (IngredientUtil.getMatchingStacksIds(ingredient).size() - 1 > max) {
+                max = IngredientUtil.getMatchingStacksIds(ingredient).size() - 1;
             }
         }
         return max;
@@ -114,8 +112,8 @@ public class InsertSlot extends CompatibleSlot {
     public static boolean ingredientsContains(DefaultedList<Ingredient> ingredients, Item item) {
         for (Ingredient ingredient : ingredients) {
             if (ingredient.isEmpty()) continue;
-            for (int id : ingredient.getMatchingItemIds()) {
-                if (Item.byRawId(id).equals(item)) return true;
+            for (int id : IngredientUtil.getMatchingStacksIds(ingredient)) {
+                if (ItemUtil.fromIndex(id).equals(item)) return true;
             }
         }
         return false;
@@ -240,12 +238,14 @@ public class InsertSlot extends CompatibleSlot {
 
             Ingredient input = ingredients.get(index);
 
-            if (id >= input.getMatchingItemIds().size()) {
+            IntList matchingStacksIds = IngredientUtil.getMatchingStacksIds(input);
+
+            if (id >= matchingStacksIds.size()) {
                 id = 0;
             }
 
-            if (input.getMatchingItemIds().isEmpty()) return;
-            callGetInventory().setStack(index + 1, RecipeMatcher.getStackFromId(input.getMatchingItemIds().getInt(id)));
+            if (matchingStacksIds.isEmpty()) return;
+            callGetInventory().setStack(index + 1, RecipeMatcher.getStackFromId(matchingStacksIds.getInt(id)));
             callGetInventory().getStack(index + 1).setCount(count);
 
         } catch (NullPointerException | IndexOutOfBoundsException e) {

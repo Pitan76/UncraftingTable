@@ -7,6 +7,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
+import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.api.util.SlotUtil;
@@ -36,7 +37,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
         }
 
         // Book Slot
-        if (Config.config.getBoolean("restore_enchantment_book")) {
+        if (Config.config.getBooleanOrDefault("restore_enchantment_book", true)) {
             BookSlot bookSlot = new BookSlot(bookInventory, 0, 8, 35, new Player(playerInventory.player));
             bookInventory.setBookSlot(bookSlot);
             insertSlot.bookSlot = bookSlot;
@@ -46,11 +47,11 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
         // Player Inventory
         for (m = 0; m < 3; ++m) {
             for (l = 0; l < 9; ++l) {
-                callAddSlot(new Slot(playerInventory, l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
+                callAddSlot(new CompatibleSlot(playerInventory, l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
             }
         }
         for (m = 0; m < 9; ++m) {
-            callAddSlot(new Slot(playerInventory, m, 8 + m * 18, 142));
+            callAddSlot(new CompatibleSlot(playerInventory, m, 8 + m * 18, 142));
         }
     }
 
