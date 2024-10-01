@@ -16,6 +16,8 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
 
+import java.util.function.Supplier;
+
 public class UncraftingTable extends CommonModInitializer {
 
     public static final String MOD_ID = "uncraftingtable76";
@@ -24,7 +26,7 @@ public class UncraftingTable extends CommonModInitializer {
     public static CompatRegistryV2 registry;
     public static UncraftingTable INSTANCE;
 
-    public static RegistryResult<ScreenHandlerType<?>> UNCRAFTING_TABLE_MENU;
+    public static Supplier<ScreenHandlerType<UncraftingScreenHandler>> UNCRAFTING_TABLE_MENU;
     public static RegistryResult<Block> UNCRAFTING_TABLE;
 
     @Override
@@ -40,7 +42,7 @@ public class UncraftingTable extends CommonModInitializer {
                 .addGroup(DefaultItemGroups.DECORATIONS)
                 )
         );
-        UNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(_id("uncraftingtable"), () -> new SimpleScreenHandlerTypeBuilder<>(UncraftingScreenHandler::new).build());
+        UNCRAFTING_TABLE_MENU = registry.registerScreenHandlerTypeSavingGenerics(_id("uncraftingtable"), () -> new SimpleScreenHandlerTypeBuilder<>(UncraftingScreenHandler::new).build());
 
         UncraftingScreenHandler.init();
 

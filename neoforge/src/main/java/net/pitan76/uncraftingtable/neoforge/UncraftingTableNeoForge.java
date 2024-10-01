@@ -1,31 +1,25 @@
 package net.pitan76.uncraftingtable.neoforge;
 
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.pitan76.uncraftingtable.Config;
 import net.pitan76.uncraftingtable.UncraftingTable;
-import net.pitan76.uncraftingtable.client.UncraftingScreen;
+import net.pitan76.uncraftingtable.neoforge.client.UncraftingTableNeoForgeClient;
 
 @Mod(UncraftingTable.MOD_ID)
 public class UncraftingTableNeoForge {
     public UncraftingTableNeoForge(ModContainer modContainer) {
-        Config.init(FMLPaths.CONFIGDIR.get().toFile());
-        IEventBus bus = modContainer.getEventBus();
+        this(modContainer, modContainer.getEventBus());
+    }
 
-        if (bus == null)
-            throw new IllegalStateException("modEventBus is null");
+    public UncraftingTableNeoForge(ModContainer modContainer, IEventBus bus) {
+        Config.init(FMLPaths.CONFIGDIR.get().toFile());
+        if (bus == null) throw new IllegalStateException("bus is null");
 
         new UncraftingTable();
 
-        //modEventBus.addListener(UncraftingTableNeoForgeClient::clientInit);
-        bus.addListener(this::registerScreens);
-    }
-
-    private void registerScreens(RegisterMenuScreensEvent event) {
-        event.register(UncraftingTable.UNCRAFTING_TABLE_MENU.get(), UncraftingScreen::new);
+        bus.addListener(UncraftingTableNeoForgeClient::clientInit);
     }
 }

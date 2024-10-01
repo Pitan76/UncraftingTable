@@ -19,7 +19,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     public final BookInventory bookInventory;
 
     public UncraftingScreenHandler(int syncId, PlayerInventory playerInventory) {
-        super(UncraftingTable.UNCRAFTING_TABLE_MENU.getOrNull(), syncId);
+        super(UncraftingTable.UNCRAFTING_TABLE_MENU.get(), syncId);
         uncraftingInventory = new UncraftingInventory();
         bookInventory = new BookInventory();
         int m, l;

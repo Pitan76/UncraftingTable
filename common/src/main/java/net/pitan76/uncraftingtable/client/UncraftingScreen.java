@@ -3,9 +3,8 @@ package net.pitan76.uncraftingtable.client;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.pitan76.mcpitanlib.api.client.CompatInventoryScreen;
+import net.pitan76.mcpitanlib.api.client.gui.screen.CompatInventoryScreen;
 import net.pitan76.mcpitanlib.api.network.v2.ClientNetworking;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -16,18 +15,18 @@ import net.pitan76.uncraftingtable.InsertSlot;
 import net.pitan76.uncraftingtable.UncraftingScreenHandler;
 import net.pitan76.uncraftingtable.UncraftingTable;
 
-public class UncraftingScreen extends CompatInventoryScreen {
+public class UncraftingScreen extends CompatInventoryScreen<UncraftingScreenHandler> {
 
     private final UncraftingScreenHandler handler;
 
     public static CompatIdentifier GUI = UncraftingTable._id("textures/gui/uncrafting_table.png");
 
-    public UncraftingScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public UncraftingScreen(UncraftingScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         setBackgroundWidth(176);
         setBackgroundHeight(166);
 
-        this.handler = (UncraftingScreenHandler) handler;
+        this.handler = handler;
     }
 
     @Override

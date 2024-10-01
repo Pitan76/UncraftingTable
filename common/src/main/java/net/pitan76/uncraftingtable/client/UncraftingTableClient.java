@@ -5,6 +5,6 @@ import net.pitan76.uncraftingtable.UncraftingTable;
 
 public class UncraftingTableClient {
     public static void init() {
-        CompatRegistryClient.registerScreen(UncraftingTable.MOD_ID, UncraftingTable.UNCRAFTING_TABLE_MENU.getOrNull(), UncraftingScreen::new);
+        CompatRegistryClient.registerScreen(UncraftingTable.MOD_ID, UncraftingTable.UNCRAFTING_TABLE_MENU.get(), UncraftingScreen::new);
     }
 }
