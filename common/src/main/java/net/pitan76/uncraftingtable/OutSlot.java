@@ -33,7 +33,7 @@ public class OutSlot extends CompatibleSlot {
     public ItemStack callTakeStack(int amount) {
         int needXp = Config.config.getIntOrDefault("consume_xp", 0);
         if (needXp != 0 && !insertSlot.player.isCreative()) {
-            if (needXp > insertSlot.player.getPlayerEntity().totalExperience) {
+            if (needXp > insertSlot.player.getTotalExperience()) {
                 insertSlot.player.sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"));
                 return ItemStackUtil.empty();
             }
@@ -47,7 +47,7 @@ public class OutSlot extends CompatibleSlot {
         if (!insertSlot.player.getWorld().isClient() && stack.isEmpty() && insertSlot.canGet) {
             int needXp = Config.config.getInt("consume_xp");
             if (needXp != 0 && !insertSlot.player.isCreative()) {
-                insertSlot.player.getPlayerEntity().addExperience(-needXp);
+                insertSlot.player.addExperience(-needXp);
             }
 
             int cursorCount = insertSlot.player.getCursorStack().getCount();
@@ -56,7 +56,7 @@ public class OutSlot extends CompatibleSlot {
             if (Config.config.getBooleanOrDefault("restore_enchantment_book", true) && !insertSlot.bookSlot.callGetStack().isEmpty()) {
                 ItemStack insertStack = insertSlot.callGetStack();
                 if (EnchantmentUtil.hasEnchantment(insertStack)) {
-                    ItemStack book = new ItemStack(Items.ENCHANTED_BOOK, 1);
+                    ItemStack book = ItemStackUtil.create(Items.ENCHANTED_BOOK, 1);
                     Map<CompatEnchantment, Integer> enchantMap = EnchantmentUtil.getEnchantment(insertStack, insertSlot.player.getWorld());
 
                     EnchantmentUtil.setEnchantment(book, enchantMap, insertSlot.player.getWorld());
@@ -81,7 +81,7 @@ public class OutSlot extends CompatibleSlot {
             if (cursorCount > 0)
                 insertSlot.player.getCursorStack().setCount(cursorCount);
         }
-        if (insertSlot.player.getWorld().isClient()) {
+        if (insertSlot.player.isClient()) {
             insertSlot.callMarkDirty();
         }
     }

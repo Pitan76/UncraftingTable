@@ -12,7 +12,6 @@ import net.pitan76.mcpitanlib.api.event.block.ScreenHandlerCreateEvent;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
-import org.jetbrains.annotations.Nullable;
 
 public class UncraftingTableBlock extends ExtendBlock {
 
@@ -45,12 +44,12 @@ public class UncraftingTableBlock extends ExtendBlock {
     }
 
     @Override
-    public @Nullable ScreenHandler createScreenHandler(ScreenHandlerCreateEvent e) {
+    public ScreenHandler createScreenHandler(ScreenHandlerCreateEvent e) {
         return new UncraftingScreenHandler(e.syncId, e.inventory);
     }
 
     @Override
-    public @Nullable Text getScreenTitle() {
+    public Text getScreenTitle() {
         return TITLE;
     }
 }

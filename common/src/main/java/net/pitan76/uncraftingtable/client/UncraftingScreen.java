@@ -40,7 +40,7 @@ public class UncraftingScreen extends CompatInventoryScreen<UncraftingScreenHand
         GUI = Config.config.getBooleanOrDefault("restore_enchantment_book", true) ?
                 UncraftingTable._id("textures/gui/uncrafting_table.png") : UncraftingTable._id("textures/gui/uncrafting_table_nobook.png");
 
-        this.addDrawableCTBW(ScreenUtil.createTexturedButtonWidget(x + 31,  y + 58, 12, 12, 0, 168, 16, GUI.toMinecraft(), (buttonWidget) -> {
+        this.addDrawableCTBW(ScreenUtil.createTexturedButtonWidget(x + 31,  y + 58, 12, 12, 0, 168, 16, GUI, (buttonWidget) -> {
             // クライアントの反映
             if (handler.callGetSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.callGetSlot(0);
@@ -56,7 +56,7 @@ public class UncraftingScreen extends CompatInventoryScreen<UncraftingScreenHand
             ClientNetworking.send(UncraftingTable._id("network"), buf);
         }));
 
-        this.addDrawableCTBW(ScreenUtil.createTexturedButtonWidget( x + 45, y + 58, 12, 12, 16, 168, 16, GUI.toMinecraft(), (buttonWidget) -> {
+        this.addDrawableCTBW(ScreenUtil.createTexturedButtonWidget( x + 45, y + 58, 12, 12, 16, 168, 16, GUI, (buttonWidget) -> {
             // クライアントの反映
             if (handler.callGetSlot(0) instanceof InsertSlot) {
                 InsertSlot slot = (InsertSlot) handler.callGetSlot(0);

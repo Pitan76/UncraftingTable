@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.*;
+import net.pitan76.mcpitanlib.api.util.recipe.RecipeMatcherUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,8 +127,8 @@ public class InsertSlot extends CompatibleSlot {
             ((OutSlot)((UncraftingScreenHandler) player.getCurrentScreenHandler()).callGetSlot(i)).superSetStack(ItemStackUtil.empty());
         if (stack.isEmpty()) return;
         if (!Config.config.getBooleanOrDefault("uncraft_damaged_item", true)) {
-            int damage = stack.getDamage();
-            if (damage != 0 && damage != stack.getMaxDamage()) {
+            int damage = ItemStackUtil.getDamage(stack);
+            if (damage != 0 && damage != ItemStackUtil.getMaxDamage(stack)) {
                 return;
             }
         }
@@ -206,7 +207,7 @@ public class InsertSlot extends CompatibleSlot {
                     }
                 }
             }
-            ingredients.add(Ingredient.EMPTY);
+            ingredients.add(IngredientUtil.empty());
             empty++;
         }
         return ingredients;
@@ -245,7 +246,7 @@ public class InsertSlot extends CompatibleSlot {
             }
 
             if (matchingStacksIds.isEmpty()) return;
-            callGetInventory().setStack(index + 1, RecipeMatcher.getStackFromId(matchingStacksIds.getInt(id)));
+            callGetInventory().setStack(index + 1, RecipeMatcherUtil.getStackFromId(matchingStacksIds.getInt(id)));
             callGetInventory().getStack(index + 1).setCount(count);
 
         } catch (NullPointerException | IndexOutOfBoundsException e) {

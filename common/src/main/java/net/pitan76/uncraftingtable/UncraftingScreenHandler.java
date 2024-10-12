@@ -84,7 +84,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             if (slot instanceof OutSlot) {
                 int needXp = Config.config.getIntOrDefault("consume_xp", 0);
                 if (needXp != 0 && !player.isCreative()) {
-                    if (needXp > player.getPlayerEntity().totalExperience) {
+                    if (needXp > player.getTotalExperience()) {
                         player.sendMessage(TextUtil.translatable("message.uncraftingtable76.not_enough_xp"));
                         return ItemStackUtil.empty();
                     }

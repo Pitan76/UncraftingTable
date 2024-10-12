@@ -1,6 +1,5 @@
 package net.pitan76.uncraftingtable;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.util.inventory.CompatInventory;
 
@@ -15,15 +14,16 @@ public class UncraftingInventory extends CompatInventory {
         this.insertSlot = insertSlot;
     }
 
-    public void onOpen(PlayerEntity player) {
+    @Override
+    public void onOpen(Player player) {
         super.onOpen(player);
     }
 
-    public void onClose(PlayerEntity playerEntity) {
-        Player player = new Player(playerEntity);
+    @Override
+    public void onClose(Player player) {
         if (!insertSlot.callGetStack().isEmpty()) {
             insertSlot.player.offerOrDrop(insertSlot.callGetStack());
         }
-        super.onClose(player.getPlayerEntity());
+        super.onClose(player);
     }
 }
