@@ -21,12 +21,4 @@ public class UncraftingTableForge {
         Config.init(FMLPaths.CONFIGDIR.get().toFile());
         new UncraftingTable();
     }
-
-    public UncraftingTableForge(IEventBus bus) {
-        EventBuses.registerModEventBus(UncraftingTable.MOD_ID, bus);
-        bus.addListener(UncraftingTableForgeClient::clientInit);
-
-        Config.init(FMLPaths.CONFIGDIR.get().toFile());
-        new UncraftingTable();
-    }
 }

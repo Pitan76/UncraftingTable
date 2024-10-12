@@ -10,11 +10,10 @@ import net.pitan76.uncraftingtable.neoforge.client.UncraftingTableNeoForgeClient
 
 @Mod(UncraftingTable.MOD_ID)
 public class UncraftingTableNeoForge {
-    public UncraftingTableNeoForge(ModContainer modContainer) {
-        this(modContainer, modContainer.getEventBus());
-    }
 
-    public UncraftingTableNeoForge(ModContainer modContainer, IEventBus bus) {
+    public UncraftingTableNeoForge(ModContainer modContainer) {
+        IEventBus bus = modContainer.getEventBus();
+
         Config.init(FMLPaths.CONFIGDIR.get().toFile());
         if (bus == null) throw new IllegalStateException("bus is null");
 
