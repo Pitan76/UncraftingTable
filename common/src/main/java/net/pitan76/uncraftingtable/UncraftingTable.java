@@ -6,16 +6,17 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
+import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.network.v2.ServerNetworking;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
-import net.pitan76.mcpitanlib.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.util.MCVersionUtil;
+import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
+import net.pitan76.mcpitanlib.midohra.item.ItemGroups;
 
 public class UncraftingTable extends CommonModInitializer {
 
@@ -34,11 +35,9 @@ public class UncraftingTable extends CommonModInitializer {
         INSTANCE = this;
 
         UNCRAFTING_TABLE = registry.registerBlock(_id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
-        registry.registerItem(_id("uncraftingtable"), () -> ItemUtil.ofBlock(UNCRAFTING_TABLE.getOrNull(), CompatibleItemSettings.of()
-                // 1.19.3～
-                .addGroup(() -> DefaultItemGroups.FUNCTIONAL, _id("uncraftingtable"))
-                // ～1.19.2
-                .addGroup(DefaultItemGroups.DECORATIONS)
+        registry.registerItem(_id("uncraftingtable"), () -> ItemUtil.create(UNCRAFTING_TABLE.getOrNull(),
+                CompatibleItemSettings.of(_id("uncraftingtable"))
+                .addGroup(MCVersionUtil.getProtocolVersion() > 3200 ? ItemGroups.FUNCTIONAL : ItemGroups.DECORATIONS)
                 )
         );
         UNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(_id("uncraftingtable"), new SimpleScreenHandlerTypeBuilder<>(UncraftingScreenHandler::new));

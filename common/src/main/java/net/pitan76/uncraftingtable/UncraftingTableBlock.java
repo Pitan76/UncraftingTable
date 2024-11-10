@@ -1,32 +1,31 @@
 package net.pitan76.uncraftingtable;
 
+import net.pitan76.mcpitanlib.api.block.v2.BlockSettingsBuilder;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
-import net.pitan76.mcpitanlib.api.block.ExtendBlock;
+import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
 import net.pitan76.mcpitanlib.api.event.block.ScreenHandlerCreateEvent;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
-import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
+import net.pitan76.mcpitanlib.core.serialization.codecs.CompatBlockMapCodecUtil;
 
-public class UncraftingTableBlock extends ExtendBlock {
+import static net.pitan76.uncraftingtable.UncraftingTable._id;
 
-    public static final CompatMapCodec<UncraftingTableBlock> CODEC = CompatMapCodec.createCodecOfExtendBlock(
-            UncraftingTableBlock::new);
+public class UncraftingTableBlock extends CompatBlock {
 
-    @Override
-    public CompatMapCodec<? extends UncraftingTableBlock> getCompatCodec() {
-        return CODEC;
-    }
+    public static final CompatMapCodec<UncraftingTableBlock> CODEC = CompatBlockMapCodecUtil.createCodec(UncraftingTableBlock::new);
 
-    private static final Text TITLE = TextUtil.translatable("container.uncraftingtable76.uncrafting");
+    private static final TextComponent TITLE = TextComponent.translatable("container.uncraftingtable76.uncrafting");
 
-    public static UncraftingTableBlock UNCRAFTING_TABLE = new UncraftingTableBlock(CompatibleBlockSettings
-            .of(CompatibleMaterial.WOOD).strength(2.5F).sounds(CompatBlockSoundGroup.WOOD)
+    public static UncraftingTableBlock UNCRAFTING_TABLE = new UncraftingTableBlock(
+            new BlockSettingsBuilder(_id("uncraftingtable")).material(CompatibleMaterial.WOOD)
+                    .hardness(2.5F).sounds(CompatBlockSoundGroup.WOOD).build()
     );
 
     public UncraftingTableBlock(CompatibleBlockSettings settings) {
@@ -34,7 +33,7 @@ public class UncraftingTableBlock extends ExtendBlock {
     }
 
     @Override
-    public ActionResult onRightClick(BlockUseEvent e) {
+    public CompatActionResult onRightClick(BlockUseEvent e) {
         Player player = e.player;
         if (e.isClient())
             return e.success();
@@ -50,6 +49,6 @@ public class UncraftingTableBlock extends ExtendBlock {
 
     @Override
     public Text getScreenTitle() {
-        return TITLE;
+        return TITLE.getText();
     }
 }

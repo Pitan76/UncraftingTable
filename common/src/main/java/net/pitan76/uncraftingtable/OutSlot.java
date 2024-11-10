@@ -44,7 +44,7 @@ public class OutSlot extends CompatibleSlot {
     @Override
     public void callSetStack(ItemStack stack) {
         super.callSetStack(stack);
-        if (!insertSlot.player.getWorld().isClient() && stack.isEmpty() && insertSlot.canGet) {
+        if (!insertSlot.player.isClient() && stack.isEmpty() && insertSlot.canGet) {
             int needXp = Config.config.getInt("consume_xp");
             if (needXp != 0 && !insertSlot.player.isCreative()) {
                 insertSlot.player.addExperience(-needXp);
