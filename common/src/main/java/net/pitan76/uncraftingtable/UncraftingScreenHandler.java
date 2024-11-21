@@ -132,9 +132,8 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
 
     @Override
     public void close(Player player) {
-        PlayerEntity playerEntity = player.getPlayerEntity();
-        uncraftingInventory.onClose(playerEntity);
-        bookInventory.onClose(playerEntity);
+        uncraftingInventory.onClose(player);
+        bookInventory.onClose(player);
         super.close(player);
     }
 }
