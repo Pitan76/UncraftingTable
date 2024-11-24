@@ -1,14 +1,12 @@
 package net.pitan76.uncraftingtable.client;
 
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.client.gui.screen.CompatInventoryScreen;
 import net.pitan76.mcpitanlib.api.network.v2.ClientNetworking;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
-import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 import net.pitan76.uncraftingtable.Config;
 import net.pitan76.uncraftingtable.InsertSlot;
@@ -50,10 +48,8 @@ public class UncraftingScreen extends CompatInventoryScreen<UncraftingScreenHand
 
             // サーバーに送信
             PacketByteBuf buf = PacketByteUtil.create();
-            NbtCompound nbt = NbtUtil.create();
-            NbtUtil.putInt(nbt, "control", 0);
-            PacketByteUtil.writeNbt(buf, nbt);
-            ClientNetworking.send(UncraftingTable._id("network"), buf);
+            PacketByteUtil.writeInt(buf, 0);
+            ClientNetworking.send(UncraftingTable._id("network_ctrl"), buf);
         }));
 
         this.addDrawableCTBW(ScreenUtil.createTexturedButtonWidget( x + 45, y + 58, 12, 12, 16, 168, 16, GUI, (buttonWidget) -> {
@@ -66,10 +62,8 @@ public class UncraftingScreen extends CompatInventoryScreen<UncraftingScreenHand
 
             // サーバーに送信
             PacketByteBuf buf = PacketByteUtil.create();
-            NbtCompound nbt = NbtUtil.create();
-            NbtUtil.putInt(nbt, "control", 1);
-            PacketByteUtil.writeNbt(buf, nbt);
-            ClientNetworking.send(UncraftingTable._id("network"), buf);
+            PacketByteUtil.writeInt(buf, 1);
+            ClientNetworking.send(UncraftingTable._id("network_ctrl"), buf);
         }));
 
     }

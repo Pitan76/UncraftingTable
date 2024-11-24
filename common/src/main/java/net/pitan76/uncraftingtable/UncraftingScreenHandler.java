@@ -1,6 +1,5 @@
 package net.pitan76.uncraftingtable;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
@@ -12,6 +11,7 @@ import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.api.util.SlotUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 
 public class UncraftingScreenHandler extends SimpleScreenHandler {
 
@@ -19,11 +19,18 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     public final BookInventory bookInventory;
 
     public UncraftingScreenHandler(int syncId, PlayerInventory playerInventory) {
+        this(syncId, new CompatPlayerInventory(playerInventory));
+    }
+
+    public UncraftingScreenHandler(int syncId, CompatPlayerInventory playerInventory) {
         super(UncraftingTable.UNCRAFTING_TABLE_MENU.get(), syncId);
         uncraftingInventory = new UncraftingInventory();
         bookInventory = new BookInventory();
+
+        Player player = playerInventory.getPlayer();
+
         int m, l;
-        InsertSlot insertSlot = new InsertSlot(uncraftingInventory, 0, 36, 35, playerInventory.player);
+        InsertSlot insertSlot = new InsertSlot(uncraftingInventory, 0, 36, 35, player);
         uncraftingInventory.setInsertSlot(insertSlot);
         callAddSlot(insertSlot);
 
@@ -38,7 +45,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
 
         // Book Slot
         if (Config.config.getBooleanOrDefault("restore_enchantment_book", true)) {
-            BookSlot bookSlot = new BookSlot(bookInventory, 0, 8, 35, new Player(playerInventory.player));
+            BookSlot bookSlot = new BookSlot(bookInventory, 0, 8, 35, player);
             bookInventory.setBookSlot(bookSlot);
             insertSlot.bookSlot = bookSlot;
             callAddSlot(bookSlot);
@@ -47,11 +54,11 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
         // Player Inventory
         for (m = 0; m < 3; ++m) {
             for (l = 0; l < 9; ++l) {
-                callAddSlot(new CompatibleSlot(playerInventory, l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
+                callAddSlot(new CompatibleSlot(playerInventory.getRaw(), l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
             }
         }
         for (m = 0; m < 9; ++m) {
-            callAddSlot(new CompatibleSlot(playerInventory, m, 8 + m * 18, 142));
+            callAddSlot(new CompatibleSlot(playerInventory.getRaw(), m, 8 + m * 18, 142));
         }
     }
 

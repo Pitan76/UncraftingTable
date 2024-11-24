@@ -1,20 +1,20 @@
 package net.pitan76.uncraftingtable;
 
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.*;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.*;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.api.util.recipe.RecipeMatcherUtil;
+import net.pitan76.mcpitanlib.midohra.recipe.*;
+import net.pitan76.mcpitanlib.midohra.recipe.input.CraftingRecipeInputOrInventory;
+import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class InsertSlot extends CompatibleSlot {
@@ -24,7 +24,7 @@ public class InsertSlot extends CompatibleSlot {
     // アイテムのコモンタグ(鉱石辞書)のインデックス (未開発)
     public int tagItemIndex = 0;
 
-    public List<Recipe<?>> latestOutRecipes = new ArrayList<>();
+    public List<Recipe> latestOutRecipes = new ArrayList<>();
     public ItemStack latestItemStack = ItemStackUtil.empty();
 
     // OutSlotでGetできるかどうか。(バグ対策)
@@ -32,9 +32,9 @@ public class InsertSlot extends CompatibleSlot {
 
     public BookSlot bookSlot;
 
-    public InsertSlot(Inventory inventory, int index, int x, int y, PlayerEntity player) {
+    public InsertSlot(Inventory inventory, int index, int x, int y, Player player) {
         super(inventory, index, x, y);
-        this.player = new Player(player);
+        this.player = player;
     }
 
     public int getMaxTagItemIndex() {
@@ -42,9 +42,12 @@ public class InsertSlot extends CompatibleSlot {
         if (latestItemStack.isEmpty()) return 0;
 
         int max = 0;
-        for (Ingredient ingredient : latestOutRecipes.get(recipeIndex).getIngredients()) {
-            if (IngredientUtil.getMatchingStacksIds(ingredient).size() - 1 > max) {
-                max = IngredientUtil.getMatchingStacksIds(ingredient).size() - 1;
+        for (net.minecraft.recipe.Ingredient rawIngredient : latestOutRecipes.get(recipeIndex).getInputs()) {
+            Ingredient ingredient = Ingredient.of(rawIngredient);
+
+            int size = ingredient.getMatchingStacksIds().size();
+            if (size - 1 > max) {
+                max = size - 1;
             }
         }
         return max;
@@ -110,11 +113,11 @@ public class InsertSlot extends CompatibleSlot {
         callSetStack(latestItemStack);
     }
 
-    public static boolean ingredientsContains(DefaultedList<Ingredient> ingredients, Item item) {
+    public static boolean ingredientsContains(Collection<Ingredient> ingredients, Item item) {
         for (Ingredient ingredient : ingredients) {
-            if (ingredient.isEmpty()) continue;
-            for (int id : IngredientUtil.getMatchingStacksIds(ingredient)) {
-                if (ItemUtil.fromRawId(id).equals(item)) return true;
+            for (Item matchingItem : ingredient.getMatchingItems()) {
+                if (matchingItem.equals(item))
+                    return true;
             }
         }
         return false;
@@ -137,16 +140,26 @@ public class InsertSlot extends CompatibleSlot {
             recipeIndex = 0;
             tagItemIndex = 0;
         }
-        World world = player.getWorld();
-        List<Recipe<?>> recipes = RecipeUtil.getAllRecipes(world);
-        List<Recipe<?>> outRecipes = new ArrayList<>();
-        for (Recipe<?> recipe : recipes) {
-            if (!recipe.getType().equals(RecipeType.CRAFTING)) continue;
-            if (RecipeUtil.getOutput(recipe, world).getCount() > stack.getCount()) continue;
-            // Tech Reborn Disable UU Matter
-            if (ItemUtil.isExist("techreborn:uu_matter") && Config.config.getBooleanOrDefault("disable_uncrafting_uu_matter", false) && ingredientsContains(recipe.getIngredients(), ItemUtil.fromId("techreborn:uu_matter"))) continue;
+        ServerWorld world = ServerWorld.of((net.minecraft.server.world.ServerWorld) player.getWorld());
+        Collection<Recipe> recipes = world.getRecipeManager().getNormalRecipes();
+        List<Recipe> outRecipes = new ArrayList<>();
+        for (Recipe recipe : recipes) {
+            ItemStack outputStack;
+            if (recipe instanceof ShapedRecipe) {
+                outputStack = ((ShapedRecipe) recipe).craft();
+            } else if (recipe instanceof ShapelessRecipe) {
+                outputStack = ((ShapelessRecipe) recipe).craft();
+            } else if (recipe instanceof CraftingRecipe) {
+                outputStack = ((CraftingRecipe) recipe).craft(CraftingRecipeInputOrInventory.EMPTY, world);
+            } else {
+                continue;
+            }
 
-            if (RecipeUtil.getOutput(recipe, world).getItem().equals(stack.getItem())) {
+            if (outputStack.getCount() > stack.getCount()) continue;
+            // Tech Reborn Disable UU Matter
+            if (ItemUtil.isExist("techreborn:uu_matter") && Config.config.getBooleanOrDefault("disable_uncrafting_uu_matter", false) && ingredientsContains(to(recipe.getInputs()), ItemUtil.fromId("techreborn:uu_matter"))) continue;
+
+            if (outputStack.getItem().equals(stack.getItem())) {
                 outRecipes.add(recipe);
             }
         }
@@ -159,7 +172,7 @@ public class InsertSlot extends CompatibleSlot {
         latestOutRecipes = outRecipes;
         if (outRecipes.isEmpty() || recipeIndex > outRecipes.size() - 1) return;
         CraftingRecipe recipe = (CraftingRecipe) outRecipes.get(recipeIndex);
-        latestOutputCount = RecipeUtil.getOutput(recipe, world).getCount();
+        latestOutputCount = recipe.craft(CraftingRecipeInputOrInventory.EMPTY, world).getCount();
         if (!stack.isEmpty())
             latestItemStack = stack.copy();
 
@@ -181,36 +194,34 @@ public class InsertSlot extends CompatibleSlot {
      * @param recipe Recipe
      * @return List<Ingredient> prettied list
      */
-    public List<Ingredient> prettyRecipe(Recipe<?> recipe) {
-        List<Ingredient> ingredients = new ArrayList<>();
-        if (!(recipe instanceof ShapedRecipe)) return recipe.getIngredients();
+    public List<Ingredient> prettyRecipe(Recipe recipe) {
+        List<Ingredient> result = new ArrayList<>();
+        if (!(recipe instanceof ShapedRecipe)) return to(recipe.getInputs());
         ShapedRecipe shapedRecipe = (ShapedRecipe) recipe;
         int width = shapedRecipe.getWidth();
 
         int empty = 0;
         for (int i = 0; i < 9; i++) {
-            if (shapedRecipe.getIngredients().size() > i - empty) {
+            List<Ingredient> ingredients = to(shapedRecipe.getInputs());
+            if (ingredients.size() > i - empty) {
                 if (width == 3) {
-                    ingredients.add(shapedRecipe.getIngredients().get(i - empty));
+                    result.add(ingredients.get(i - empty));
                     continue;
                 }
                 if (width == 2) {
                     if (i == 0 || i == 1 || i == 3 || i == 4 || i == 6 || i == 7) {
-                        ingredients.add(shapedRecipe.getIngredients().get(i - empty));
+                        result.add(ingredients.get(i - empty));
                         continue;
                     }
                 }
                 if (width == 1) {
                     if (i == 0 || i == 3 || i == 6) {
-                        ingredients.add(shapedRecipe.getIngredients().get(i - empty));
-                        continue;
+                        result.add(ingredients.get(i - empty));
                     }
                 }
             }
-            ingredients.add(IngredientUtil.empty());
-            empty++;
         }
-        return ingredients;
+        return result;
     }
 
     @Override
@@ -239,7 +250,7 @@ public class InsertSlot extends CompatibleSlot {
 
             Ingredient input = ingredients.get(index);
 
-            IntList matchingStacksIds = IngredientUtil.getMatchingStacksIds(input);
+            IntList matchingStacksIds = input.getMatchingStacksIds();
 
             if (id >= matchingStacksIds.size()) {
                 id = 0;
@@ -254,5 +265,13 @@ public class InsertSlot extends CompatibleSlot {
             callGetInventory().setStack(index + 1, ItemStackUtil.empty());
         }
         canGet = true;
+    }
+
+    public static List<Ingredient> to(Collection<net.minecraft.recipe.Ingredient> list) {
+        List<Ingredient> ingredients = new ArrayList<>();
+        for (net.minecraft.recipe.Ingredient ingredient : list) {
+            ingredients.add(Ingredient.of(ingredient));
+        }
+        return ingredients;
     }
 }

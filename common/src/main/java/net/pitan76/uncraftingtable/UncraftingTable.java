@@ -1,7 +1,6 @@
 package net.pitan76.uncraftingtable;
 
 import net.minecraft.block.Block;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerType;
 import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -15,7 +14,6 @@ import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.MCVersionUtil;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
-import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroups;
 
 public class UncraftingTable extends CommonModInitializer {
@@ -44,30 +42,26 @@ public class UncraftingTable extends CommonModInitializer {
 
         UncraftingScreenHandler.init();
 
-        ServerNetworking.registerReceiver(_id("network"), (e -> {
-            NbtCompound nbt = PacketByteUtil.readNbt(e.getBuf());
-            if (NbtUtil.has(nbt, "control")) {
-                Player player = e.getPlayer();
-                int ctrl = NbtUtil.getInt(nbt, "control");
-                if (ctrl == 0) {
-                    if (!(player.getCurrentScreenHandler() instanceof UncraftingScreenHandler)) return;
-                    UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.getCurrentScreenHandler();
-                    if (screenHandler.callGetSlot(0) instanceof InsertSlot) {
-                        InsertSlot slot = (InsertSlot) screenHandler.callGetSlot(0);
-                        if (slot.callGetStack().isEmpty()) return;
-                        slot.prevRecipeIndex();
-                    }
-                }
-                if (ctrl == 1) {
-                    if (!(player.getCurrentScreenHandler() instanceof UncraftingScreenHandler)) return;
-                    UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.getCurrentScreenHandler();
-                    if (screenHandler.callGetSlot(0) instanceof InsertSlot) {
-                        InsertSlot slot = (InsertSlot) screenHandler.callGetSlot(0);
-                        if (slot.callGetStack().isEmpty()) return;
-                        slot.nextRecipeIndex();
-                    }
-                }
-            }
+        ServerNetworking.registerReceiver(_id("network_ctrl"), (e -> {
+            int ctrl = PacketByteUtil.readInt(e.getBuf());
+
+            Player player = e.getPlayer();
+            if (!(player.getCurrentScreenHandler() instanceof UncraftingScreenHandler))
+                return;
+            UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.getCurrentScreenHandler();
+
+            if (!(screenHandler.callGetSlot(0) instanceof InsertSlot))
+                return;
+
+            InsertSlot slot = (InsertSlot) screenHandler.callGetSlot(0);
+            if (slot.callGetStack().isEmpty())
+                return;
+
+            if (ctrl == 0)
+                slot.prevRecipeIndex();
+
+            if (ctrl == 1)
+                slot.nextRecipeIndex();
         }));
     }
 
