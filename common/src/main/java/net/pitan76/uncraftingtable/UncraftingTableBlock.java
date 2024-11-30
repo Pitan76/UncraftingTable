@@ -1,5 +1,6 @@
 package net.pitan76.uncraftingtable;
 
+import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.block.v2.BlockSettingsBuilder;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
@@ -30,6 +31,11 @@ public class UncraftingTableBlock extends CompatBlock {
 
     public UncraftingTableBlock(CompatibleBlockSettings settings) {
         super(settings);
+    }
+
+    @Override
+    public CompatMapCodec<? extends Block> getCompatCodec() {
+        return CODEC;
     }
 
     @Override

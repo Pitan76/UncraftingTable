@@ -102,9 +102,9 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             newStack = originalStack.copy();
 
             // Uncrafting Inventory のサイズよりも小さい場合は Uncrafting Inventory内のスロットである
-            if (index < this.uncraftingInventory.size()) {
+            if (index < this.uncraftingInventory.getSize()) {
                 // InsertSlot, OutSlot -> Player Inventory
-                if (!this.callInsertItem(originalStack, this.uncraftingInventory.size(), ScreenHandlerUtil.getSlots(this).size(), true)) {
+                if (!this.callInsertItem(originalStack, this.uncraftingInventory.getSize(), ScreenHandlerUtil.getSlots(this).size(), true)) {
                     return ItemStackUtil.empty();
                 }
             } else if (!this.callInsertItem(originalStack, 0, 1, false)) {
