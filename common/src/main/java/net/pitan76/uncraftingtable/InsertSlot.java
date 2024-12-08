@@ -146,11 +146,11 @@ public class InsertSlot extends CompatibleSlot {
         for (Recipe recipe : recipes) {
             ItemStack outputStack;
             if (recipe instanceof ShapedRecipe) {
-                outputStack = ((ShapedRecipe) recipe).craft(CraftingRecipeInputOrInventory.EMPTY, world);
+                outputStack = ((ShapedRecipe) recipe).craft(player.getWorld());
             } else if (recipe instanceof ShapelessRecipe) {
-                outputStack = ((ShapelessRecipe) recipe).craft(CraftingRecipeInputOrInventory.EMPTY, world);
+                outputStack = ((ShapelessRecipe) recipe).craft(player.getWorld());
             } else if (recipe instanceof CraftingRecipe) {
-                outputStack = ((CraftingRecipe) recipe).craft(CraftingRecipeInputOrInventory.EMPTY, world);
+                outputStack = ((CraftingRecipe) recipe).craft(CraftingRecipeInputOrInventory.EMPTY, player.getWorld());
             } else {
                 continue;
             }
@@ -172,7 +172,7 @@ public class InsertSlot extends CompatibleSlot {
         latestOutRecipes = outRecipes;
         if (outRecipes.isEmpty() || recipeIndex > outRecipes.size() - 1) return;
         CraftingRecipe recipe = (CraftingRecipe) outRecipes.get(recipeIndex);
-        latestOutputCount = recipe.craft(CraftingRecipeInputOrInventory.EMPTY, world).getCount();
+        latestOutputCount = recipe.craft(CraftingRecipeInputOrInventory.EMPTY, player.getWorld()).getCount();
         if (!stack.isEmpty())
             latestItemStack = stack.copy();
 
