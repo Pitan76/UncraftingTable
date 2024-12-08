@@ -146,9 +146,9 @@ public class InsertSlot extends CompatibleSlot {
         for (Recipe recipe : recipes) {
             ItemStack outputStack;
             if (recipe instanceof ShapedRecipe) {
-                outputStack = ((ShapedRecipe) recipe).craft();
+                outputStack = ((ShapedRecipe) recipe).craft(world);
             } else if (recipe instanceof ShapelessRecipe) {
-                outputStack = ((ShapelessRecipe) recipe).craft();
+                outputStack = ((ShapelessRecipe) recipe).craft(world);
             } else if (recipe instanceof CraftingRecipe) {
                 outputStack = ((CraftingRecipe) recipe).craft(CraftingRecipeInputOrInventory.EMPTY, world);
             } else {
