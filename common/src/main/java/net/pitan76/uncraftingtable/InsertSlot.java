@@ -9,6 +9,7 @@ import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.*;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.api.util.recipe.RecipeMatcherUtil;
+import net.pitan76.mcpitanlib.api.util.recipe.RecipeUtil;
 import net.pitan76.mcpitanlib.midohra.recipe.*;
 import net.pitan76.mcpitanlib.midohra.recipe.input.CraftingRecipeInputOrInventory;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
@@ -24,7 +25,7 @@ public class InsertSlot extends CompatibleSlot {
     // アイテムのコモンタグ(鉱石辞書)のインデックス (未開発)
     public int tagItemIndex = 0;
 
-    public List<Recipe> latestOutRecipes = new ArrayList<>();
+    public List<CraftingRecipe> latestOutRecipes = new ArrayList<>();
     public ItemStack latestItemStack = ItemStackUtil.empty();
 
     // OutSlotでGetできるかどうか。(バグ対策)
@@ -120,14 +121,17 @@ public class InsertSlot extends CompatibleSlot {
                     return true;
             }
         }
+
         return false;
     }
 
     public void updateOutSlot(ItemStack stack) {
         if (player.isClient()) return;
 
-        for (int i = 1; i < 10; ++i)
-            ((OutSlot)((UncraftingScreenHandler) player.getCurrentScreenHandler()).callGetSlot(i)).superSetStack(ItemStackUtil.empty());
+        for (int i = 1; i < 10; ++i) {
+            ((OutSlot) ((UncraftingScreenHandler) player.getCurrentScreenHandler()).callGetSlot(i)).superSetStack(ItemStackUtil.empty());
+        }
+
         if (stack.isEmpty()) return;
         if (!Config.config.getBooleanOrDefault("uncraft_damaged_item", true)) {
             int damage = ItemStackUtil.getDamage(stack);
@@ -140,24 +144,20 @@ public class InsertSlot extends CompatibleSlot {
             recipeIndex = 0;
             tagItemIndex = 0;
         }
+
         ServerWorld world = ServerWorld.of((net.minecraft.server.world.ServerWorld) player.getWorld());
-        Collection<Recipe> recipes = world.getRecipeManager().getNormalRecipes();
-        List<Recipe> outRecipes = new ArrayList<>();
-        for (Recipe recipe : recipes) {
-            ItemStack outputStack;
-            if (recipe instanceof ShapedRecipe) {
-                outputStack = ((ShapedRecipe) recipe).craft(player.getWorld());
-            } else if (recipe instanceof ShapelessRecipe) {
-                outputStack = ((ShapelessRecipe) recipe).craft(player.getWorld());
-            } else if (recipe instanceof CraftingRecipe) {
-                outputStack = ((CraftingRecipe) recipe).craft(CraftingRecipeInputOrInventory.EMPTY, player.getWorld());
-            } else {
-                continue;
-            }
+        Collection<CraftingRecipe> recipes = RecipeUtil.getCraftingRecipes(world);
+        List<CraftingRecipe> outRecipes = new ArrayList<>();
+
+        for (CraftingRecipe recipe : recipes) {
+            ItemStack outputStack =
+                    recipe.getOutput(CraftingRecipeInputOrInventory.EMPTY, player.getWorld());
 
             if (outputStack.getCount() > stack.getCount()) continue;
+
             // Tech Reborn Disable UU Matter
-            if (ItemUtil.isExist("techreborn:uu_matter") && Config.config.getBooleanOrDefault("disable_uncrafting_uu_matter", false) && ingredientsContains(to(recipe.getInputs()), ItemUtil.fromId("techreborn:uu_matter"))) continue;
+            if (ItemUtil.isExist("techreborn:uu_matter") && Config.config.getBooleanOrDefault("disable_uncrafting_uu_matter", false) && ingredientsContains(to(recipe.getInputs()), ItemUtil.fromId("techreborn:uu_matter")))
+                continue;
 
             if (outputStack.getItem().equals(stack.getItem())) {
                 outRecipes.add(recipe);
@@ -171,7 +171,7 @@ public class InsertSlot extends CompatibleSlot {
 
         latestOutRecipes = outRecipes;
         if (outRecipes.isEmpty() || recipeIndex > outRecipes.size() - 1) return;
-        CraftingRecipe recipe = (CraftingRecipe) outRecipes.get(recipeIndex);
+        CraftingRecipe recipe = outRecipes.get(recipeIndex);
         latestOutputCount = recipe.craft(CraftingRecipeInputOrInventory.EMPTY, player.getWorld()).getCount();
         if (!stack.isEmpty())
             latestItemStack = stack.copy();
