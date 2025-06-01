@@ -19,6 +19,9 @@
     "main": [
       "net.pitan76.uncraftingtable.fabric.UncraftingTableFabric"
     ],
+    "client": [
+      "net.pitan76.uncraftingtable.fabric.client.UncraftingTableFabricClient"
+    ],
     "modmenu": [
       "net.pitan76.uncraftingtable.fabric.addon.ModMenuAddon"
     ]
@@ -26,6 +29,6 @@
   "depends": {
     "fabricloader": "*",
     "minecraft": "*",
-    "mcpitanlib": ">3.0.0"
+    "mcpitanlib": ">3.2.0"
   }
 }
