@@ -137,13 +137,13 @@ public class InsertSlot extends CompatibleSlot {
             ItemStack outputStack =
                     recipe.getOutput(CraftingRecipeInputOrInventory.EMPTY, player.getWorld());
 
-            if (outputStack.getCount() > stack.getCount()) continue;
+            if (ItemStackUtil.getCount(outputStack) > ItemStackUtil.getCount(stack)) continue;
 
             // Tech Reborn Disable UU Matter
             if (ItemUtil.isExist("techreborn:uu_matter") && Config.config.getBooleanOrDefault("disable_uncrafting_uu_matter", false) && ingredientsContains(to(recipe.getInputs()), ItemUtil.fromId("techreborn:uu_matter")))
                 continue;
 
-            if (outputStack.getItem().equals(stack.getItem())) {
+            if (ItemStackUtil.getItem(outputStack).equals(ItemStackUtil.getItem(stack))) {
                 outRecipes.add(recipe);
             }
         }
@@ -157,7 +157,7 @@ public class InsertSlot extends CompatibleSlot {
         if (outRecipes.isEmpty() || recipeIndex > outRecipes.size() - 1) return;
         CraftingRecipe recipe = outRecipes.get(recipeIndex);
         latestOutputCount = recipe.craft(CraftingRecipeInputOrInventory.EMPTY, player.getWorld()).getCount();
-        if (!stack.isEmpty())
+        if (!ItemStackUtil.isEmpty(stack))
             latestItemStack = ItemStackUtil.copy(stack);
 
         List<Ingredient> ingredients = prettyRecipe(recipe);

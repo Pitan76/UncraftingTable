@@ -1,5 +1,6 @@
 package net.pitan76.uncraftingtable;
 
+import net.minecraft.item.ItemStack;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.inventory.CompatInventory;
@@ -26,5 +27,16 @@ public class UncraftingInventory extends CompatInventory {
             insertSlot.player.offerOrDrop(insertSlot.callGetStack());
         }
         super.onClose(player);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int amount) {
+        int before = ItemStackUtil.getCount(super.callGetStack(slot)); // Get the count before removing the stack
+
+        ItemStack stack = super.removeStack(slot, amount);
+        if (slot != 0 || before == amount) return stack;
+
+        insertSlot.updateOutSlot(stack);
+        return stack;
     }
 }
