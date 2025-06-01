@@ -17,6 +17,7 @@ import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InsertSlot extends CompatibleSlot {
     public Player player;
@@ -40,7 +41,7 @@ public class InsertSlot extends CompatibleSlot {
 
     public int getMaxTagItemIndex() {
         if (latestOutRecipes.isEmpty()) return 0;
-        if (latestItemStack.isEmpty()) return 0;
+        if (ItemStackUtil.isEmpty(latestItemStack)) return 0;
 
         int max = 0;
         for (net.minecraft.recipe.Ingredient rawIngredient : latestOutRecipes.get(recipeIndex).getInputs()) {
@@ -56,7 +57,7 @@ public class InsertSlot extends CompatibleSlot {
 
     public void nextRecipeIndex() {
         if (latestOutRecipes.isEmpty()) return;
-        if (latestItemStack.isEmpty()) return;
+        if (ItemStackUtil.isEmpty(latestItemStack)) return;
 
         int maxTagItemIndex = getMaxTagItemIndex();
         if (maxTagItemIndex == 0) {
@@ -66,7 +67,7 @@ public class InsertSlot extends CompatibleSlot {
             if (recipeIndex > maxIndex) {
                 recipeIndex = 0;
             }
-            latestItemStack.setCount(callGetStack().getCount());
+            ItemStackUtil.setCount(latestItemStack, ItemStackUtil.getCount(callGetStack()));
             callSetStack(latestItemStack);
             return;
         }
@@ -86,7 +87,7 @@ public class InsertSlot extends CompatibleSlot {
 
     public void prevRecipeIndex() {
         if (latestOutRecipes.isEmpty()) return;
-        if (latestItemStack.isEmpty()) return;
+        if (ItemStackUtil.isEmpty(latestItemStack)) return;
 
         int maxTagItemIndex = getMaxTagItemIndex();
         if (maxTagItemIndex == 0) {
@@ -96,7 +97,7 @@ public class InsertSlot extends CompatibleSlot {
             if (recipeIndex < 0) {
                 recipeIndex = maxIndex;
             }
-            latestItemStack.setCount(callGetStack().getCount());
+            ItemStackUtil.setCount(latestItemStack, ItemStackUtil.getCount(callGetStack()));
             callSetStack(latestItemStack);
             return;
         }
@@ -110,7 +111,8 @@ public class InsertSlot extends CompatibleSlot {
                 recipeIndex = maxIndex;
             }
         }
-        latestItemStack.setCount(callGetStack().getCount());
+
+        ItemStackUtil.setCount(latestItemStack, ItemStackUtil.getCount(callGetStack()));
         callSetStack(latestItemStack);
     }
 
@@ -174,7 +176,7 @@ public class InsertSlot extends CompatibleSlot {
         CraftingRecipe recipe = outRecipes.get(recipeIndex);
         latestOutputCount = recipe.craft(CraftingRecipeInputOrInventory.EMPTY, player.getWorld()).getCount();
         if (!stack.isEmpty())
-            latestItemStack = stack.copy();
+            latestItemStack = ItemStackUtil.copy(stack);
 
         List<Ingredient> ingredients = prettyRecipe(recipe);
         setOutStack(0, tagItemIndex, ingredients, 1);
@@ -249,12 +251,10 @@ public class InsertSlot extends CompatibleSlot {
             if (index >= ingredients.size() || ingredients.isEmpty()) return;
 
             Ingredient input = ingredients.get(index);
-
             IntList matchingStacksIds = input.getMatchingStacksIds();
 
-            if (id >= matchingStacksIds.size()) {
+            if (id >= matchingStacksIds.size())
                 id = 0;
-            }
 
             if (matchingStacksIds.isEmpty()) return;
             callGetInventory().setStack(index + 1, RecipeMatcherUtil.getStackFromId(matchingStacksIds.getInt(id)));
@@ -268,10 +268,6 @@ public class InsertSlot extends CompatibleSlot {
     }
 
     public static List<Ingredient> to(Collection<net.minecraft.recipe.Ingredient> list) {
-        List<Ingredient> ingredients = new ArrayList<>();
-        for (net.minecraft.recipe.Ingredient ingredient : list) {
-            ingredients.add(Ingredient.of(ingredient));
-        }
-        return ingredients;
+        return list.stream().map(Ingredient::of).collect(Collectors.toList());
     }
 }

@@ -1,6 +1,5 @@
 package net.pitan76.uncraftingtable;
 
-import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.block.v2.BlockSettingsBuilder;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
@@ -16,8 +15,6 @@ import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 import net.pitan76.mcpitanlib.core.serialization.codecs.CompatBlockMapCodecUtil;
 
-import static net.pitan76.uncraftingtable.UncraftingTable._id;
-
 public class UncraftingTableBlock extends CompatBlock {
 
     public static final CompatMapCodec<UncraftingTableBlock> CODEC = CompatBlockMapCodecUtil.createCodec(UncraftingTableBlock::new);
@@ -25,7 +22,7 @@ public class UncraftingTableBlock extends CompatBlock {
     private static final TextComponent TITLE = TextComponent.translatable("container.uncraftingtable76.uncrafting");
 
     public static UncraftingTableBlock UNCRAFTING_TABLE = new UncraftingTableBlock(
-            new BlockSettingsBuilder(_id("uncraftingtable")).material(CompatibleMaterial.WOOD)
+            new BlockSettingsBuilder(UncraftingTable.UNCRAFTING_TABLE_ID).material(CompatibleMaterial.WOOD)
                     .hardness(2.5F).sounds(CompatBlockSoundGroup.WOOD).build()
     );
 
@@ -34,7 +31,7 @@ public class UncraftingTableBlock extends CompatBlock {
     }
 
     @Override
-    public CompatMapCodec<? extends Block> getCompatCodec() {
+    public CompatMapCodec<? extends CompatBlock> getCompatCodec() {
         return CODEC;
     }
 

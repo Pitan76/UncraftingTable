@@ -3,9 +3,9 @@ package net.pitan76.uncraftingtable;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
+import net.pitan76.mcpitanlib.api.gui.args.SlotClickEvent;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
@@ -29,17 +29,17 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
 
         Player player = playerInventory.getPlayer();
 
-        int m, l;
+        int y, x;
         InsertSlot insertSlot = new InsertSlot(uncraftingInventory, 0, 36, 35, player);
         uncraftingInventory.setInsertSlot(insertSlot);
         callAddSlot(insertSlot);
 
         // Out Slot
         int i = 0;
-        for (m = 0; m < 3; ++m) {
-            for (l = 0; l < 3; ++l) {
+        for (y = 0; y < 3; ++y) {
+            for (x = 0; x < 3; ++x) {
                 i++;
-                callAddSlot(new OutSlot(uncraftingInventory, i, 94 + l * 18, 17 + m * 18, insertSlot));
+                callAddSlot(new OutSlot(uncraftingInventory, i, 94 + x * 18, 17 + y * 18, insertSlot));
             }
         }
 
@@ -52,13 +52,13 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
         }
 
         // Player Inventory
-        for (m = 0; m < 3; ++m) {
-            for (l = 0; l < 9; ++l) {
-                callAddSlot(new CompatibleSlot(playerInventory.getRaw(), l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
+        for (y = 0; y < 3; ++y) {
+            for (x = 0; x < 9; ++x) {
+                callAddSlot(new CompatibleSlot(playerInventory.getRaw(), x + y * 9 + 9, 8 + x * 18, 84 + y * 18));
             }
         }
-        for (m = 0; m < 9; ++m) {
-            callAddSlot(new CompatibleSlot(playerInventory.getRaw(), m, 8 + m * 18, 142));
+        for (y = 0; y < 9; ++y) {
+            callAddSlot(new CompatibleSlot(playerInventory.getRaw(), y, 8 + y * 18, 142));
         }
     }
 
@@ -67,18 +67,20 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     }
 
     @Override
-    public void overrideOnSlotClick(int slotIndex, int button, SlotActionType actionType, Player player) {
-        if (actionType != SlotActionType.PICKUP || ScreenHandlerUtil.getSlots(this).size() <= slotIndex || slotIndex < 0) {
-            super.overrideOnSlotClick(slotIndex, button, actionType, player);
+    public void onSlotClick(SlotClickEvent e) {
+        int slotIndex = e.getSlot();
+
+        if (!e.isPickupAction() || ScreenHandlerUtil.getSlots(this).size() <= slotIndex || slotIndex < 0) {
+            super.onSlotClick(e);
             return;
         }
         Slot slot = ScreenHandlerUtil.getSlot(this, slotIndex);
         if (!(slot instanceof OutSlot)) {
-            super.overrideOnSlotClick(slotIndex, button, actionType, player);
+            super.onSlotClick(e);
             return;
         }
 
-        quickMoveOverride(player, slotIndex);
+        quickMoveOverride(e.getPlayer(), slotIndex);
     }
 
     @Override
@@ -99,7 +101,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             }
 
             ItemStack originalStack = SlotUtil.getStack(slot);
-            newStack = originalStack.copy();
+            newStack = ItemStackUtil.copy(originalStack);
 
             // Uncrafting Inventory のサイズよりも小さい場合は Uncrafting Inventory内のスロットである
             if (index < this.uncraftingInventory.getSize()) {
@@ -114,22 +116,19 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
                 uncraftingInventory.insertSlot.updateOutSlot(uncraftingInventory.insertSlot.callGetStack());
             }
 
-            if (originalStack.isEmpty()) {
+            if (ItemStackUtil.isEmpty(originalStack)) {
                 SlotUtil.setStack(slot, ItemStackUtil.empty());
             } else {
                 SlotUtil.markDirty(slot);
             }
-
         }
+
         return newStack;
     }
 
     @Override
     public boolean canInsertIntoSlot(Slot slot) {
-        if (slot instanceof OutSlot)
-            return false;
-
-        return super.canInsertIntoSlot(slot);
+        return !(slot instanceof OutSlot) && super.canInsertIntoSlot(slot);
     }
 
     @Override

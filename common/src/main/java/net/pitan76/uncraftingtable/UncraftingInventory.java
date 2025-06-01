@@ -1,6 +1,7 @@
 package net.pitan76.uncraftingtable;
 
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.inventory.CompatInventory;
 
 public class UncraftingInventory extends CompatInventory {
@@ -21,7 +22,7 @@ public class UncraftingInventory extends CompatInventory {
 
     @Override
     public void onClose(Player player) {
-        if (!insertSlot.callGetStack().isEmpty()) {
+        if (!ItemStackUtil.isEmpty(insertSlot.callGetStack())) {
             insertSlot.player.offerOrDrop(insertSlot.callGetStack());
         }
         super.onClose(player);

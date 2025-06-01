@@ -26,19 +26,21 @@ public class UncraftingTable extends CommonModInitializer {
 
     public static SupplierResult<ScreenHandlerType<UncraftingScreenHandler>> UNCRAFTING_TABLE_MENU;
     public static RegistryResult<Block> UNCRAFTING_TABLE;
+    
+    public static CompatIdentifier UNCRAFTING_TABLE_ID = _id("uncraftingtable");
 
     @Override
     public void init() {
         registry = super.registry;
         INSTANCE = this;
 
-        UNCRAFTING_TABLE = registry.registerBlock(_id("uncraftingtable"), () -> UncraftingTableBlock.UNCRAFTING_TABLE);
-        registry.registerItem(_id("uncraftingtable"), () -> ItemUtil.create(UNCRAFTING_TABLE.getOrNull(),
-                CompatibleItemSettings.of(_id("uncraftingtable"))
+        UNCRAFTING_TABLE = registry.registerBlock(UNCRAFTING_TABLE_ID, () -> UncraftingTableBlock.UNCRAFTING_TABLE);
+        registry.registerItem(UNCRAFTING_TABLE_ID, () -> ItemUtil.create(UNCRAFTING_TABLE.getOrNull(),
+                CompatibleItemSettings.of(UNCRAFTING_TABLE_ID)
                 .addGroup(MCVersionUtil.getProtocolVersion() > 3200 ? ItemGroups.FUNCTIONAL : ItemGroups.DECORATIONS)
                 )
         );
-        UNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(_id("uncraftingtable"), new SimpleScreenHandlerTypeBuilder<>(UncraftingScreenHandler::new));
+        UNCRAFTING_TABLE_MENU = registry.registerScreenHandlerType(UNCRAFTING_TABLE_ID, new SimpleScreenHandlerTypeBuilder<>(UncraftingScreenHandler::new));
 
         UncraftingScreenHandler.init();
 
@@ -46,22 +48,16 @@ public class UncraftingTable extends CommonModInitializer {
             int ctrl = PacketByteUtil.readInt(e.getBuf());
 
             Player player = e.getPlayer();
-            if (!(player.getCurrentScreenHandler() instanceof UncraftingScreenHandler))
-                return;
+            if (!(player.getCurrentScreenHandler() instanceof UncraftingScreenHandler)) return;
             UncraftingScreenHandler screenHandler = (UncraftingScreenHandler) player.getCurrentScreenHandler();
 
-            if (!(screenHandler.callGetSlot(0) instanceof InsertSlot))
-                return;
-
+            if (!(screenHandler.callGetSlot(0) instanceof InsertSlot)) return;
             InsertSlot slot = (InsertSlot) screenHandler.callGetSlot(0);
-            if (slot.callGetStack().isEmpty())
-                return;
 
-            if (ctrl == 0)
-                slot.prevRecipeIndex();
+            if (slot.callGetStack().isEmpty()) return;
 
-            if (ctrl == 1)
-                slot.nextRecipeIndex();
+            if (ctrl == 0) slot.prevRecipeIndex();
+            if (ctrl == 1) slot.nextRecipeIndex();
         }));
     }
 
