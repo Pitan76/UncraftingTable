@@ -26,14 +26,15 @@ public class UncraftingInventory extends CompatInventory {
         if (!ItemStackUtil.isEmpty(insertSlot.callGetStack())) {
             insertSlot.player.offerOrDrop(insertSlot.callGetStack());
         }
+
         super.onClose(player);
     }
 
     @Override
-    public ItemStack removeStack(int slot, int amount) {
+    public ItemStack callRemoveStack(int slot, int amount) {
         int before = ItemStackUtil.getCount(super.callGetStack(slot)); // Get the count before removing the stack
 
-        ItemStack stack = super.removeStack(slot, amount);
+        ItemStack stack = superRemoveStack(slot, amount);
         if (slot != 0 || before == amount) return stack;
 
         insertSlot.updateOutSlot(stack);

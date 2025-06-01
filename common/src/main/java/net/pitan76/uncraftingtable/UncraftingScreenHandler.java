@@ -18,6 +18,8 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     private final UncraftingInventory uncraftingInventory;
     public final BookInventory bookInventory;
 
+    public boolean hasBookSlot = true;
+
     public UncraftingScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(syncId, new CompatPlayerInventory(playerInventory));
     }
@@ -43,8 +45,10 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             }
         }
 
+        hasBookSlot = Config.config.getBooleanOrDefault("restore_enchantment_book", true);
+
         // Book Slot
-        if (Config.config.getBooleanOrDefault("restore_enchantment_book", true)) {
+        if (hasBookSlot) {
             BookSlot bookSlot = new BookSlot(bookInventory, 0, 8, 35, player);
             bookInventory.setBookSlot(bookSlot);
             insertSlot.bookSlot = bookSlot;
@@ -74,6 +78,7 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
             super.onSlotClick(e);
             return;
         }
+
         Slot slot = ScreenHandlerUtil.getSlot(this, slotIndex);
         if (!(slot instanceof OutSlot)) {
             super.onSlotClick(e);
