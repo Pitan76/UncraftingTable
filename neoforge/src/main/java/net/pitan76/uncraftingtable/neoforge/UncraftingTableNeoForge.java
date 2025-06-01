@@ -28,22 +28,22 @@ public class UncraftingTableNeoForge {
         bus.addListener(UncraftingTableNeoForgeClient::clientInit);
         
         // 添加菜单屏幕注册事件
-        if (FMLEnvironment.dist.isClient()) {
-            LOGGER.info("注册菜单屏幕事件监听器");
-            bus.addListener(UncraftingTableNeoForgeClient::registerMenuScreens);
-        }
+//        if (FMLEnvironment.dist.isClient()) {
+//            LOGGER.info("Registering menu screen event listener");
+//            bus.addListener(UncraftingTableNeoForgeClient::registerMenuScreens);
+//        }
         
         // 如果是客户端环境，直接初始化客户端
         if (FMLEnvironment.dist.isClient()) {
-            LOGGER.info("尝试直接初始化客户端...");
+            LOGGER.info("Attempting to initialize client directly...");
             try {
                 // 标记为NeoForge环境
-                UncraftingTableClient.markAsNeoForge();
+                //UncraftingTableClient.markAsNeoForge();
                 UncraftingTableClient.init();
-                LOGGER.info("客户端初始化完成");
+                LOGGER.info("Client initialization completed successfully");
             } catch (Exception e) {
-                LOGGER.error("客户端初始化失败: {}", e.getMessage());
-                LOGGER.error("异常堆栈", e);
+                LOGGER.error("Client initialization failed: {}", e.getMessage());
+                LOGGER.error("Exception stack trace", e);
             }
         }
     }
