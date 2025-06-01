@@ -24,20 +24,20 @@ public class UncraftingTableNeoForge {
 
         new UncraftingTable();
 
-        // 添加客户端事件监听
+        // Registering client event listener
         bus.addListener(UncraftingTableNeoForgeClient::clientInit);
         
-        // 添加菜单屏幕注册事件
-//        if (FMLEnvironment.dist.isClient()) {
-//            LOGGER.info("Registering menu screen event listener");
-//            bus.addListener(UncraftingTableNeoForgeClient::registerMenuScreens);
-//        }
+        // Registering menu screen event listener
+        if (FMLEnvironment.dist.isClient()) {
+            LOGGER.info("Registering menu screen event listener");
+            bus.addListener(UncraftingTableNeoForgeClient::registerMenuScreens);
+        }
         
-        // 如果是客户端环境，直接初始化客户端
+        // isClient, initialize client directly
         if (FMLEnvironment.dist.isClient()) {
             LOGGER.info("Attempting to initialize client directly...");
             try {
-                // 标记为NeoForge环境
+                // Marking as NeoForge environment
                 //UncraftingTableClient.markAsNeoForge();
                 UncraftingTableClient.init();
                 LOGGER.info("Client initialization completed successfully");

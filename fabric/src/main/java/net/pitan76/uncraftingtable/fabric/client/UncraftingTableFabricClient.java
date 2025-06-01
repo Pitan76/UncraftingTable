@@ -10,5 +10,6 @@ public class UncraftingTableFabricClient implements ClientModInitializer {
     public void onInitializeClient() {
         Config.init(FabricLoader.getInstance().getConfigDir().toFile());
         UncraftingTableClient.init();
+        UncraftingTableClient.registerScreens();
     }
 }

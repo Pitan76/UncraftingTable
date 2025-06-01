@@ -6,5 +6,6 @@ import net.pitan76.uncraftingtable.client.UncraftingTableClient;
 public class UncraftingTableForgeClient {
     public static void clientInit(FMLClientSetupEvent event) {
         UncraftingTableClient.init();
+        UncraftingTableClient.registerScreens();
     }
 }
