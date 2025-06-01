@@ -55,65 +55,46 @@ public class InsertSlot extends CompatibleSlot {
         return max;
     }
 
-    public void nextRecipeIndex() {
+    public void changeRecipeIndex(int delta) {
         if (latestOutRecipes.isEmpty()) return;
         if (ItemStackUtil.isEmpty(latestItemStack)) return;
 
         int maxTagItemIndex = getMaxTagItemIndex();
+
         if (maxTagItemIndex == 0) {
             tagItemIndex = 0;
-            recipeIndex++;
+            recipeIndex += delta;
             int maxIndex = latestOutRecipes.size() - 1;
-            if (recipeIndex > maxIndex) {
-                recipeIndex = 0;
-            }
+            if (recipeIndex > maxIndex) recipeIndex = 0;
+            if (recipeIndex < 0) recipeIndex = maxIndex;
+
             ItemStackUtil.setCount(latestItemStack, ItemStackUtil.getCount(callGetStack()));
             callSetStack(latestItemStack);
             return;
         }
 
-        tagItemIndex++;
+        tagItemIndex += delta;
+
         if (tagItemIndex > maxTagItemIndex) {
             tagItemIndex = 0;
             recipeIndex++;
-            int maxIndex = latestOutRecipes.size() - 1;
-            if (recipeIndex > maxIndex) {
-                recipeIndex = 0;
-            }
-        }
-        latestItemStack.setCount(callGetStack().getCount());
-        callSetStack(latestItemStack);
-    }
-
-    public void prevRecipeIndex() {
-        if (latestOutRecipes.isEmpty()) return;
-        if (ItemStackUtil.isEmpty(latestItemStack)) return;
-
-        int maxTagItemIndex = getMaxTagItemIndex();
-        if (maxTagItemIndex == 0) {
-            tagItemIndex = 0;
-            recipeIndex--;
-            int maxIndex = latestOutRecipes.size() - 1;
-            if (recipeIndex < 0) {
-                recipeIndex = maxIndex;
-            }
-            ItemStackUtil.setCount(latestItemStack, ItemStackUtil.getCount(callGetStack()));
-            callSetStack(latestItemStack);
-            return;
-        }
-
-        tagItemIndex--;
-        if (tagItemIndex < 0) {
+            if (recipeIndex > latestOutRecipes.size() - 1) recipeIndex = 0;
+        } else if (tagItemIndex < 0) {
             tagItemIndex = maxTagItemIndex;
             recipeIndex--;
-            int maxIndex = latestOutRecipes.size() - 1;
-            if (recipeIndex < 0) {
-                recipeIndex = maxIndex;
-            }
+            if (recipeIndex < 0) recipeIndex = latestOutRecipes.size() - 1;
         }
 
         ItemStackUtil.setCount(latestItemStack, ItemStackUtil.getCount(callGetStack()));
         callSetStack(latestItemStack);
+    }
+
+    public void nextRecipeIndex() {
+        changeRecipeIndex(1);
+    }
+
+    public void prevRecipeIndex() {
+        changeRecipeIndex(-1);
     }
 
     public static boolean ingredientsContains(Collection<Ingredient> ingredients, Item item) {
@@ -131,7 +112,8 @@ public class InsertSlot extends CompatibleSlot {
         if (player.isClient()) return;
 
         for (int i = 1; i < 10; ++i) {
-            ((OutSlot) ((UncraftingScreenHandler) player.getCurrentScreenHandler()).callGetSlot(i)).superSetStack(ItemStackUtil.empty());
+            ((OutSlot) ((UncraftingScreenHandler) player.getCurrentScreenHandler()).callGetSlot(i))
+                    .superSetStack(ItemStackUtil.empty());
         }
 
         if (stack.isEmpty()) return;
@@ -202,23 +184,23 @@ public class InsertSlot extends CompatibleSlot {
         ShapedRecipe shapedRecipe = (ShapedRecipe) recipe;
         int width = shapedRecipe.getWidth();
 
-        int empty = 0;
+        List<Ingredient> ingredients = to(shapedRecipe.getInputs());
+
         for (int i = 0; i < 9; i++) {
-            List<Ingredient> ingredients = to(shapedRecipe.getInputs());
-            if (ingredients.size() > i - empty) {
+            if (ingredients.size() > i) {
                 if (width == 3) {
-                    result.add(ingredients.get(i - empty));
+                    result.add(ingredients.get(i));
                     continue;
                 }
                 if (width == 2) {
                     if (i == 0 || i == 1 || i == 3 || i == 4 || i == 6 || i == 7) {
-                        result.add(ingredients.get(i - empty));
+                        result.add(ingredients.get(i));
                         continue;
                     }
                 }
                 if (width == 1) {
                     if (i == 0 || i == 3 || i == 6) {
-                        result.add(ingredients.get(i - empty));
+                        result.add(ingredients.get(i));
                     }
                 }
             }
