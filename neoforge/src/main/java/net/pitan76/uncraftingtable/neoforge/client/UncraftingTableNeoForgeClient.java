@@ -22,11 +22,12 @@ public class UncraftingTableNeoForgeClient {
             }
         });
     }
-    
+
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
         LOGGER.info("Registering NeoForge menu screen - Menu Type: {}:uncraftingtable", UncraftingTable.MOD_ID);
         try {
             UncraftingTableClient.registerScreens();
+
             LOGGER.info("NeoForge menu screen registered successfully");
         } catch (Exception e) {
             LOGGER.error("Failed to register NeoForge menu screen: {}", e.getMessage());
