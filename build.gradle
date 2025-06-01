@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4.152"
-    id "dev.architectury.loom" version "1.6.392" apply false
+    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
     id 'com.matthewprenger.cursegradle' version '1.+'
     id "com.modrinth.minotaur" version "2.+"
 }
@@ -41,7 +41,7 @@ subprojects {
                 apiKey = System.getenv("CURSEFORGE_TOKEN")
                 project {
                     id = '523423'
-                    changelog = "Support 1.21.3\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
+                    changelog = "Support 1.21.5\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
                     releaseType = 'release'
                     if (modLoader == "fabric") {
                         addGameVersion "Fabric"
@@ -69,6 +69,8 @@ subprojects {
                     addGameVersion '1.21.1'
                     addGameVersion '1.21.2'
                     addGameVersion '1.21.3'
+                    addGameVersion '1.21.4'
+                    addGameVersion '1.21.5'
 
                     relations {
                         if (modLoader == "fabric") {
@@ -91,13 +93,13 @@ subprojects {
                 token = System.getenv("MODRINTH_TOKEN")
                 projectId = 'd0f1a75r'
                 versionNumber = project.mod_version + "-" + modLoader
-                gameVersions = ['1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.20', '1.20.1', '1.20.3', '1.20.4', '1.21', '1.21.1', '1.21.2', '1.21.3']
+                gameVersions = ['1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.20', '1.20.1', '1.20.3', '1.20.4', '1.21', '1.21.1', '1.21.2', '1.21.3', '1.21.4', '1.21.5']
                 if (modLoader == "neoForge") {
-                    gameVersions = ['1.20.3', '1.20.4', '1.21', '1.21.1', '1.21.2', '1.21.3']
+                    gameVersions = ['1.20.3', '1.20.4', '1.21', '1.21.1', '1.21.2', '1.21.3', '1.21.4', '1.21.5']
                 }
                 versionType = 'release'
                 uploadFile = tasks.remapJar
-                changelog = "Support 1.21.3\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
+                changelog = "Support 1.21.5\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
                 loaders = [modLoader]
                 dependencies {
                     if (modLoader == "fabric") {
