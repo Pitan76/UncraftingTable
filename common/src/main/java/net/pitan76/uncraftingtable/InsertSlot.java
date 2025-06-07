@@ -130,7 +130,7 @@ public class InsertSlot extends CompatibleSlot {
         }
 
         ServerWorld world = ServerWorld.of((net.minecraft.server.world.ServerWorld) player.getWorld());
-        Collection<CraftingRecipe> recipes = RecipeUtil.getCraftingRecipes(world);
+        Collection<CraftingRecipe> recipes = CraftingRecipeUtil.getCraftingRecipes(world);
         List<CraftingRecipe> outRecipes = new ArrayList<>();
 
         for (CraftingRecipe recipe : recipes) {
@@ -187,22 +187,18 @@ public class InsertSlot extends CompatibleSlot {
         List<Ingredient> ingredients = to(shapedRecipe.getInputs());
 
         for (int i = 0; i < 9; i++) {
-            if (ingredients.size() > i) {
-                if (width == 3) {
-                    result.add(ingredients.get(i));
-                    continue;
+            int row = i / 3;
+            int col = i % 3;
+
+            if (row < shapedRecipe.getHeight() && col < width) {
+                int index = row * width + col;
+                if (index < ingredients.size()) {
+                    result.add(ingredients.get(index));
+                } else {
+                    result.add(Ingredient.of(IngredientUtil.empty()));
                 }
-                if (width == 2) {
-                    if (i == 0 || i == 1 || i == 3 || i == 4 || i == 6 || i == 7) {
-                        result.add(ingredients.get(i));
-                        continue;
-                    }
-                }
-                if (width == 1) {
-                    if (i == 0 || i == 3 || i == 6) {
-                        result.add(ingredients.get(i));
-                    }
-                }
+            } else {
+                result.add(Ingredient.of(IngredientUtil.empty()));
             }
         }
         return result;
@@ -233,6 +229,9 @@ public class InsertSlot extends CompatibleSlot {
             if (index >= ingredients.size() || ingredients.isEmpty()) return;
 
             Ingredient input = ingredients.get(index);
+
+            if (input.getRaw() == null) return;
+
             IntList matchingStacksIds = input.getMatchingStacksIds();
 
             if (id >= matchingStacksIds.size())

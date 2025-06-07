@@ -6,8 +6,12 @@ import net.pitan76.mcpitanlib.midohra.recipe.ShapedRecipe;
 import net.pitan76.mcpitanlib.midohra.recipe.ShapelessRecipe;
 import net.pitan76.mcpitanlib.midohra.recipe.entry.RecipeEntry;
 import net.pitan76.mcpitanlib.midohra.recipe.input.CraftingRecipeInputOrInventory;
+import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 import net.pitan76.mcpitanlib.midohra.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class CraftingRecipeUtil {
     @Nullable
@@ -16,7 +20,7 @@ public class CraftingRecipeUtil {
             return recipe.getOutput(input, world);
         } else {
             try {
-                return recipe.craft(input, world);
+                return recipe.getOutput(input, world);
             } catch (ArrayIndexOutOfBoundsException e) {
                 String id = "Unknown recipe";
                 for (RecipeEntry entry : RecipeUtil.getRecipeEntries(World.of(world))) {
@@ -31,6 +35,27 @@ public class CraftingRecipeUtil {
             } catch (Exception ignored) {
                 return null;
             }
+        }
+    }
+
+    public static Collection<CraftingRecipe> getCraftingRecipes(ServerWorld world) {
+        try {
+            return RecipeUtil.getCraftingRecipes(world).stream().map(
+                    recipe -> {
+                        if (recipe instanceof ShapedRecipe || recipe instanceof ShapelessRecipe)
+                            return recipe;
+
+                        if (recipe.getRaw() instanceof net.minecraft.recipe.ShapedRecipe)
+                            return ShapedRecipe.of((net.minecraft.recipe.ShapedRecipe) recipe.getRaw());
+
+                        if (recipe.getRaw() instanceof net.minecraft.recipe.ShapelessRecipe)
+                            return ShapelessRecipe.of((net.minecraft.recipe.ShapelessRecipe) recipe.getRaw());
+
+                        return recipe;
+                    }
+            ).collect(Collectors.toList());
+        } catch (Exception e) {
+            return RecipeUtil.getCraftingRecipes(world);
         }
     }
 }
