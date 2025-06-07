@@ -1,5 +1,7 @@
 {
-    "variants": {
-      "": { "model": "uncraftingtable76:block/uncraftingtable" }
+  "variants": {
+    "": {
+      "model": "uncraftingtable76:block/uncraftingtable"
     }
   }
+}
