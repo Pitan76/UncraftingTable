@@ -97,10 +97,20 @@ subprojects {
                 token = System.getenv("MODRINTH_TOKEN")
                 projectId = 'd0f1a75r'
                 versionNumber = project.mod_version + "-" + modLoader
-                gameVersions = ['1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.20', '1.20.1', '1.20.3', '1.20.4', '1.21', '1.21.1', '1.21.2', '1.21.3', '1.21.4', '1.21.5']
+                gameVersions = ['1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.20', '1.20.1', '1.20.3', '1.20.4']
                 if (modLoader == "neoForge") {
                     gameVersions = ['1.20.3', '1.20.4', '1.21', '1.21.1', '1.21.2', '1.21.3', '1.21.4', '1.21.5']
                 }
+
+                if (modLoader != "forge") {
+                    gameVersions.add('1.21')
+                    gameVersions.add('1.21.1')
+                    gameVersions.add('1.21.2')
+                    gameVersions.add('1.21.3')
+                    gameVersions.add('1.21.4')
+                    gameVersions.add('1.21.5')
+                }
+
                 versionType = 'release'
                 uploadFile = tasks.remapJar
                 changelog = "Support 1.21.5\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
