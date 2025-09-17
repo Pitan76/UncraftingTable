@@ -9,7 +9,6 @@ import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.*;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.api.util.recipe.RecipeMatcherUtil;
-import net.pitan76.mcpitanlib.api.util.recipe.RecipeUtil;
 import net.pitan76.mcpitanlib.midohra.recipe.*;
 import net.pitan76.mcpitanlib.midohra.recipe.input.CraftingRecipeInputOrInventory;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
@@ -156,7 +155,7 @@ public class InsertSlot extends CompatibleSlot {
         latestOutRecipes = outRecipes;
         if (outRecipes.isEmpty() || recipeIndex > outRecipes.size() - 1) return;
         CraftingRecipe recipe = outRecipes.get(recipeIndex);
-        latestOutputCount = recipe.craft(CraftingRecipeInputOrInventory.EMPTY, player.getWorld()).getCount();
+        latestOutputCount = CraftingRecipeUtil.getOutput(recipe, CraftingRecipeInputOrInventory.EMPTY, player.getWorld()).getCount();
         if (!ItemStackUtil.isEmpty(stack))
             latestItemStack = ItemStackUtil.copy(stack);
 
