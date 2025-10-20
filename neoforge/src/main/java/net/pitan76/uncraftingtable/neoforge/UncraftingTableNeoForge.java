@@ -1,11 +1,11 @@
 package net.pitan76.uncraftingtable.neoforge;
 
+import net.pitan76.mcpitanlib.api.util.PlatformUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
 import net.pitan76.uncraftingtable.Config;
 import net.pitan76.uncraftingtable.UncraftingTable;
@@ -28,13 +28,13 @@ public class UncraftingTableNeoForge {
         bus.addListener(UncraftingTableNeoForgeClient::clientInit);
         
         // Registering menu screen event listener
-        if (FMLEnvironment.dist.isClient()) {
+        if (PlatformUtil.isClient()) {
             LOGGER.info("Registering menu screen event listener");
             bus.addListener(UncraftingTableNeoForgeClient::registerMenuScreens);
         }
         
         // isClient, initialize client directly
-        if (FMLEnvironment.dist.isClient()) {
+        if (PlatformUtil.isClient()) {
             LOGGER.info("Attempting to initialize client directly...");
             try {
                 // Marking as NeoForge environment

@@ -1,7 +1,7 @@
 package net.pitan76.uncraftingtable;
 
 import net.minecraft.item.ItemStack;
-import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.entity.CompatContainerUser;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.inventory.CompatInventory;
 
@@ -17,17 +17,17 @@ public class UncraftingInventory extends CompatInventory {
     }
 
     @Override
-    public void onOpen(Player player) {
-        super.onOpen(player);
+    public void onOpen(CompatContainerUser user) {
+        super.onOpen(user);
     }
 
     @Override
-    public void onClose(Player player) {
+    public void onClose(CompatContainerUser user) {
         if (!ItemStackUtil.isEmpty(insertSlot.callGetStack())) {
             insertSlot.player.offerOrDrop(insertSlot.callGetStack());
         }
 
-        super.onClose(player);
+        super.onClose(user);
     }
 
     @Override
