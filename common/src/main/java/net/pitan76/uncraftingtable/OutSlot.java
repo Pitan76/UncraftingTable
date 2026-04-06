@@ -1,7 +1,6 @@
 package net.pitan76.uncraftingtable;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
@@ -10,6 +9,7 @@ import net.pitan76.mcpitanlib.api.util.InventoryUtil;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.util.inventory.ICompatInventory;
+import net.pitan76.mcpitanlib.midohra.item.MCItems;
 
 import java.util.Map;
 
@@ -62,7 +62,7 @@ public class OutSlot extends CompatibleSlot {
             if (Config.config.getBooleanOrDefault("restore_enchantment_book", true) && !insertSlot.bookSlot.callGetStack().isEmpty()) {
                 ItemStack insertStack = insertSlot.callGetStack();
                 if (EnchantmentUtil.hasEnchantment(insertStack)) {
-                    ItemStack book = ItemStackUtil.create(Items.ENCHANTED_BOOK, 1);
+                    ItemStack book = MCItems.ENCHANTED_BOOK.createStack().toMinecraft();
                     Map<CompatEnchantment, Integer> enchantMap = EnchantmentUtil.getEnchantment(insertStack, player.getWorld());
 
                     EnchantmentUtil.setEnchantment(book, enchantMap, player.getWorld());
