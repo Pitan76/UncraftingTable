@@ -132,13 +132,13 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
     }
 
     @Override
-    public boolean canInsertIntoSlot(Slot slot) {
-        return !(slot instanceof OutSlot) && super.canInsertIntoSlot(slot);
+    public boolean canInsertIntoSlotOverride(Slot slot) {
+        return !(slot instanceof OutSlot) && super.canInsertIntoSlotOverride(slot);
     }
 
     @Override
-    public boolean canInsertIntoSlot(ItemStack stack, Slot slot) {
-        return slot.canInsert(stack);
+    public boolean canInsertIntoSlotOverride(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, Slot slot) {
+        return slot.canInsert(stack.toMinecraft());
     }
 
     @Override
