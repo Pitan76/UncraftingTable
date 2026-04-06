@@ -3,7 +3,6 @@ package net.pitan76.uncraftingtable;
 import net.pitan76.mcpitanlib.api.block.v2.BlockSettingsBuilder;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
@@ -41,12 +40,12 @@ public class UncraftingTableBlock extends CompatBlock {
         if (e.isClient())
             return e.success();
 
-        player.openGuiScreen(e.state.createScreenHandlerFactory(e.world, e.pos));
+        player.openGuiScreen(e.world, e.state, e.pos);
         return e.consume();
     }
 
     @Override
-    public ScreenHandler createScreenHandler(ScreenHandlerCreateEvent e) {
+    public UncraftingScreenHandler createScreenHandler(ScreenHandlerCreateEvent e) {
         return new UncraftingScreenHandler(e.syncId, e.inventory);
     }
 

@@ -58,11 +58,11 @@ public class UncraftingScreenHandler extends SimpleScreenHandler {
         // Player Inventory
         for (y = 0; y < 3; ++y) {
             for (x = 0; x < 9; ++x) {
-                callAddSlot(new CompatibleSlot(playerInventory.getRaw(), x + y * 9 + 9, 8 + x * 18, 84 + y * 18));
+                callAddSlot(new CompatibleSlot(playerInventory, x + y * 9 + 9, 8 + x * 18, 84 + y * 18));
             }
         }
         for (y = 0; y < 9; ++y) {
-            callAddSlot(new CompatibleSlot(playerInventory.getRaw(), y, 8 + y * 18, 142));
+            callAddSlot(new CompatibleSlot(playerInventory, y, 8 + y * 18, 142));
         }
     }
 

@@ -8,6 +8,7 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.*;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
+import net.pitan76.mcpitanlib.api.util.recipe.CraftingRecipeUtil;
 import net.pitan76.mcpitanlib.api.util.recipe.RecipeMatcherUtil;
 import net.pitan76.mcpitanlib.midohra.recipe.*;
 import net.pitan76.mcpitanlib.midohra.recipe.input.CraftingRecipeInputOrInventory;
@@ -115,7 +116,7 @@ public class InsertSlot extends CompatibleSlot {
                     .superSetStack(ItemStackUtil.empty());
         }
 
-        if (stack.isEmpty()) return;
+        if (ItemStackUtil.isEmpty(stack)) return;
         if (!Config.config.getBooleanOrDefault("uncraft_damaged_item", true)) {
             int damage = ItemStackUtil.getDamage(stack);
             if (damage != 0 && damage != ItemStackUtil.getMaxDamage(stack)) {
@@ -128,13 +129,14 @@ public class InsertSlot extends CompatibleSlot {
             tagItemIndex = 0;
         }
 
-        ServerWorld world = ServerWorld.of((net.minecraft.server.world.ServerWorld) player.getWorld());
+        ServerWorld world = player.getMidohraWorld().toServerWorld().get();
         Collection<CraftingRecipe> recipes = CraftingRecipeUtil.getCraftingRecipes(world);
         List<CraftingRecipe> outRecipes = new ArrayList<>();
 
         for (CraftingRecipe recipe : recipes) {
             ItemStack outputStack =
-                    CraftingRecipeUtil.getOutput(recipe, CraftingRecipeInputOrInventory.EMPTY, player.getWorld());
+                    CraftingRecipeUtil.getOutput(recipe,
+                            CraftingRecipeInputOrInventory.EMPTY, player.getMidohraWorld()).toMinecraft();
 
             if (outputStack == null || ItemStackUtil.getCount(outputStack) > ItemStackUtil.getCount(stack)) continue;
 
@@ -155,7 +157,10 @@ public class InsertSlot extends CompatibleSlot {
         latestOutRecipes = outRecipes;
         if (outRecipes.isEmpty() || recipeIndex > outRecipes.size() - 1) return;
         CraftingRecipe recipe = outRecipes.get(recipeIndex);
-        latestOutputCount = CraftingRecipeUtil.getOutput(recipe, CraftingRecipeInputOrInventory.EMPTY, player.getWorld()).getCount();
+        net.pitan76.mcpitanlib.midohra.item.ItemStack outputStack = CraftingRecipeUtil.getOutput(recipe, CraftingRecipeInputOrInventory.EMPTY, player.getMidohraWorld());
+        if (outputStack == null) return;
+
+        latestOutputCount = outputStack.getCount();
         if (!ItemStackUtil.isEmpty(stack))
             latestItemStack = ItemStackUtil.copy(stack);
 
