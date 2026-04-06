@@ -6,6 +6,7 @@ import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.EnchantmentUtil;
+import net.pitan76.mcpitanlib.api.util.InventoryUtil;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.util.inventory.ICompatInventory;
@@ -72,14 +73,14 @@ public class OutSlot extends CompatibleSlot {
             }
 
             for (int i = 1; i < 10; ++i) {
-                player.offerOrDrop(callGetInventory().getStack(i));
-                callGetInventory().setStack(i, ItemStackUtil.empty());
+                player.offerOrDrop(InventoryUtil.getStack(callGetInventory(), i));
+                InventoryUtil.setStack(callGetInventory(), i, ItemStackUtil.empty());
             }
             if (ItemStackUtil.getCount(insertSlot.callGetStack()) - insertSlot.latestOutputCount == 0) {
                 insertSlot.setStackSuper(ItemStackUtil.empty());
             } else {
                 ItemStack insertStack = ItemStackUtil.copy(insertSlot.callGetStack());
-                insertStack.setCount(ItemStackUtil.getCount(insertStack) - insertSlot.latestOutputCount);
+                ItemStackUtil.setCount(insertStack, ItemStackUtil.getCount(insertStack) - insertSlot.latestOutputCount);
                 insertSlot.callSetStack(insertStack);
             }
 
