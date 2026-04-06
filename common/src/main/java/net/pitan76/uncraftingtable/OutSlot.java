@@ -1,6 +1,5 @@
 package net.pitan76.uncraftingtable;
 
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
@@ -9,6 +8,7 @@ import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.EnchantmentUtil;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.api.util.inventory.ICompatInventory;
 
 import java.util.Map;
 
@@ -16,13 +16,13 @@ public class OutSlot extends CompatibleSlot {
     // 3 * 3 Slot
     public InsertSlot insertSlot;
 
-    public OutSlot(Inventory inventory, int index, int x, int y, InsertSlot slot) {
+    public OutSlot(ICompatInventory inventory, int index, int x, int y, InsertSlot slot) {
         super(inventory, index, x, y);
         this.insertSlot = slot;
     }
 
     @Override
-    public boolean canInsert(ItemStack stack) {
+    public boolean canInsert(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
         return false;
     }
 

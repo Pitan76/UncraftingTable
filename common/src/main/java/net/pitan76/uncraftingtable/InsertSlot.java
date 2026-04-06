@@ -1,12 +1,12 @@
 package net.pitan76.uncraftingtable;
 
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
 import net.pitan76.mcpitanlib.api.util.*;
+import net.pitan76.mcpitanlib.api.util.inventory.ICompatInventory;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.api.util.recipe.CraftingRecipeUtil;
 import net.pitan76.mcpitanlib.api.util.recipe.RecipeMatcherUtil;
@@ -34,7 +34,7 @@ public class InsertSlot extends CompatibleSlot {
 
     public BookSlot bookSlot;
 
-    public InsertSlot(Inventory inventory, int index, int x, int y, Player player) {
+    public InsertSlot(ICompatInventory inventory, int index, int x, int y, Player player) {
         super(inventory, index, x, y);
         this.player = player;
     }
@@ -124,7 +124,7 @@ public class InsertSlot extends CompatibleSlot {
             }
         }
         if (player.getWorld() == null) return;
-        if (!latestItemStack.getItem().equals(stack.getItem()) && !latestItemStack.isEmpty()) {
+        if (!ItemStackUtil.getItem(latestItemStack).equals(ItemStackUtil.getItem(stack)) && !latestItemStack.isEmpty()) {
             recipeIndex = 0;
             tagItemIndex = 0;
         }
@@ -134,17 +134,17 @@ public class InsertSlot extends CompatibleSlot {
         List<CraftingRecipe> outRecipes = new ArrayList<>();
 
         for (CraftingRecipe recipe : recipes) {
-            ItemStack outputStack =
+            net.pitan76.mcpitanlib.midohra.item.ItemStack outputStack =
                     CraftingRecipeUtil.getOutput(recipe,
-                            CraftingRecipeInputOrInventory.EMPTY, player.getMidohraWorld()).toMinecraft();
+                            CraftingRecipeInputOrInventory.EMPTY, player.getMidohraWorld());
 
-            if (outputStack == null || ItemStackUtil.getCount(outputStack) > ItemStackUtil.getCount(stack)) continue;
+            if (outputStack == null || outputStack.getCount() > ItemStackUtil.getCount(stack)) continue;
 
             // Tech Reborn Disable UU Matter
             if (ItemUtil.isExist("techreborn:uu_matter") && Config.config.getBooleanOrDefault("disable_uncrafting_uu_matter", false) && ingredientsContains(to(recipe.getInputs()), ItemUtil.fromId("techreborn:uu_matter")))
                 continue;
 
-            if (ItemStackUtil.getItem(outputStack).equals(ItemStackUtil.getItem(stack))) {
+            if (outputStack.getRawItem().equals(ItemStackUtil.getItem(stack))) {
                 outRecipes.add(recipe);
             }
         }
@@ -210,7 +210,7 @@ public class InsertSlot extends CompatibleSlot {
 
     @Override
     public ItemStack callTakeStack(int amount) {
-        if (callGetStack().getCount() == amount)
+        if (ItemStackUtil.getCount(callGetStack()) == amount)
             updateOutSlot(ItemStackUtil.empty());
 
         return super.callTakeStack(amount);
@@ -242,12 +242,12 @@ public class InsertSlot extends CompatibleSlot {
                 id = 0;
 
             if (matchingStacksIds.isEmpty()) return;
-            callGetInventory().setStack(index + 1, RecipeMatcherUtil.getStackFromId(matchingStacksIds.getInt(id)));
-            callGetInventory().getStack(index + 1).setCount(count);
+            InventoryUtil.setStack(callGetInventory(), index + 1, RecipeMatcherUtil.getStackFromId(matchingStacksIds.getInt(id)));
+            ItemStackUtil.setCount(InventoryUtil.getStack(callGetInventory(), index + 1), count);
 
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             canGet = false;
-            callGetInventory().setStack(index + 1, ItemStackUtil.empty());
+            InventoryUtil.setStack(callGetInventory(), index + 1, ItemStackUtil.empty());
         }
         canGet = true;
     }
