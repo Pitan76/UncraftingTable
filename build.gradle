@@ -44,7 +44,7 @@ subprojects {
                 apiKey = System.getenv("CURSEFORGE_TOKEN")
                 project {
                     id = '523423'
-                    changelog = "Support 1.21.5\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
+                    changelog = "Support 26.1\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
                     releaseType = 'release'
                     if (modLoader == "fabric") {
                         addGameVersion "Fabric"
@@ -79,6 +79,9 @@ subprojects {
                         addGameVersion '1.21.8'
                         addGameVersion '1.21.9'
                         addGameVersion '1.21.10'
+                        addGameVersion '1.21.11'
+                        addGameVersion '26.1'
+                        addGameVersion '26.1.1'
                     }
 
                     relations {
@@ -119,11 +122,14 @@ subprojects {
                     gameVersions.add('1.21.8')
                     gameVersions.add('1.21.9')
                     gameVersions.add('1.21.10')
+                    gameVersions.add('1.21.11')
+                    gameVersions.add('26.1')
+                    gameVersions.add('26.1.1')
                 }
 
                 versionType = 'release'
                 uploadFile = tasks.remapJar
-                changelog = "Support 1.21.5\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
+                changelog = "Support 26.1\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
                 loaders = [modLoader]
                 dependencies {
                     if (modLoader == "fabric") {
