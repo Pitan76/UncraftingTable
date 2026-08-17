@@ -1,8 +1,7 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
-    id 'com.matthewprenger.cursegradle' version '1.+'
-    id "com.modrinth.minotaur" version "2.+"
+    id "me.modmuss50.mod-publish-plugin" version "2.2.0" apply false
 }
 
 architectury {
@@ -11,8 +10,9 @@ architectury {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
-    apply plugin: "com.modrinth.minotaur"
-    apply plugin: "com.matthewprenger.cursegradle"
+//    apply plugin: "com.modrinth.minotaur"
+//    apply plugin: "com.matthewprenger.cursegradle"
+    apply plugin: "me.modmuss50.mod-publish-plugin"
 
     loom {
         silentMojangMappingsLicense()
@@ -36,111 +36,61 @@ subprojects {
         modCompileOnlyApi "net.pitan76:mcpitanlib-common${rootProject.mcpitanlib_version}"
     }
 
-    if (name in "fabric,forge,neoforge".split(",")) {
-        var modLoader = name
+    publishMods {
+        file = remapJar.archiveFile
+        version = rootProject.mod_version
+        displayName = remapJar.archiveFileName
+        changelog = rootProject.changelog + "\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
 
-        if (System.getenv("CURSEFORGE_TOKEN") != null) {
+        type = STABLE
+        modLoaders.add(name)
+
+        var curseforgeToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+        var modrinthToken = providers.environmentVariable("MODRINTH_TOKEN")
+
+        if (curseforgeToken.isPresent()) {
             curseforge {
-                apiKey = System.getenv("CURSEFORGE_TOKEN")
-                project {
-                    id = '523423'
-                    changelog = "Support 26.1\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
-                    releaseType = 'release'
-                    if (modLoader == "fabric") {
-                        addGameVersion "Fabric"
-                    }
-                    if (modLoader == "forge") {
-                        addGameVersion "Forge"
-                    }
-                    if (modLoader == "neoforge") {
-                        addGameVersion "NeoForge"
-                    }
+                accessToken = curseforgeToken
+                projectId = "523423"
 
-                    if (modLoader != "neoforge") {
-                        addGameVersion '1.18.1'
-                        addGameVersion '1.18.2'
-                        addGameVersion '1.19'
-                        addGameVersion '1.19.1'
-                        addGameVersion '1.19.2'
-                        addGameVersion '1.20'
-                        addGameVersion '1.20.1'
-                        addGameVersion '1.20.3'
-                    }
-                    addGameVersion '1.20.4'
-                    if (modLoader != "forge") {
-                        addGameVersion '1.21'
-                        addGameVersion '1.21.1'
-                        addGameVersion '1.21.2'
-                        addGameVersion '1.21.3'
-                        addGameVersion '1.21.4'
-                        addGameVersion '1.21.5'
-                        addGameVersion '1.21.6'
-                        addGameVersion '1.21.7'
-                        addGameVersion '1.21.8'
-                        addGameVersion '1.21.9'
-                        addGameVersion '1.21.10'
-                        addGameVersion '1.21.11'
-                        addGameVersion '26.1'
-                        addGameVersion '26.1.1'
-                    }
-
-                    relations {
-                        if (modLoader == "fabric") {
-                            requiredDependency "fabric-api"
-                        }
-                        requiredDependency 'mcpitanlibarch'
-                    }
-
-                    mainArtifact(tasks.remapJar)
+                if (name != "neoforge") {
+                    minecraftVersions.addAll(['1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.20', '1.20.1', '1.20.3'])
                 }
-                options {
-                    forgeGradleIntegration = false
+                minecraftVersions.add('1.20.4')
+                if (name != "forge") {
+                    minecraftVersions.addAll(['1.21', '1.21.1', '1.21.2', '1.21.3', '1.21.4', '1.21.5', '1.21.6',
+                                              '1.21.7', '1.21.8', '1.21.9', '1.21.10', '1.21.11',
+                                              '26.1', '26.1.1', '26.1.2', '26.2'])
                 }
+
+                client = true
+                server = true
+
+                requires("fabric-api")
+                requires("mcpitanlibarch")
             }
-
         }
 
-        if (System.getenv("MODRINTH_TOKEN") != null) {
+        if (modrinthToken.isPresent()) {
             modrinth {
-                token = System.getenv("MODRINTH_TOKEN")
-                projectId = 'd0f1a75r'
-                versionNumber = project.mod_version + "-" + modLoader
-                gameVersions = ['1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.20', '1.20.1', '1.20.3', '1.20.4']
-                if (modLoader == "neoForge") {
-                    gameVersions = ['1.20.3', '1.20.4']
+                accessToken = modrinthToken
+                projectId = "d0f1a75r"
+
+                if (name != "neoforge") {
+                    minecraftVersions.addAll(['1.18', '1.18.1', '1.18.2', '1.19', '1.19.1', '1.19.2', '1.20', '1.20.1', '1.20.3'])
+                }
+                minecraftVersions.add('1.20.4')
+                if (name != "forge") {
+                    minecraftVersions.addAll(['1.21', '1.21.1', '1.21.2', '1.21.3', '1.21.4', '1.21.5', '1.21.6',
+                                              '1.21.7', '1.21.8', '1.21.9', '1.21.10', '1.21.11',
+                                              '26.1', '26.1.1', '26.1.2', '26.2'])
                 }
 
-                if (modLoader != "forge") {
-                    gameVersions.add('1.21')
-                    gameVersions.add('1.21.1')
-                    gameVersions.add('1.21.2')
-                    gameVersions.add('1.21.3')
-                    gameVersions.add('1.21.4')
-                    gameVersions.add('1.21.5')
-                    gameVersions.add('1.21.6')
-                    gameVersions.add('1.21.7')
-                    gameVersions.add('1.21.8')
-                    gameVersions.add('1.21.9')
-                    gameVersions.add('1.21.10')
-                    gameVersions.add('1.21.11')
-                    gameVersions.add('26.1')
-                    gameVersions.add('26.1.1')
-                }
-
-                versionType = 'release'
-                uploadFile = tasks.remapJar
-                changelog = "Support 26.1\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
-                loaders = [modLoader]
-                dependencies {
-                    if (modLoader == "fabric") {
-                        required.project "P7dR8mSH" // Fabric API
-                    }
-                    required.project "uNRoUnGT" // MCPitanLib
-                }
+                requires("fabric-api")
+                requires("mcpitanlibarch")
             }
         }
     }
-
 }
 
 allprojects {
