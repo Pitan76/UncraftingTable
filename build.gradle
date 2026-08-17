@@ -37,6 +37,8 @@ subprojects {
     }
 
     publishMods {
+        if (name == "common") return
+
         file = remapJar.archiveFile
         version = rootProject.mod_version
         displayName = remapJar.archiveFileName
